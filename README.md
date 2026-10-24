@@ -1,4 +1,6 @@
 # AIBRC
+![Code: MIT](https://img.shields.io/badge/Code-MIT-blue?style=flat-square)
+![Docs: CC0](https://img.shields.io/badge/Docs-CC0-green?style=flat-square)
 
 **A unified protocol for assets, account abstraction and Smart Covenant on Bitcoin L1.**
 
