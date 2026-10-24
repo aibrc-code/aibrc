@@ -1,0 +1,183 @@
+{
+  "schema": "aibrc-input-authorization-vectors/v1",
+  "ruleId": "aibrc-input-authorization/bip341-keypath-v1",
+  "count": 19,
+  "scope": "Bitcoin-validated witness interpretation; these synthetic byte stacks do not prove Bitcoin signature validity.",
+  "vectors": [
+    {
+      "id": "bip341-1",
+      "description": "one aggregated key-path DEFAULT",
+      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+      "witnessHex": [
+        "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab"
+      ],
+      "expectedSighashType": 0
+    },
+    {
+      "id": "bip341-2",
+      "description": "key-path explicit ALL",
+      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+      "witnessHex": [
+        "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab01"
+      ],
+      "expectedSighashType": 1
+    },
+    {
+      "id": "bip341-3",
+      "description": "DEFAULT key-path with annex",
+      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+      "witnessHex": [
+        "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab",
+        "50abcd"
+      ],
+      "expectedSighashType": 0
+    },
+    {
+      "id": "bip341-4",
+      "description": "ALL key-path with annex",
+      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+      "witnessHex": [
+        "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab01",
+        "50"
+      ],
+      "expectedSighashType": 1
+    },
+    {
+      "id": "bip341-5",
+      "description": "one signature starting with 50 is not annex",
+      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+      "witnessHex": [
+        "50ababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab"
+      ],
+      "expectedSighashType": 0
+    },
+    {
+      "id": "bip341-6",
+      "description": "script-path first argument 64 bytes",
+      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+      "witnessHex": [
+        "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab",
+        "51",
+        "c03333333333333333333333333333333333333333333333333333333333333333"
+      ],
+      "expectedSighashType": 255
+    },
+    {
+      "id": "bip341-7",
+      "description": "script-path first argument 65 bytes",
+      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+      "witnessHex": [
+        "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab01",
+        "51",
+        "c03333333333333333333333333333333333333333333333333333333333333333"
+      ],
+      "expectedSighashType": 255
+    },
+    {
+      "id": "bip341-8",
+      "description": "script-path plus annex",
+      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+      "witnessHex": [
+        "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab",
+        "51",
+        "c03333333333333333333333333333333333333333333333333333333333333333",
+        "50abcd"
+      ],
+      "expectedSighashType": 255
+    },
+    {
+      "id": "bip341-9",
+      "description": "two non-annex elements are not key-path",
+      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+      "witnessHex": [
+        "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab",
+        "51"
+      ],
+      "expectedSighashType": 255
+    },
+    {
+      "id": "bip341-10",
+      "description": "empty stack",
+      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+      "witnessHex": [],
+      "expectedSighashType": 255
+    },
+    {
+      "id": "bip341-11",
+      "description": "empty signature",
+      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+      "witnessHex": [
+        ""
+      ],
+      "expectedSighashType": 255
+    },
+    {
+      "id": "bip341-12",
+      "description": "explicit DEFAULT is invalid",
+      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+      "witnessHex": [
+        "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab00"
+      ],
+      "expectedSighashType": 255
+    },
+    {
+      "id": "bip341-13",
+      "description": "unsupported key-path NONE remains its original flag",
+      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+      "witnessHex": [
+        "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab02"
+      ],
+      "expectedSighashType": 2
+    },
+    {
+      "id": "p2wpkh-all",
+      "description": "P2WPKH preserves ALL",
+      "prevoutScriptPubKeyHex": "00142222222222222222222222222222222222222222",
+      "witnessHex": [
+        "3030303030303030303030303030303030303030303030303030303030303030303030303030303001",
+        "023333333333333333333333333333333333333333333333333333333333333333"
+      ],
+      "expectedSighashType": 1
+    },
+    {
+      "id": "p2wsh-unsupported",
+      "description": "Unsupported locking script cannot authorize AIBRC",
+      "prevoutScriptPubKeyHex": "00204444444444444444444444444444444444444444444444444444444444444444",
+      "witnessHex": [
+        "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab"
+      ],
+      "expectedSighashType": 255
+    },
+    {
+      "id": "empty-locking-script",
+      "description": "Valid but unsupported empty script",
+      "prevoutScriptPubKeyHex": "",
+      "witnessHex": [],
+      "expectedSighashType": 255
+    },
+    {
+      "id": "malformed-context-1",
+      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+      "witnessHex": [
+        "zz"
+      ],
+      "expectedError": "INVALID_INPUT_WITNESS_CONTEXT"
+    },
+    {
+      "id": "malformed-context-2",
+      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+      "witnessHex": [
+        "a"
+      ],
+      "expectedError": "INVALID_INPUT_WITNESS_CONTEXT"
+    },
+    {
+      "id": "malformed-context-3",
+      "prevoutScriptPubKeyHex": "zz",
+      "witnessHex": [
+        "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab"
+      ],
+      "expectedError": "INVALID_INPUT_PREVOUT_CONTEXT"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "aibrc-protocol-source",
+  "version": "0.25.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/protocol"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace @aibrc/protocol",
+    "typecheck": "npm run typecheck --workspace @aibrc/protocol",
+    "test": "npm run test --workspace @aibrc/protocol",
+    "vectors:check": "npm run vectors:check --workspace @aibrc/protocol",
+    "package:check": "npm pack --workspace @aibrc/protocol --dry-run",
+    "docs:check": "node scripts/check-public.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.5",
+    "esbuild": "0.28.1",
+    "tsx": "4.23.0",
+    "typescript": "5.9.3"
+  }
+}

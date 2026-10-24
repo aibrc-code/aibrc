@@ -1,0 +1,78 @@
+site_name: AIBRC
+site_description: Covenant Inscription, account abstraction and Smart Covenant for Bitcoin assets and the Agent economy.
+docs_dir: ../docs
+site_dir: ../site-build
+use_directory_urls: true
+theme:
+  name: material
+  font: false
+plugins:
+  - search
+hooks:
+  - source_files.py
+markdown_extensions:
+  - tables
+  - fenced_code
+  - toc:
+      permalink: true
+nav:
+  - Home: README.md
+  - Protocol:
+      - Overview: docs/00-overview.md
+      - Introduction: docs/01-introduction.md
+      - Covenant Inscription and accounts: docs/02-protocol-model.md
+      - Instructions: docs/03-instructions.md
+      - Smart Covenant: docs/04-smart-covenant.md
+      - Cross-protocol: docs/05-cross-protocol.md
+      - Indexer guide: docs/06-indexer-guide.md
+      - Applications:
+          - Application map: docs/07-applications.md
+          - Wallets: docs/applications/01-wallets.md
+          - Indexers and explorers: docs/applications/02-indexers.md
+          - Payments: docs/applications/03-payments.md
+          - Agent Key assistants: docs/applications/04-delegated-agents.md
+          - Task markets: docs/applications/05-task-markets.md
+          - Resident Agents: docs/applications/06-resident-agent.md
+          - Community treasuries: docs/applications/07-treasuries.md
+          - Identity and credentials: docs/applications/08-identity.md
+          - Collections: docs/applications/09-collections.md
+          - Living Assets: docs/applications/10-living-assets.md
+          - Games and guilds: docs/applications/11-games-and-recipes.md
+          - Cross-protocol markets: docs/applications/12-cross-protocol-rfq.md
+          - Locks and vesting: docs/applications/13-locks-and-vesting.md
+          - Selective disclosure: docs/applications/14-private-proofs.md
+      - Extensions: docs/08-extensions.md
+      - Protocol statement: docs/99-closing.md
+      - Glossary: docs/glossary.md
+  - Specification:
+      - Wire: spec/AIBRC_PROTOCOL_V0.25.md
+      - Naming: spec/naming-policy.md
+      - Reasons: spec/reason-codes.md
+      - Covenant Inscription R1: spec/covenants/R1.md
+      - Covenant Inscription X1: spec/covenants/X1.md
+      - Vectors: vectors/README.md
+  - Proposals:
+      - Directory: proposals/README.md
+      - Delegation: proposals/AIP-0001-delegation-v1.md
+      - Multi-asset transfer: proposals/AIP-0002-multiasset-transfer.md
+      - Lock: proposals/AIP-0003-lock.md
+      - Bind: proposals/AIP-0004-bind.md
+      - Attest: proposals/AIP-0005-attest.md
+      - Checkpoint: proposals/AIP-0006-checkpoint.md
+      - Conditional: proposals/AIP-0007-conditional.md
+      - Merkle reference: merkle/STATE_PROOF_REFERENCE.md
+  - Repository:
+      - Trust model: TRUST_MODEL.md
+      - Contributing: CONTRIBUTING.md
+      - SDK: packages/protocol/README.md
+      - Changelog: CHANGELOG.md
+      - Third-party notices: THIRD_PARTY_NOTICES.md
+      - Documentation website: site/README.md
+      - Cloudflare Pages: site/CLOUDFLARE_PAGES.md
+validation:
+  nav:
+    not_found: warn
+    omitted_files: info
+  links:
+    not_found: warn
+    anchors: warn

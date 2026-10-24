@@ -1,0 +1,317 @@
+{
+  "schema": "aibrc-v0.25-bitcoin-fixtures/v1",
+  "fixtures": [
+    {
+      "id": "deploy-creator-pays-launch-vault-owner",
+      "rawTransactionHex": "0200000000010101010101010101010101010101010101010101010101010101010101010101010000000000fdffffff030000000000000000256a2341494252010201001a000000010550414e4441000000000000000000000000000f42404a010000000000002251201111111111111111111111111111111111111111111111111111111111111111b882010000000000225120333333333333333333333333333333333333333333333333333333333333333301403030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303000000000",
+      "inputValueSats": "100000",
+      "outputValueSats": "99330",
+      "actualFeeSats": "670",
+      "strippedBytes": 183,
+      "witnessBytes": 68,
+      "weight": 800,
+      "vsize": 200,
+      "feeTableSats": {
+        "1": 200,
+        "5": 1000,
+        "10": 2000,
+        "20": 4000,
+        "50": 10000
+      },
+      "inputs": [
+        {
+          "txid": "0101010101010101010101010101010101010101010101010101010101010101",
+          "vout": 0,
+          "valueSats": "100000",
+          "role": "AIBRC_AUTH",
+          "witnessItems": [
+            "64 bytes"
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "valueSats": "0",
+          "scriptPubKeyHex": "6a2341494252010201001a000000010550414e4441000000000000000000000000000f4240",
+          "role": "AIBRC_DEPLOY_OP_RETURN"
+        },
+        {
+          "valueSats": "330",
+          "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+          "role": "LAUNCH_VAULT_OWNER"
+        },
+        {
+          "valueSats": "99000",
+          "scriptPubKeyHex": "51203333333333333333333333333333333333333333333333333333333333333333",
+          "role": "CREATOR_CHANGE"
+        }
+      ],
+      "disclaimer": "Structurally serialized offline fixture with deterministic placeholder signatures; never broadcast."
+    },
+    {
+      "id": "transfer-single-receiver",
+      "rawTransactionHex": "0200000000010101010101010101010101010101010101010101010101010101010101010101010000000000fdffffff030000000000000000166a1441494252010202000b000001000cd140000700644a010000000000001600142222222222222222222222222222222222222222b882010000000000225120111111111111111111111111111111111111111111111111111111111111111101403030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303000000000",
+      "inputValueSats": "100000",
+      "outputValueSats": "99330",
+      "actualFeeSats": "670",
+      "strippedBytes": 156,
+      "witnessBytes": 68,
+      "weight": 692,
+      "vsize": 173,
+      "feeTableSats": {
+        "1": 173,
+        "5": 865,
+        "10": 1730,
+        "20": 3460,
+        "50": 8650
+      },
+      "inputs": [
+        {
+          "txid": "0101010101010101010101010101010101010101010101010101010101010101",
+          "vout": 0,
+          "valueSats": "100000",
+          "role": "AIBRC_AUTH",
+          "witnessItems": [
+            "64 bytes"
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "valueSats": "0",
+          "scriptPubKeyHex": "6a1441494252010202000b000001000cd14000070064",
+          "role": "AIBRC_TRANSFER_OP_RETURN"
+        },
+        {
+          "valueSats": "330",
+          "scriptPubKeyHex": "00142222222222222222222222222222222222222222",
+          "role": "RECIPIENT_AUTH_UTXO"
+        },
+        {
+          "valueSats": "99000",
+          "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+          "role": "AIBRC_CONTINUATION_AND_BTC_CHANGE"
+        }
+      ],
+      "disclaimer": "Structurally serialized offline fixture with deterministic placeholder signatures; never broadcast."
+    },
+    {
+      "id": "transfer-six-receiver-custom-batch",
+      "rawTransactionHex": "0200000000010101010101010101010101010101010101010101010101010101010101010101010000000000fdffffff080000000000000000206a1e414942520102020015000006000cd1400007010a0214031e04280532063c4a0100000000000016001428282828282828282828282828282828282828284a0100000000000016001429292929292929292929292929292929292929294a010000000000001600142a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a4a010000000000001600142b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b4a010000000000001600142c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c4a010000000000001600142d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2de87a010000000000225120111111111111111111111111111111111111111111111111111111111111111101403030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303000000000",
+      "inputValueSats": "100000",
+      "outputValueSats": "98980",
+      "actualFeeSats": "1020",
+      "strippedBytes": 321,
+      "witnessBytes": 68,
+      "weight": 1352,
+      "vsize": 338,
+      "feeTableSats": {
+        "1": 338,
+        "5": 1690,
+        "10": 3380,
+        "20": 6760,
+        "50": 16900
+      },
+      "inputs": [
+        {
+          "txid": "0101010101010101010101010101010101010101010101010101010101010101",
+          "vout": 0,
+          "valueSats": "100000",
+          "role": "AIBRC_AUTH",
+          "witnessItems": [
+            "64 bytes"
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "valueSats": "0",
+          "scriptPubKeyHex": "6a1e414942520102020015000006000cd1400007010a0214031e04280532063c",
+          "role": "AIBRC_TRANSFER_OP_RETURN"
+        },
+        {
+          "valueSats": "330",
+          "scriptPubKeyHex": "00142828282828282828282828282828282828282828",
+          "role": "RECIPIENT_0"
+        },
+        {
+          "valueSats": "330",
+          "scriptPubKeyHex": "00142929292929292929292929292929292929292929",
+          "role": "RECIPIENT_1"
+        },
+        {
+          "valueSats": "330",
+          "scriptPubKeyHex": "00142a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a",
+          "role": "RECIPIENT_2"
+        },
+        {
+          "valueSats": "330",
+          "scriptPubKeyHex": "00142b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b",
+          "role": "RECIPIENT_3"
+        },
+        {
+          "valueSats": "330",
+          "scriptPubKeyHex": "00142c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c",
+          "role": "RECIPIENT_4"
+        },
+        {
+          "valueSats": "330",
+          "scriptPubKeyHex": "00142d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d",
+          "role": "RECIPIENT_5"
+        },
+        {
+          "valueSats": "97000",
+          "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+          "role": "AIBRC_CONTINUATION_AND_BTC_CHANGE"
+        }
+      ],
+      "disclaimer": "Structurally serialized offline fixture with deterministic placeholder signatures; never broadcast."
+    },
+    {
+      "id": "transfer-auth-fee-input-separated",
+      "rawTransactionHex": "0200000000010201010101010101010101010101010101010101010101010101010101010101010000000000fdffffff02020202020202020202020202020202020202020202020202020202020202020100000000fdffffff030000000000000000166a1441494252010202000b000001000cd140000700644a0100000000000016001422222222222222222222222222222222222222220846020000000000225120111111111111111111111111111111111111111111111111111111111111111101403030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303002483131313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131313131312102323232323232323232323232323232323232323232323232323232323232323200000000",
+      "inputValueSats": "150000",
+      "outputValueSats": "149330",
+      "actualFeeSats": "670",
+      "strippedBytes": 197,
+      "witnessBytes": 176,
+      "weight": 964,
+      "vsize": 241,
+      "feeTableSats": {
+        "1": 241,
+        "5": 1205,
+        "10": 2410,
+        "20": 4820,
+        "50": 12050
+      },
+      "inputs": [
+        {
+          "txid": "0101010101010101010101010101010101010101010101010101010101010101",
+          "vout": 0,
+          "valueSats": "100000",
+          "role": "AIBRC_AUTH",
+          "witnessItems": [
+            "64 bytes"
+          ]
+        },
+        {
+          "txid": "0202020202020202020202020202020202020202020202020202020202020202",
+          "vout": 1,
+          "valueSats": "50000",
+          "role": "BTC_ONLY_SAFE_FEE",
+          "witnessItems": [
+            "72 bytes",
+            "33 bytes"
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "valueSats": "0",
+          "scriptPubKeyHex": "6a1441494252010202000b000001000cd14000070064",
+          "role": "AIBRC_TRANSFER_OP_RETURN"
+        },
+        {
+          "valueSats": "330",
+          "scriptPubKeyHex": "00142222222222222222222222222222222222222222",
+          "role": "RECIPIENT_AUTH_UTXO"
+        },
+        {
+          "valueSats": "149000",
+          "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+          "role": "AIBRC_CONTINUATION_AND_BTC_CHANGE"
+        }
+      ],
+      "disclaimer": "Structurally serialized offline fixture with deterministic placeholder signatures; never broadcast."
+    },
+    {
+      "id": "transfer-full-balance-no-continuation",
+      "rawTransactionHex": "0200000000010101010101010101010101010101010101010101010101010101010101010101010000000000fdffffff020000000000000000166a1441494252010202000b000001000cd14000070064b882010000000000160014222222222222222222222222222222222222222201403030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303000000000",
+      "inputValueSats": "100000",
+      "outputValueSats": "99000",
+      "actualFeeSats": "1000",
+      "strippedBytes": 113,
+      "witnessBytes": 68,
+      "weight": 520,
+      "vsize": 130,
+      "feeTableSats": {
+        "1": 130,
+        "5": 650,
+        "10": 1300,
+        "20": 2600,
+        "50": 6500
+      },
+      "inputs": [
+        {
+          "txid": "0101010101010101010101010101010101010101010101010101010101010101",
+          "vout": 0,
+          "valueSats": "100000",
+          "role": "AIBRC_AUTH",
+          "witnessItems": [
+            "64 bytes"
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "valueSats": "0",
+          "scriptPubKeyHex": "6a1441494252010202000b000001000cd14000070064",
+          "role": "AIBRC_TRANSFER_OP_RETURN"
+        },
+        {
+          "valueSats": "99000",
+          "scriptPubKeyHex": "00142222222222222222222222222222222222222222",
+          "role": "RECIPIENT_AND_BTC_CHANGE"
+        }
+      ],
+      "disclaimer": "Structurally serialized offline fixture with deterministic placeholder signatures; never broadcast."
+    },
+    {
+      "id": "transfer-large-utxo-correct-change",
+      "rawTransactionHex": "0200000000010101010101010101010101010101010101010101010101010101010101010101010000000000fdffffff030000000000000000166a1441494252010202000b000001000cd140000700644a01000000000000160014222222222222222222222222222222222222222218ddf50500000000225120111111111111111111111111111111111111111111111111111111111111111101403030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303000000000",
+      "inputValueSats": "100000000",
+      "outputValueSats": "99999330",
+      "actualFeeSats": "670",
+      "strippedBytes": 156,
+      "witnessBytes": 68,
+      "weight": 692,
+      "vsize": 173,
+      "feeTableSats": {
+        "1": 173,
+        "5": 865,
+        "10": 1730,
+        "20": 3460,
+        "50": 8650
+      },
+      "inputs": [
+        {
+          "txid": "0101010101010101010101010101010101010101010101010101010101010101",
+          "vout": 0,
+          "valueSats": "100000000",
+          "role": "AIBRC_AUTH",
+          "witnessItems": [
+            "64 bytes"
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "valueSats": "0",
+          "scriptPubKeyHex": "6a1441494252010202000b000001000cd14000070064",
+          "role": "AIBRC_TRANSFER_OP_RETURN"
+        },
+        {
+          "valueSats": "330",
+          "scriptPubKeyHex": "00142222222222222222222222222222222222222222",
+          "role": "RECIPIENT_AUTH_UTXO"
+        },
+        {
+          "valueSats": "99999000",
+          "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+          "role": "BTC_CHANGE_NOT_FEE"
+        }
+      ],
+      "disclaimer": "Structurally serialized offline fixture with deterministic placeholder signatures; never broadcast."
+    }
+  ]
+}

@@ -1,0 +1,1716 @@
+{
+  "schema": "aibrc-v0.25-chain-vectors/v1",
+  "harness": "PureChainReplayHarness; in-memory canonical fixture replay, not a production indexer",
+  "count": 8,
+  "vectors": [
+    {
+      "id": "chain-same-block-duplicate-name-race",
+      "description": "Two same-name Deploys in one block; lower original transaction index wins.",
+      "initialState": {
+        "assets": [],
+        "names": [],
+        "locators": [],
+        "balances": []
+      },
+      "phases": [
+        {
+          "label": "canonical",
+          "blocks": [
+            {
+              "height": 0,
+              "hash": "000000000000000000000000000000000000000000000000000000000000000a",
+              "parentHash": null,
+              "transactions": [
+                {
+                  "txid": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+                  "txidDisplayBytes": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "41494252010201001a000000000550414e444100000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "txid": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+                  "txidDisplayBytes": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+                  "txIndex": 1,
+                  "rawProtocolPayloadHex": "41494252010201001a000000000550414e444100000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51202222222222222222222222222222222222222222222222222222222222222222",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51202222222222222222222222222222222222222222222222222222222222222222",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "queriedNames": [
+        "PANDA"
+      ],
+      "queriedLocators": [
+        {
+          "blockHeight": 0,
+          "txIndex": 0
+        },
+        {
+          "blockHeight": 0,
+          "txIndex": 1
+        }
+      ],
+      "expected": {
+        "canonicalTip": {
+          "height": 0,
+          "hash": "000000000000000000000000000000000000000000000000000000000000000a"
+        },
+        "canonicalFinalState": {
+          "assets": [
+            {
+              "assetId": "88f5844bfd36060cc064577cc70ae5f813c71c59b73d5783407889a08b4e135f",
+              "name": "PANDA",
+              "network": 2,
+              "totalSupply": "100",
+              "deployTxid": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+              "ownerOutputIndex": 0,
+              "locator": [
+                0,
+                0
+              ]
+            }
+          ],
+          "names": [
+            [
+              "PANDA",
+              "88f5844bfd36060cc064577cc70ae5f813c71c59b73d5783407889a08b4e135f"
+            ]
+          ],
+          "locators": [
+            [
+              "0:0",
+              "88f5844bfd36060cc064577cc70ae5f813c71c59b73d5783407889a08b4e135f"
+            ]
+          ],
+          "balances": [
+            [
+              "88f5844bfd36060cc064577cc70ae5f813c71c59b73d5783407889a08b4e135f:f9540890bb288b78d52c7d941bf6ec27d189c816ef5848359c7ec5d3c5cff353",
+              "100"
+            ]
+          ]
+        },
+        "assets": [
+          {
+            "assetId": "88f5844bfd36060cc064577cc70ae5f813c71c59b73d5783407889a08b4e135f",
+            "name": "PANDA",
+            "network": 2,
+            "totalSupply": "100",
+            "deployTxid": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+            "ownerOutputIndex": 0,
+            "locator": [
+              0,
+              0
+            ]
+          }
+        ],
+        "balances": [
+          [
+            "88f5844bfd36060cc064577cc70ae5f813c71c59b73d5783407889a08b4e135f:f9540890bb288b78d52c7d941bf6ec27d189c816ef5848359c7ec5d3c5cff353",
+            "100"
+          ]
+        ],
+        "nameWinners": {
+          "PANDA": {
+            "assetId": "88f5844bfd36060cc064577cc70ae5f813c71c59b73d5783407889a08b4e135f",
+            "deployTxid": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a"
+          }
+        },
+        "locatorValidity": [
+          {
+            "blockHeight": 0,
+            "txIndex": 0,
+            "valid": true,
+            "assetId": "88f5844bfd36060cc064577cc70ae5f813c71c59b73d5783407889a08b4e135f"
+          },
+          {
+            "blockHeight": 0,
+            "txIndex": 1,
+            "valid": false,
+            "assetId": null
+          }
+        ],
+        "stateHash": "211be0a807075ff1399ee28e0dfaa5a98b3722a0e2c44199789fad17aafc90d3"
+      }
+    },
+    {
+      "id": "chain-cross-block-duplicate-name",
+      "description": "A later block cannot replace an existing canonical name winner.",
+      "initialState": {
+        "assets": [],
+        "names": [],
+        "locators": [],
+        "balances": []
+      },
+      "phases": [
+        {
+          "label": "canonical",
+          "blocks": [
+            {
+              "height": 0,
+              "hash": "0000000000000000000000000000000000000000000000000000000000000014",
+              "parentHash": null,
+              "transactions": [
+                {
+                  "txid": "1414141414141414141414141414141414141414141414141414141414141414",
+                  "txidDisplayBytes": "1414141414141414141414141414141414141414141414141414141414141414",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "41494252010201001a000000000543524f535300000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "height": 1,
+              "hash": "0000000000000000000000000000000000000000000000000000000000000015",
+              "parentHash": "0000000000000000000000000000000000000000000000000000000000000014",
+              "transactions": [
+                {
+                  "txid": "1515151515151515151515151515151515151515151515151515151515151515",
+                  "txidDisplayBytes": "1515151515151515151515151515151515151515151515151515151515151515",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "41494252010201001a000000000543524f535300000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51202222222222222222222222222222222222222222222222222222222222222222",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51202222222222222222222222222222222222222222222222222222222222222222",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "queriedNames": [
+        "CROSS"
+      ],
+      "queriedLocators": [
+        {
+          "blockHeight": 0,
+          "txIndex": 0
+        },
+        {
+          "blockHeight": 1,
+          "txIndex": 0
+        }
+      ],
+      "expected": {
+        "canonicalTip": {
+          "height": 1,
+          "hash": "0000000000000000000000000000000000000000000000000000000000000015"
+        },
+        "canonicalFinalState": {
+          "assets": [
+            {
+              "assetId": "fcd9a5d422f9e5086ebf62d5cb01a444b20efa9c4d2a21063887cbf0481c051d",
+              "name": "CROSS",
+              "network": 2,
+              "totalSupply": "100",
+              "deployTxid": "1414141414141414141414141414141414141414141414141414141414141414",
+              "ownerOutputIndex": 0,
+              "locator": [
+                0,
+                0
+              ]
+            }
+          ],
+          "names": [
+            [
+              "CROSS",
+              "fcd9a5d422f9e5086ebf62d5cb01a444b20efa9c4d2a21063887cbf0481c051d"
+            ]
+          ],
+          "locators": [
+            [
+              "0:0",
+              "fcd9a5d422f9e5086ebf62d5cb01a444b20efa9c4d2a21063887cbf0481c051d"
+            ]
+          ],
+          "balances": [
+            [
+              "fcd9a5d422f9e5086ebf62d5cb01a444b20efa9c4d2a21063887cbf0481c051d:f9540890bb288b78d52c7d941bf6ec27d189c816ef5848359c7ec5d3c5cff353",
+              "100"
+            ]
+          ]
+        },
+        "assets": [
+          {
+            "assetId": "fcd9a5d422f9e5086ebf62d5cb01a444b20efa9c4d2a21063887cbf0481c051d",
+            "name": "CROSS",
+            "network": 2,
+            "totalSupply": "100",
+            "deployTxid": "1414141414141414141414141414141414141414141414141414141414141414",
+            "ownerOutputIndex": 0,
+            "locator": [
+              0,
+              0
+            ]
+          }
+        ],
+        "balances": [
+          [
+            "fcd9a5d422f9e5086ebf62d5cb01a444b20efa9c4d2a21063887cbf0481c051d:f9540890bb288b78d52c7d941bf6ec27d189c816ef5848359c7ec5d3c5cff353",
+            "100"
+          ]
+        ],
+        "nameWinners": {
+          "CROSS": {
+            "assetId": "fcd9a5d422f9e5086ebf62d5cb01a444b20efa9c4d2a21063887cbf0481c051d",
+            "deployTxid": "1414141414141414141414141414141414141414141414141414141414141414"
+          }
+        },
+        "locatorValidity": [
+          {
+            "blockHeight": 0,
+            "txIndex": 0,
+            "valid": true,
+            "assetId": "fcd9a5d422f9e5086ebf62d5cb01a444b20efa9c4d2a21063887cbf0481c051d"
+          },
+          {
+            "blockHeight": 1,
+            "txIndex": 0,
+            "valid": false,
+            "assetId": null
+          }
+        ],
+        "stateHash": "d8631c75c7a65d174c467b9511c4c74b634d32a64ff302680fb74164ee165306"
+      }
+    },
+    {
+      "id": "chain-shallow-reorg",
+      "description": "A one-block replacement removes the old block state and applies the replacement block.",
+      "initialState": {
+        "assets": [],
+        "names": [],
+        "locators": [],
+        "balances": []
+      },
+      "phases": [
+        {
+          "label": "old-canonical",
+          "blocks": [
+            {
+              "height": 0,
+              "hash": "000000000000000000000000000000000000000000000000000000000000001e",
+              "parentHash": null,
+              "transactions": [
+                {
+                  "txid": "1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e",
+                  "txidDisplayBytes": "1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "41494252010201001900000000044241534500000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "height": 1,
+              "hash": "000000000000000000000000000000000000000000000000000000000000001f",
+              "parentHash": "000000000000000000000000000000000000000000000000000000000000001e",
+              "transactions": [
+                {
+                  "txid": "1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f",
+                  "txidDisplayBytes": "1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "414942520102010019000000000454454d5000000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "replacement-canonical",
+          "blocks": [
+            {
+              "height": 0,
+              "hash": "000000000000000000000000000000000000000000000000000000000000001e",
+              "parentHash": null,
+              "transactions": [
+                {
+                  "txid": "1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e",
+                  "txidDisplayBytes": "1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "41494252010201001900000000044241534500000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "height": 1,
+              "hash": "0000000000000000000000000000000000000000000000000000000000000020",
+              "parentHash": "000000000000000000000000000000000000000000000000000000000000001e",
+              "transactions": [
+                {
+                  "txid": "2020202020202020202020202020202020202020202020202020202020202020",
+                  "txidDisplayBytes": "2020202020202020202020202020202020202020202020202020202020202020",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "41494252010201001800000000034e455700000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51202222222222222222222222222222222222222222222222222222222222222222",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51202222222222222222222222222222222222222222222222222222222222222222",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "queriedNames": [
+        "BASE",
+        "TEMP",
+        "NEW"
+      ],
+      "queriedLocators": [
+        {
+          "blockHeight": 1,
+          "txIndex": 0
+        }
+      ],
+      "expected": {
+        "canonicalTip": {
+          "height": 1,
+          "hash": "0000000000000000000000000000000000000000000000000000000000000020"
+        },
+        "canonicalFinalState": {
+          "assets": [
+            {
+              "assetId": "7ba11bef99372a16454c93c47fdc6ab1b1e4dc8a0fc2ac592bd8ebe8b218e8be",
+              "name": "BASE",
+              "network": 2,
+              "totalSupply": "100",
+              "deployTxid": "1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e",
+              "ownerOutputIndex": 0,
+              "locator": [
+                0,
+                0
+              ]
+            },
+            {
+              "assetId": "efbeb5a706049ca0b962b244d2dbb002d5b313369c879eb0569abad880e4d4a7",
+              "name": "NEW",
+              "network": 2,
+              "totalSupply": "100",
+              "deployTxid": "2020202020202020202020202020202020202020202020202020202020202020",
+              "ownerOutputIndex": 0,
+              "locator": [
+                1,
+                0
+              ]
+            }
+          ],
+          "names": [
+            [
+              "BASE",
+              "7ba11bef99372a16454c93c47fdc6ab1b1e4dc8a0fc2ac592bd8ebe8b218e8be"
+            ],
+            [
+              "NEW",
+              "efbeb5a706049ca0b962b244d2dbb002d5b313369c879eb0569abad880e4d4a7"
+            ]
+          ],
+          "locators": [
+            [
+              "0:0",
+              "7ba11bef99372a16454c93c47fdc6ab1b1e4dc8a0fc2ac592bd8ebe8b218e8be"
+            ],
+            [
+              "1:0",
+              "efbeb5a706049ca0b962b244d2dbb002d5b313369c879eb0569abad880e4d4a7"
+            ]
+          ],
+          "balances": [
+            [
+              "7ba11bef99372a16454c93c47fdc6ab1b1e4dc8a0fc2ac592bd8ebe8b218e8be:f9540890bb288b78d52c7d941bf6ec27d189c816ef5848359c7ec5d3c5cff353",
+              "100"
+            ],
+            [
+              "efbeb5a706049ca0b962b244d2dbb002d5b313369c879eb0569abad880e4d4a7:841d31fb546dbc5039eaa70c3dbbd724be11d26a34d9ef1c512763d3485911da",
+              "100"
+            ]
+          ]
+        },
+        "assets": [
+          {
+            "assetId": "7ba11bef99372a16454c93c47fdc6ab1b1e4dc8a0fc2ac592bd8ebe8b218e8be",
+            "name": "BASE",
+            "network": 2,
+            "totalSupply": "100",
+            "deployTxid": "1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e",
+            "ownerOutputIndex": 0,
+            "locator": [
+              0,
+              0
+            ]
+          },
+          {
+            "assetId": "efbeb5a706049ca0b962b244d2dbb002d5b313369c879eb0569abad880e4d4a7",
+            "name": "NEW",
+            "network": 2,
+            "totalSupply": "100",
+            "deployTxid": "2020202020202020202020202020202020202020202020202020202020202020",
+            "ownerOutputIndex": 0,
+            "locator": [
+              1,
+              0
+            ]
+          }
+        ],
+        "balances": [
+          [
+            "7ba11bef99372a16454c93c47fdc6ab1b1e4dc8a0fc2ac592bd8ebe8b218e8be:f9540890bb288b78d52c7d941bf6ec27d189c816ef5848359c7ec5d3c5cff353",
+            "100"
+          ],
+          [
+            "efbeb5a706049ca0b962b244d2dbb002d5b313369c879eb0569abad880e4d4a7:841d31fb546dbc5039eaa70c3dbbd724be11d26a34d9ef1c512763d3485911da",
+            "100"
+          ]
+        ],
+        "nameWinners": {
+          "BASE": {
+            "assetId": "7ba11bef99372a16454c93c47fdc6ab1b1e4dc8a0fc2ac592bd8ebe8b218e8be",
+            "deployTxid": "1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e"
+          },
+          "TEMP": null,
+          "NEW": {
+            "assetId": "efbeb5a706049ca0b962b244d2dbb002d5b313369c879eb0569abad880e4d4a7",
+            "deployTxid": "2020202020202020202020202020202020202020202020202020202020202020"
+          }
+        },
+        "locatorValidity": [
+          {
+            "blockHeight": 1,
+            "txIndex": 0,
+            "valid": true,
+            "assetId": "efbeb5a706049ca0b962b244d2dbb002d5b313369c879eb0569abad880e4d4a7"
+          }
+        ],
+        "stateHash": "84a0e47330abb49028c8d0ace5a9f304d483efd25a5000864e13ac1f7e780c87"
+      }
+    },
+    {
+      "id": "chain-deploy-winner-replaced",
+      "description": "A genesis-height replacement assigns the name to the new canonical Deploy.",
+      "initialState": {
+        "assets": [],
+        "names": [],
+        "locators": [],
+        "balances": []
+      },
+      "phases": [
+        {
+          "label": "old-canonical",
+          "blocks": [
+            {
+              "height": 0,
+              "hash": "0000000000000000000000000000000000000000000000000000000000000028",
+              "parentHash": null,
+              "transactions": [
+                {
+                  "txid": "2828282828282828282828282828282828282828282828282828282828282828",
+                  "txidDisplayBytes": "2828282828282828282828282828282828282828282828282828282828282828",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "41494252010201001b000000000657494e4e455200000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "replacement-canonical",
+          "blocks": [
+            {
+              "height": 0,
+              "hash": "000000000000000000000000000000000000000000000000000000000000002a",
+              "parentHash": null,
+              "transactions": [
+                {
+                  "txid": "2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b",
+                  "txidDisplayBytes": "2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "41494252010201001b000000000657494e4e455200000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51202222222222222222222222222222222222222222222222222222222222222222",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51202222222222222222222222222222222222222222222222222222222222222222",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "queriedNames": [
+        "WINNER"
+      ],
+      "queriedLocators": [
+        {
+          "blockHeight": 0,
+          "txIndex": 0
+        }
+      ],
+      "expected": {
+        "canonicalTip": {
+          "height": 0,
+          "hash": "000000000000000000000000000000000000000000000000000000000000002a"
+        },
+        "canonicalFinalState": {
+          "assets": [
+            {
+              "assetId": "88340b358bb10243608426420ce31df2c84c8f3753f180898be082a4d6c44aea",
+              "name": "WINNER",
+              "network": 2,
+              "totalSupply": "100",
+              "deployTxid": "2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b",
+              "ownerOutputIndex": 0,
+              "locator": [
+                0,
+                0
+              ]
+            }
+          ],
+          "names": [
+            [
+              "WINNER",
+              "88340b358bb10243608426420ce31df2c84c8f3753f180898be082a4d6c44aea"
+            ]
+          ],
+          "locators": [
+            [
+              "0:0",
+              "88340b358bb10243608426420ce31df2c84c8f3753f180898be082a4d6c44aea"
+            ]
+          ],
+          "balances": [
+            [
+              "88340b358bb10243608426420ce31df2c84c8f3753f180898be082a4d6c44aea:841d31fb546dbc5039eaa70c3dbbd724be11d26a34d9ef1c512763d3485911da",
+              "100"
+            ]
+          ]
+        },
+        "assets": [
+          {
+            "assetId": "88340b358bb10243608426420ce31df2c84c8f3753f180898be082a4d6c44aea",
+            "name": "WINNER",
+            "network": 2,
+            "totalSupply": "100",
+            "deployTxid": "2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b",
+            "ownerOutputIndex": 0,
+            "locator": [
+              0,
+              0
+            ]
+          }
+        ],
+        "balances": [
+          [
+            "88340b358bb10243608426420ce31df2c84c8f3753f180898be082a4d6c44aea:841d31fb546dbc5039eaa70c3dbbd724be11d26a34d9ef1c512763d3485911da",
+            "100"
+          ]
+        ],
+        "nameWinners": {
+          "WINNER": {
+            "assetId": "88340b358bb10243608426420ce31df2c84c8f3753f180898be082a4d6c44aea",
+            "deployTxid": "2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b"
+          }
+        },
+        "locatorValidity": [
+          {
+            "blockHeight": 0,
+            "txIndex": 0,
+            "valid": true,
+            "assetId": "88340b358bb10243608426420ce31df2c84c8f3753f180898be082a4d6c44aea"
+          }
+        ],
+        "stateHash": "f2e6f3958c695ee111958643c534199e40ad443850bebc0a890fe44b6824fdc7"
+      }
+    },
+    {
+      "id": "chain-transfer-removed",
+      "description": "A Transfer in an orphaned block is removed and the sender balance returns.",
+      "initialState": {
+        "assets": [],
+        "names": [],
+        "locators": [],
+        "balances": []
+      },
+      "phases": [
+        {
+          "label": "old-canonical",
+          "blocks": [
+            {
+              "height": 0,
+              "hash": "0000000000000000000000000000000000000000000000000000000000000032",
+              "parentHash": null,
+              "transactions": [
+                {
+                  "txid": "3232323232323232323232323232323232323232323232323232323232323232",
+                  "txidDisplayBytes": "3232323232323232323232323232323232323232323232323232323232323232",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "414942520102010019000000000453454e4400000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "height": 1,
+              "hash": "0000000000000000000000000000000000000000000000000000000000000033",
+              "parentHash": "0000000000000000000000000000000000000000000000000000000000000032",
+              "transactions": [
+                {
+                  "txid": "3333333333333333333333333333333333333333333333333333333333333333",
+                  "txidDisplayBytes": "3333333333333333333333333333333333333333333333333333333333333333",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "41494252010202000b0000010000000000000028",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "00143333333333333333333333333333333333333333",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "00143333333333333333333333333333333333333333",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "replacement-canonical",
+          "blocks": [
+            {
+              "height": 0,
+              "hash": "0000000000000000000000000000000000000000000000000000000000000032",
+              "parentHash": null,
+              "transactions": [
+                {
+                  "txid": "3232323232323232323232323232323232323232323232323232323232323232",
+                  "txidDisplayBytes": "3232323232323232323232323232323232323232323232323232323232323232",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "414942520102010019000000000453454e4400000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "height": 1,
+              "hash": "0000000000000000000000000000000000000000000000000000000000000034",
+              "parentHash": "0000000000000000000000000000000000000000000000000000000000000032",
+              "transactions": []
+            }
+          ]
+        }
+      ],
+      "queriedNames": [
+        "SEND"
+      ],
+      "queriedLocators": [
+        {
+          "blockHeight": 0,
+          "txIndex": 0
+        }
+      ],
+      "expected": {
+        "canonicalTip": {
+          "height": 1,
+          "hash": "0000000000000000000000000000000000000000000000000000000000000034"
+        },
+        "canonicalFinalState": {
+          "assets": [
+            {
+              "assetId": "4ec67e425aee959f4b53add213e8a5c1b7082d84a6355e920f8bcca1a6db6a68",
+              "name": "SEND",
+              "network": 2,
+              "totalSupply": "100",
+              "deployTxid": "3232323232323232323232323232323232323232323232323232323232323232",
+              "ownerOutputIndex": 0,
+              "locator": [
+                0,
+                0
+              ]
+            }
+          ],
+          "names": [
+            [
+              "SEND",
+              "4ec67e425aee959f4b53add213e8a5c1b7082d84a6355e920f8bcca1a6db6a68"
+            ]
+          ],
+          "locators": [
+            [
+              "0:0",
+              "4ec67e425aee959f4b53add213e8a5c1b7082d84a6355e920f8bcca1a6db6a68"
+            ]
+          ],
+          "balances": [
+            [
+              "4ec67e425aee959f4b53add213e8a5c1b7082d84a6355e920f8bcca1a6db6a68:f9540890bb288b78d52c7d941bf6ec27d189c816ef5848359c7ec5d3c5cff353",
+              "100"
+            ]
+          ]
+        },
+        "assets": [
+          {
+            "assetId": "4ec67e425aee959f4b53add213e8a5c1b7082d84a6355e920f8bcca1a6db6a68",
+            "name": "SEND",
+            "network": 2,
+            "totalSupply": "100",
+            "deployTxid": "3232323232323232323232323232323232323232323232323232323232323232",
+            "ownerOutputIndex": 0,
+            "locator": [
+              0,
+              0
+            ]
+          }
+        ],
+        "balances": [
+          [
+            "4ec67e425aee959f4b53add213e8a5c1b7082d84a6355e920f8bcca1a6db6a68:f9540890bb288b78d52c7d941bf6ec27d189c816ef5848359c7ec5d3c5cff353",
+            "100"
+          ]
+        ],
+        "nameWinners": {
+          "SEND": {
+            "assetId": "4ec67e425aee959f4b53add213e8a5c1b7082d84a6355e920f8bcca1a6db6a68",
+            "deployTxid": "3232323232323232323232323232323232323232323232323232323232323232"
+          }
+        },
+        "locatorValidity": [
+          {
+            "blockHeight": 0,
+            "txIndex": 0,
+            "valid": true,
+            "assetId": "4ec67e425aee959f4b53add213e8a5c1b7082d84a6355e920f8bcca1a6db6a68"
+          }
+        ],
+        "stateHash": "a631518092f146b9a909d224452ef9d60278bb08fb323f275d424fd8cf8c9300"
+      }
+    },
+    {
+      "id": "chain-locator-invalidated",
+      "description": "A locator from an orphaned Deploy never aliases a transaction on the replacement chain.",
+      "initialState": {
+        "assets": [],
+        "names": [],
+        "locators": [],
+        "balances": []
+      },
+      "phases": [
+        {
+          "label": "old-canonical",
+          "blocks": [
+            {
+              "height": 0,
+              "hash": "000000000000000000000000000000000000000000000000000000000000003c",
+              "parentHash": null,
+              "transactions": [
+                {
+                  "txid": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+                  "txidDisplayBytes": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "41494252010201001800000000034c4f4300000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "replacement-canonical",
+          "blocks": [
+            {
+              "height": 0,
+              "hash": "000000000000000000000000000000000000000000000000000000000000003d",
+              "parentHash": null,
+              "transactions": []
+            },
+            {
+              "height": 1,
+              "hash": "000000000000000000000000000000000000000000000000000000000000003e",
+              "parentHash": "000000000000000000000000000000000000000000000000000000000000003d",
+              "transactions": [
+                {
+                  "txid": "3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e",
+                  "txidDisplayBytes": "3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "41494252010202000b000001000000000000000a",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "00143333333333333333333333333333333333333333",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "00143333333333333333333333333333333333333333",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "queriedNames": [
+        "LOC"
+      ],
+      "queriedLocators": [
+        {
+          "blockHeight": 0,
+          "txIndex": 0
+        }
+      ],
+      "expected": {
+        "canonicalTip": {
+          "height": 1,
+          "hash": "000000000000000000000000000000000000000000000000000000000000003e"
+        },
+        "canonicalFinalState": {
+          "assets": [],
+          "names": [],
+          "locators": [],
+          "balances": []
+        },
+        "assets": [],
+        "balances": [],
+        "nameWinners": {
+          "LOC": null
+        },
+        "locatorValidity": [
+          {
+            "blockHeight": 0,
+            "txIndex": 0,
+            "valid": false,
+            "assetId": null
+          }
+        ],
+        "stateHash": "eea24c408c42d77bfcf7421615def899f7319d860cf6352cf258e94fa97ff855"
+      }
+    },
+    {
+      "id": "chain-rollback-then-replay",
+      "description": "Rollback old Transfers and replay the replacement branch from the common ancestor.",
+      "initialState": {
+        "assets": [],
+        "names": [],
+        "locators": [],
+        "balances": []
+      },
+      "phases": [
+        {
+          "label": "old-canonical",
+          "blocks": [
+            {
+              "height": 0,
+              "hash": "0000000000000000000000000000000000000000000000000000000000000046",
+              "parentHash": null,
+              "transactions": [
+                {
+                  "txid": "4646464646464646464646464646464646464646464646464646464646464646",
+                  "txidDisplayBytes": "4646464646464646464646464646464646464646464646464646464646464646",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "4149425201020100190000000004524f4c4c00000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "height": 1,
+              "hash": "0000000000000000000000000000000000000000000000000000000000000047",
+              "parentHash": "0000000000000000000000000000000000000000000000000000000000000046",
+              "transactions": [
+                {
+                  "txid": "4747474747474747474747474747474747474747474747474747474747474747",
+                  "txidDisplayBytes": "4747474747474747474747474747474747474747474747474747474747474747",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "41494252010202000b000001000000000000001e",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "00143333333333333333333333333333333333333333",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "00143333333333333333333333333333333333333333",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "height": 2,
+              "hash": "0000000000000000000000000000000000000000000000000000000000000048",
+              "parentHash": "0000000000000000000000000000000000000000000000000000000000000047",
+              "transactions": []
+            }
+          ]
+        },
+        {
+          "label": "replacement-canonical",
+          "blocks": [
+            {
+              "height": 0,
+              "hash": "0000000000000000000000000000000000000000000000000000000000000046",
+              "parentHash": null,
+              "transactions": [
+                {
+                  "txid": "4646464646464646464646464646464646464646464646464646464646464646",
+                  "txidDisplayBytes": "4646464646464646464646464646464646464646464646464646464646464646",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "4149425201020100190000000004524f4c4c00000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "height": 1,
+              "hash": "0000000000000000000000000000000000000000000000000000000000000049",
+              "parentHash": "0000000000000000000000000000000000000000000000000000000000000046",
+              "transactions": [
+                {
+                  "txid": "4949494949494949494949494949494949494949494949494949494949494949",
+                  "txidDisplayBytes": "4949494949494949494949494949494949494949494949494949494949494949",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "41494252010202000b0000010000000000000014",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "00144444444444444444444444444444444444444444",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "00144444444444444444444444444444444444444444",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "height": 2,
+              "hash": "000000000000000000000000000000000000000000000000000000000000004a",
+              "parentHash": "0000000000000000000000000000000000000000000000000000000000000049",
+              "transactions": []
+            }
+          ]
+        }
+      ],
+      "queriedNames": [
+        "ROLL"
+      ],
+      "queriedLocators": [
+        {
+          "blockHeight": 0,
+          "txIndex": 0
+        }
+      ],
+      "expected": {
+        "canonicalTip": {
+          "height": 2,
+          "hash": "000000000000000000000000000000000000000000000000000000000000004a"
+        },
+        "canonicalFinalState": {
+          "assets": [
+            {
+              "assetId": "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689",
+              "name": "ROLL",
+              "network": 2,
+              "totalSupply": "100",
+              "deployTxid": "4646464646464646464646464646464646464646464646464646464646464646",
+              "ownerOutputIndex": 0,
+              "locator": [
+                0,
+                0
+              ]
+            }
+          ],
+          "names": [
+            [
+              "ROLL",
+              "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689"
+            ]
+          ],
+          "locators": [
+            [
+              "0:0",
+              "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689"
+            ]
+          ],
+          "balances": [
+            [
+              "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689:ca9cb38d6e489e654027969887f6a09bd8be7206fe7e21a152007fd1c914c32e",
+              "20"
+            ],
+            [
+              "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689:f9540890bb288b78d52c7d941bf6ec27d189c816ef5848359c7ec5d3c5cff353",
+              "80"
+            ]
+          ]
+        },
+        "assets": [
+          {
+            "assetId": "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689",
+            "name": "ROLL",
+            "network": 2,
+            "totalSupply": "100",
+            "deployTxid": "4646464646464646464646464646464646464646464646464646464646464646",
+            "ownerOutputIndex": 0,
+            "locator": [
+              0,
+              0
+            ]
+          }
+        ],
+        "balances": [
+          [
+            "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689:ca9cb38d6e489e654027969887f6a09bd8be7206fe7e21a152007fd1c914c32e",
+            "20"
+          ],
+          [
+            "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689:f9540890bb288b78d52c7d941bf6ec27d189c816ef5848359c7ec5d3c5cff353",
+            "80"
+          ]
+        ],
+        "nameWinners": {
+          "ROLL": {
+            "assetId": "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689",
+            "deployTxid": "4646464646464646464646464646464646464646464646464646464646464646"
+          }
+        },
+        "locatorValidity": [
+          {
+            "blockHeight": 0,
+            "txIndex": 0,
+            "valid": true,
+            "assetId": "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689"
+          }
+        ],
+        "stateHash": "52e1c4bd3838b068a4fdfaa2312c7298c0e6eda58bf42b629d13e6f5849b1d29"
+      }
+    },
+    {
+      "id": "chain-direct-replay-replacement",
+      "description": "Direct replay of the replacement branch must equal rollback-then-replay.",
+      "initialState": {
+        "assets": [],
+        "names": [],
+        "locators": [],
+        "balances": []
+      },
+      "phases": [
+        {
+          "label": "replacement-canonical",
+          "blocks": [
+            {
+              "height": 0,
+              "hash": "0000000000000000000000000000000000000000000000000000000000000046",
+              "parentHash": null,
+              "transactions": [
+                {
+                  "txid": "4646464646464646464646464646464646464646464646464646464646464646",
+                  "txidDisplayBytes": "4646464646464646464646464646464646464646464646464646464646464646",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "4149425201020100190000000004524f4c4c00000000000000000000000000000064",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "5120aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "height": 1,
+              "hash": "0000000000000000000000000000000000000000000000000000000000000049",
+              "parentHash": "0000000000000000000000000000000000000000000000000000000000000046",
+              "transactions": [
+                {
+                  "txid": "4949494949494949494949494949494949494949494949494949494949494949",
+                  "txidDisplayBytes": "4949494949494949494949494949494949494949494949494949494949494949",
+                  "txIndex": 0,
+                  "rawProtocolPayloadHex": "41494252010202000b0000010000000000000014",
+                  "inputs": [
+                    {
+                      "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                      "sighashType": 0
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "scriptPubKeyHex": "00144444444444444444444444444444444444444444",
+                      "valueSats": "330"
+                    }
+                  ],
+                  "bitcoinTransactionContext": {
+                    "inputs": [
+                      {
+                        "prevoutScriptPubKeyHex": "51201111111111111111111111111111111111111111111111111111111111111111",
+                        "sighashType": 0
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "scriptPubKeyHex": "00144444444444444444444444444444444444444444",
+                        "valueSats": "330"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "height": 2,
+              "hash": "000000000000000000000000000000000000000000000000000000000000004a",
+              "parentHash": "0000000000000000000000000000000000000000000000000000000000000049",
+              "transactions": []
+            }
+          ]
+        }
+      ],
+      "queriedNames": [
+        "ROLL"
+      ],
+      "queriedLocators": [
+        {
+          "blockHeight": 0,
+          "txIndex": 0
+        }
+      ],
+      "expected": {
+        "canonicalTip": {
+          "height": 2,
+          "hash": "000000000000000000000000000000000000000000000000000000000000004a"
+        },
+        "canonicalFinalState": {
+          "assets": [
+            {
+              "assetId": "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689",
+              "name": "ROLL",
+              "network": 2,
+              "totalSupply": "100",
+              "deployTxid": "4646464646464646464646464646464646464646464646464646464646464646",
+              "ownerOutputIndex": 0,
+              "locator": [
+                0,
+                0
+              ]
+            }
+          ],
+          "names": [
+            [
+              "ROLL",
+              "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689"
+            ]
+          ],
+          "locators": [
+            [
+              "0:0",
+              "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689"
+            ]
+          ],
+          "balances": [
+            [
+              "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689:ca9cb38d6e489e654027969887f6a09bd8be7206fe7e21a152007fd1c914c32e",
+              "20"
+            ],
+            [
+              "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689:f9540890bb288b78d52c7d941bf6ec27d189c816ef5848359c7ec5d3c5cff353",
+              "80"
+            ]
+          ]
+        },
+        "assets": [
+          {
+            "assetId": "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689",
+            "name": "ROLL",
+            "network": 2,
+            "totalSupply": "100",
+            "deployTxid": "4646464646464646464646464646464646464646464646464646464646464646",
+            "ownerOutputIndex": 0,
+            "locator": [
+              0,
+              0
+            ]
+          }
+        ],
+        "balances": [
+          [
+            "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689:ca9cb38d6e489e654027969887f6a09bd8be7206fe7e21a152007fd1c914c32e",
+            "20"
+          ],
+          [
+            "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689:f9540890bb288b78d52c7d941bf6ec27d189c816ef5848359c7ec5d3c5cff353",
+            "80"
+          ]
+        ],
+        "nameWinners": {
+          "ROLL": {
+            "assetId": "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689",
+            "deployTxid": "4646464646464646464646464646464646464646464646464646464646464646"
+          }
+        },
+        "locatorValidity": [
+          {
+            "blockHeight": 0,
+            "txIndex": 0,
+            "valid": true,
+            "assetId": "02035e3cf522c4db149e88196e662476c01c650e75927c89516b3126e90b8689"
+          }
+        ],
+        "stateHash": "52e1c4bd3838b068a4fdfaa2312c7298c0e6eda58bf42b629d13e6f5849b1d29"
+      }
+    }
+  ]
+}

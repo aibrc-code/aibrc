@@ -1,0 +1,43 @@
+{
+  "name": "@aibrc/protocol",
+  "version": "0.25.0",
+  "type": "module",
+  "description": "AIBRC Bitcoin L1 wire codec, validation, canonical state and state hashing.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "browser": "./dist/browser.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "browser": "./dist/browser.js",
+      "import": "./dist/index.js"
+    },
+    "./decoder": {
+      "types": "./dist/decoder.d.ts",
+      "browser": "./dist/decoder.browser.js",
+      "import": "./dist/decoder.js"
+    },
+    "./browser": "./dist/browser.js",
+    "./decoder/browser": "./dist/decoder.browser.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --experimental-vm-modules --import tsx --test test/*.test.ts",
+    "vectors:check": "node --import tsx --test test/protocol.test.ts test/op-return.test.ts test/chain-vectors.test.ts test/authorization-vectors.test.ts"
+  },
+  "dependencies": {
+    "@noble/hashes": "1.8.0",
+    "buffer": "6.0.3"
+  }
+}
