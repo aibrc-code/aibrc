@@ -43,10 +43,11 @@ the V2 activation height when applicable. A policy V1 schedule has no activation
 height. A V2 schedule selects V1 below its activation and V2 at or above it.
 Missing or invalid context fails closed; the name contents never select V2.
 
-The public network release parameter remains `{GENESIS_HEIGHT}`. No name-policy
-activation value is selected by this document. A release must publish a concrete
-schedule and its identity before using it; a local environment variable or UI
-preference must not override canonical interpretation.
+The public boundary H is `genesisHeight` in [config/release.json](../config/release.json).
+For the current release, Name Policy V2 activation uses that same H; it is derived,
+not entered a second time. A `null` height means the release boundary remains
+unselected. Hosts publish and pin the concrete schedule before using it; local
+environment variables or UI preferences must not override canonical interpretation.
 
 ## Uniqueness and display
 

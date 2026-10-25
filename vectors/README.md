@@ -29,7 +29,7 @@ The browser artifact test runs the emitted ES module in a clean JavaScript VM wi
 
 ## Important context
 
-- Numeric block heights in these files are explicitly synthetic test contexts, including before/at/after a test-only name-policy boundary. Deployment configuration retains `{GENESIS_HEIGHT}`.
+- Numeric block heights in these files are explicitly synthetic test contexts, including before/at/after a test-only name-policy boundary. The public release height is separately maintained in [config/release.json](../config/release.json).
 - Raw witness byte stacks are structural fixtures. Bitcoin transaction validity and signature verification remain Bitcoin's responsibility.
 - A valid payload is not sufficient by itself. Supply the actual prevouts, witness interpretation, expected network, name policy and canonical transaction position.
 - `NO_OP` means the AIBRC instruction leaves state unchanged. `NEEDS_UPGRADE` means an activated version is not implemented; an indexer must not silently continue applying an older interpretation.

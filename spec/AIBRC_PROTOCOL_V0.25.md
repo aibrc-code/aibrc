@@ -1,6 +1,6 @@
 # AIBRC Protocol V0.25 Wire Format
 
-**Status:** Current reference implementation; publication parameters unresolved
+**Status:** Current reference implementation; parameters defined by the release configuration
 **Wire version:** `1`
 **Operations active in this document:** Deploy and Transfer
 **Scope:** Public wire rules, authorization interpretation, and deterministic state
@@ -9,11 +9,13 @@ This document defines bytes and deterministic state effects. Builder relay polic
 
 ### Release identity and genesis boundary
 
-The public release parameter is **`{GENESIS_HEIGHT}`**. It is intentionally not a
-usable network configuration yet. The published release must select it once and
-bind it to the network, rule interpretation, Name Policy schedule, normative
-specification and vector hashes. This document does not authorize an existing
-network to restart from a different height or erase previous chain history.
+The public genesis boundary **H** is the `genesisHeight` value in
+[the release configuration](../config/release.json), the single maintained source
+for that value. `null` means the boundary has not been selected. The current
+release's Name Policy V2 activation is derived from the same H. At publication,
+pin the configuration's network, H, rule identity and policy to the specification
+and vector hashes. Changing a published file does not authorize an existing
+network to restart from another height or erase chain history.
 
 A conforming indexer starts at the published genesis boundary and ignores earlier
 `AIBR`-shaped data for that network identity. Future operations require a published
@@ -54,7 +56,9 @@ An Extended Profile transaction may be offered only when all of these are true:
 2. the Builder warns that some older or restrictively configured nodes may not relay it;
 3. the selected broadcast node runs `testmempoolaccept` on the exact candidate transaction;
 4. the pre-sign Decoder and post-sign Decoder both confirm that the payload and user intent are unchanged;
-5. if policy preflight or broadcast fails, the Builder constructs new split transactions or new PSBTs. It must never repeatedly resend the old signed transaction as though policy had changed.
+5. after an explicit preflight rejection before submission, or a definitive rejection before acceptance with no prior unknown submission, the Builder may propose new split transactions or PSBTs. Any changed transaction requires fresh user approval and signatures. It must not repeatedly submit a policy-rejected transaction as though the policy had changed.
+
+A timeout, lost response or other unknown submission result does not establish rejection or non-acceptance. Keep the exact original signed bytes and transaction ID, and investigate that transaction before proposing another payment. Do not automatically split, re-sign or replace it while its result is unknown. When appropriate, rebroadcasting the byte-identical original transaction preserves its identity; it is different from constructing another transaction. A later node's rejection does not resolve an earlier unknown submission.
 
 A compatible Builder dynamically chooses a profile from the actual encoded byte count. It must not advertise “25 allocations” as a guarantee that every combination of 25 amounts and output indexes fits one relayed transaction. More than 25 allocations is always split; 25 or fewer allocations is also split when the selected profile or 480-byte hard limit requires it.
 
@@ -305,6 +309,7 @@ Canonical State Hash is `SHA256(UTF8(canonical_json))`, where `canonical_json` h
 - locators sort numerically by block height, then transaction index;
 - balances sort by the bytewise `asset_id:account_key` key and include positive values only;
 - every bigint is an unsigned base-10 string with no leading zeroes;
+- transaction IDs, asset IDs and account keys in canonical state use their specified byte lengths encoded as lowercase hexadecimal without a prefix;
 - serialization contains no time, randomness, database identifier, environment value, or insertion-order dependency.
 
 ### 6.2 Exact canonical JSON layout
@@ -324,7 +329,12 @@ The displayed indentation is explanatory only. Each `assetRecord` has this exact
 property order: `assetId`, `name`, `network`, `totalSupply`, `deployTxid`,
 `ownerOutputIndex`, `locator`. `network` and `ownerOutputIndex` are JSON numbers;
 `locator` is `[height, txIndex]` with numeric elements; `totalSupply` is a decimal
-string. IDs are hexadecimal strings. The canonical empty state is exactly:
+string. IDs and `deployTxid` are lowercase hexadecimal strings. Transaction-context
+txid input may use either hex letter case; Deploy stores the existing codec's
+lowercase display encoding of those same 32 bytes. Imported state must satisfy
+the canonical representation and its declared chain/rule identity before it is
+accepted. A snapshot reader must not silently rewrite an already committed
+snapshot's text and describe its old hash as verified. The canonical empty state is exactly:
 
 ```json
 {"assets":[],"names":[],"locators":[],"balances":[]}

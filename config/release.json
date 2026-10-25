@@ -1,0 +1,7 @@
+{
+  "protocolVersion": "0.25",
+  "bitcoinNetwork": "mainnet",
+  "genesisHeight": null,
+  "namePolicyVersion": 2,
+  "inputAuthorizationRuleId": "aibrc-input-authorization/bip341-keypath-v1"
+}

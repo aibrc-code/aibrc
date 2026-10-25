@@ -1,5 +1,6 @@
 """Render the repository sources in memory; never create a second content copy."""
 from pathlib import Path
+import json
 from mkdocs.structure.files import File, Files
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -9,7 +10,52 @@ ROOT_PAGES = (
 )
 SOURCE_DIRS = ("docs", "spec", "proposals", "merkle", "vectors", "config")
 SDK_FILES = ("packages/protocol/README.md", "packages/protocol/package.json")
-SITE_FILES = ("site/README.md", "site/CLOUDFLARE_PAGES.md", "site/mkdocs.yml", "site/source_files.py", "site/requirements.txt")
+SITE_FILES = ("site/README.md", "site/CLOUDFLARE_PAGES.md", "site/mkdocs.yml", "site/source_files.py", "site/requirements.txt", "site/assets/stylesheets/aibrc-dark.css")
+
+
+def on_config(config):
+    # Pin one validated release snapshot for the entire documentation build.
+    release = json.loads((ROOT / "config/release.json").read_text(encoding="utf-8"))
+    expected = {
+        "protocolVersion": "0.25",
+        "bitcoinNetwork": "mainnet",
+        "namePolicyVersion": 2,
+        "inputAuthorizationRuleId": "aibrc-input-authorization/bip341-keypath-v1",
+    }
+    if not isinstance(release, dict) or set(release) != set(expected) | {"genesisHeight"}:
+        raise ValueError("Unexpected release configuration fields")
+    for key, value in expected.items():
+        if release.get(key) != value:
+            raise ValueError("Unexpected release context: " + key)
+    if "genesisHeight" not in release:
+        raise ValueError("Missing genesisHeight")
+    height = release["genesisHeight"]
+    if height is not None and (type(height) not in (int, float) or not 0 <= height <= 0xffffffff or int(height) != height):
+        raise ValueError("genesisHeight must be null or an unsigned 32-bit integer")
+    if height is not None:
+        release["genesisHeight"] = int(height)
+    reference = json.loads((ROOT / "config/network.example.json").read_text(encoding="utf-8"))
+    if reference.get("releaseFile") != "./release.json" or "genesisHeight" in reference or "namePolicy" in reference:
+        raise ValueError("Example must reference the single release source without duplicate heights")
+    config.extra["aibrc_release_context"] = dict(release)
+    return config
+
+
+def on_page_markdown(markdown, page, config, files):
+    marker = "<!-- AIBRC_RELEASE_CONTEXT -->"
+    if marker not in markdown:
+        return markdown
+    release = config.extra["aibrc_release_context"]
+    height = release["genesisHeight"]
+    display = "Not selected (pre-release)" if height is None else str(height)
+    table = (
+        "| Release parameter | Published value |\n"
+        "| --- | --- |\n"
+        "| Network | mainnet |\n"
+        "| Genesis height | " + display + " |\n"
+        "| Name Policy V2 activation | " + display + " |\n"
+    )
+    return markdown.replace(marker, table)
 
 
 def on_files(files, config):
@@ -18,7 +64,9 @@ def on_files(files, config):
     for directory in SOURCE_DIRS:
         paths.extend(sorted((ROOT / directory).rglob("*")))
     paths.extend(sorted((ROOT / "packages/protocol/src").glob("*.ts")))
-    rendered = Files([])
+    # Keep theme/plugin CSS, JavaScript and search assets. Only replace the
+    # document mapping; replacing the entire collection drops the theme assets.
+    rendered = Files(file for file in files if not file.is_documentation_page())
     for path in paths:
         if path.is_symlink():
             raise ValueError("Documentation source must not be a symlink")

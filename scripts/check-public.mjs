@@ -39,6 +39,7 @@ const required = ['README.md', 'LICENSE-CODE', 'LICENSE-DOCS', 'TRUST_MODEL.md',
   'spec/AIBRC_PROTOCOL_V0.25.md', 'spec/naming-policy.md', 'spec/reason-codes.md',
   'spec/covenants/R1.md', 'spec/covenants/X1.md', 'merkle/STATE_PROOF_REFERENCE.md',
   'site/README.md', 'site/mkdocs.yml', 'site/source_files.py', 'site/requirements.txt',
+  'config/release.json', 'config/network.example.json',
   ...['00-overview', '01-introduction', '02-protocol-model', '03-instructions',
     '04-smart-covenant', '05-cross-protocol', '06-indexer-guide', '07-applications',
     '08-extensions', '99-closing'].map(name => 'docs/' + name + '.md')];
@@ -75,9 +76,19 @@ for (const file of apps) {
     assert.equal((text.match(new RegExp('^(?:\\*\\*)?' + field + ':', 'gm')) ?? []).length, 1, file + ' field ' + field);
   }
 }
-for (const file of ['README.md', 'CHANGELOG.md', 'spec/AIBRC_PROTOCOL_V0.25.md', 'config/network.example.json']) {
-  assert.ok(read(file).includes('{GENESIS_HEIGHT}'), file + ' genesis placeholder');
-}
+const release = JSON.parse(read('config/release.json'));
+assert.deepEqual(Object.keys(release).sort(), ['protocolVersion', 'bitcoinNetwork', 'genesisHeight', 'namePolicyVersion', 'inputAuthorizationRuleId'].sort(), 'Unexpected release fields');
+assert.equal(release.protocolVersion, '0.25', 'Unexpected protocol release version');
+assert.equal(release.bitcoinNetwork, 'mainnet', 'Unexpected release network');
+assert.equal(release.namePolicyVersion, 2, 'Unexpected release name policy');
+assert.equal(release.inputAuthorizationRuleId, 'aibrc-input-authorization/bip341-keypath-v1', 'Unexpected authorization identity');
+assert.ok(Object.hasOwn(release, 'genesisHeight'), 'Missing genesisHeight');
+assert.ok(release.genesisHeight === null ||
+  (Number.isInteger(release.genesisHeight) && release.genesisHeight >= 0 && release.genesisHeight <= 0xffffffff),
+  'genesisHeight must be null or an unsigned 32-bit integer');
+const reference = JSON.parse(read('config/network.example.json'));
+assert.equal(reference.releaseFile, './release.json', 'Example must reference the single release source');
+assert.ok(!Object.hasOwn(reference, 'genesisHeight') && !Object.hasOwn(reference, 'namePolicy'), 'Example must not duplicate release heights');
 const r1 = /## Complete frozen English text[\s\S]*?```text\n([\s\S]*?)```/.exec(read('spec/covenants/R1.md'))?.[1];
 assert.ok(r1, 'Missing frozen R1 block');
 assert.equal(Buffer.byteLength(r1), 7340, 'R1 byte length');
@@ -85,4 +96,6 @@ assert.equal(createHash('sha256').update(r1).digest('hex'), '3c0b91af6cbfce5ea8e
 assert.equal(read('packages/protocol/LICENSE'), read('LICENSE-CODE'), 'SDK license differs');
 console.log(JSON.stringify({ publicSourceFiles: names.length, relativeLinksChecked: links,
   proposals: aip.length, applicationPages: apps.length, frozenR1Bytes: Buffer.byteLength(r1),
+  releaseParameters: release.genesisHeight === null ? 'NOT_SELECTED' : 'CONFIGURED',
+  genesisHeight: release.genesisHeight, namePolicyActivationHeight: release.genesisHeight,
   privateMarkerMatches: 0, scope: 'Static public-content consistency, not a security audit' }));

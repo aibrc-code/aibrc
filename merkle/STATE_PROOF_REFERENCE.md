@@ -161,7 +161,7 @@ protocolStateHash:32 || merkleRoot:32
 `checkpointId = TH(checkpointTag, preimage)`. The manifest hash identifies the
 agreed rule version, authorization interpretation, activation schedule and
 vector/specification identities. Its actual public schema must be finalized
-before activation. The public genesis placeholder is `{GENESIS_HEIGHT}`; this
+before activation. The public height is defined once in [config/release.json](../config/release.json); this
 document supplies no real release height or manifest hash.
 
 An optional signed statement must bind `checkpointId`, signer identity, signature

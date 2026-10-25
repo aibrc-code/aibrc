@@ -18,7 +18,15 @@ Establish which chain you are reading before applying its asset rules.
 
 `verified Bitcoin context → exact scripts/witness → AIBRC validation`.
 
-An implementation needs the network, published rule identity, protocol starting parameter `{GENESIS_HEIGHT}`, name policy and its activation context. The placeholder is not a runnable Mainnet height. Historical test cases do not select it. See the [specification, §§1, 4.1 and 6–8](../spec/AIBRC_PROTOCOL_V0.25.md).
+An implementation needs the network, published rule identity and starting height from
+[config/release.json](../config/release.json). Its `genesisHeight` is the only maintained
+height value; the current Name Policy V2 activation uses that same value. `null`
+means the starting height has not been selected. Hosts explicitly load and pin this
+context; the SDK does not automatically fetch it or reconfigure a running process.
+Historical test cases do not select it. The host maps `namePolicyVersion` to the schedule's
+`manifestNamePolicyVersion`, and uses `genesisHeight` as its `activationHeight`;
+it passes each actual block height to `namePolicyContextForBlock`. A host must
+reject an unselected release before starting canonical interpretation. See the [specification, §§1, 4.1 and 6–8](../spec/AIBRC_PROTOCOL_V0.25.md).
 
 A pure decoder can parse transaction structure and interpret fields. It does not verify Bitcoin signatures or prove that a prevout exists and is spendable. Passing a manually constructed `TransactionContext` into the rules establishes only what follows from those supplied inputs.
 
@@ -125,7 +133,7 @@ Do not roll back balances while preserving stale names, locators or query projec
 
 A snapshot must contain sufficient canonical state, chain identity, rule identity, numeric encoding and integrity material to recompute its hash. A matching hash detects inconsistent content; it does not by itself establish the correctness of the supplied history.
 
-Replaying validated history from `{GENESIS_HEIGHT}` is one route to independently deriving state. Starting from a trusted checkpoint is another route with additional trust assumptions. Identify who supplied the checkpoint, which block and rules it covers, and what the new instance verifies afterward.
+Replaying validated history from the published `genesisHeight` is one route to independently deriving state. Starting from a trusted checkpoint is another route with additional trust assumptions. Identify who supplied the checkpoint, which block and rules it covers, and what the new instance verifies afterward.
 
 A production storage file is not automatically an interoperable standard. Canonical state, transport snapshots, query indexes and process caches serve different purposes. Unpublished platform storage is not a format that every independent indexer must copy.
 

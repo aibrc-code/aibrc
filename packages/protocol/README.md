@@ -26,4 +26,4 @@ Use the complete root README quickstart for an official vector rather than const
 
 Wire parsing and application are separate. Callers must classify the complete transaction, choose the expected network and valid name-policy schedule, resolve the actual previous outputs and witness authorization, and apply state in canonical chain order. A decoded instruction alone is not evidence of a valid asset operation.
 
-Name-policy activation is supplied by the caller. Test fixture heights are synthetic and are not a network activation announcement. The public deployment placeholder is `{GENESIS_HEIGHT}`.
+Name-policy activation is supplied by the caller. Read and pin the published context from [config/release.json](../../config/release.json); its `genesisHeight` is the single maintained starting height, and current Name Policy V2 activation uses the same value. `null` means no release height is selected. The SDK does not automatically load or fetch that file. Test heights remain synthetic and are not an activation announcement.

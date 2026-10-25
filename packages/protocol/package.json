@@ -21,8 +21,14 @@
       "browser": "./dist/decoder.browser.js",
       "import": "./dist/decoder.js"
     },
-    "./browser": "./dist/browser.js",
-    "./decoder/browser": "./dist/decoder.browser.js",
+    "./browser": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/browser.js"
+    },
+    "./decoder/browser": {
+      "types": "./dist/decoder.d.ts",
+      "default": "./dist/decoder.browser.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [

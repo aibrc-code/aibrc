@@ -49,9 +49,10 @@ In the Pages project, add the chosen protocol domain under Custom domains and fo
 Configure the zone or CNAME as appropriate to the hostname. Check HTTPS and an actual documentation page on
 the domain before announcing it.
 
-Freeze the publication context, including the target network, rule identity and `{GENESIS_HEIGHT}` parameter,
-in the source files that carry that release context: README, specification, example configuration and changelog.
-Publish the resulting source and site as the same release. Synthetic vector heights remain test data.
+Set only `genesisHeight` in [config/release.json](../config/release.json) when the release boundary is selected.
+The specification and other documents reference that file; the website and checker read it. Current
+Name Policy V2 activation derives from the same height. Publish the resulting source and site as one release,
+then configure the host indexer with that pinned context. Synthetic vector heights remain test data.
 
 A documentation deployment does not activate protocol rules or reset an application's indexer. Those use the
 separate versioned activation and operating procedures.

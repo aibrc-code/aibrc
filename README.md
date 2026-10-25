@@ -1,6 +1,4 @@
 # AIBRC
-![Code: MIT](https://img.shields.io/badge/Code-MIT-blue?style=flat-square)
-![Docs: CC0](https://img.shields.io/badge/Docs-CC0-green?style=flat-square)
 
 **A unified protocol for assets, account abstraction and Smart Covenant on Bitcoin L1.**
 
@@ -200,11 +198,23 @@ npm install ./aibrc-protocol-0.25.0.tgz
 
 ## Activation context
 
-The public genesis parameter remains **`{GENESIS_HEIGHT}`**, filled once at
-publication. The [example configuration](config/network.example.json) is a
-documentation-only template, not an SDK-loaded runtime manifest. Synthetic test
-heights do not select the public network's activation height. Freeze the network,
-rule identity and release context before using a package to calculate balances.
+The release has one source for its starting height: **`genesisHeight` in
+[config/release.json](config/release.json)**. Leave it `null` during preparation.
+When the release height is selected, replace that one value with its unsigned
+integer block height, without quotes. The website reads it during the build;
+GitHub readers can inspect the same source file through this link.
+
+<!-- AIBRC_RELEASE_CONTEXT -->
+
+The current release uses Name Policy V2 from that same height. Its activation
+height is derived from `genesisHeight`, not entered separately. The
+[example reference](config/network.example.json) points to this source and does
+not duplicate any editable height.
+
+A configured value publishes release parameters; it does not start, reset or
+reconfigure a running indexer. Hosts explicitly load and pin the same network,
+rule identity and height before interpreting blocks. After activation the
+release context is fixed. Synthetic vector heights remain test data.
 
 ## Open source and trust
 

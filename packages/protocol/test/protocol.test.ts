@@ -613,6 +613,35 @@ test("Asymmetric txid bytes are never reversed by AIBRC encoding or Asset ID der
   }), "8f58e7c1f07c21f518f75544de6bc496e27290dc5b06544d6f2fe23e7ae729b9");
 });
 
+test("Equivalent transaction-ID hex representations produce the same canonical deployment state", () => {
+  const txid = "abcdef0123456789".repeat(4);
+  const instruction = decodeDeploy(encodeDeploy({
+    network: NetworkId.SIGNET,
+    deployAuthInputIndex: 0,
+    ownerOutputIndex: 0,
+    name: "TXIDCASE",
+    totalSupply: 100n,
+  }));
+  const reference = createProtocolState();
+  const applied = applyDeploy(instruction, deployTx({ txid }), reference);
+  assert.equal(applied.status, "APPLIED");
+  const expectedBytes = serializeCanonicalState(reference);
+  const expectedHash = deriveStateHash(reference);
+  for (const spelling of [
+    txid.toUpperCase(),
+    txid.replace(/[a-f]/g, (letter, index) => index % 2 ? letter.toUpperCase() : letter),
+    txid,
+  ]) {
+    const state = createProtocolState();
+    const result = applyDeploy(instruction, deployTx({ txid: spelling }), state);
+    assert.deepEqual(result, applied);
+    assert.deepEqual(state.balances, reference.balances);
+    assert.equal([...state.assetsById.values()][0]!.deployTxid, txid);
+    assert.deepEqual(serializeCanonicalState(state), expectedBytes);
+    assert.equal(deriveStateHash(state), expectedHash);
+  }
+});
+
 test("Deploy and repeated-receiver Transfer conserve supply", () => {
   const state = createProtocolState();
   const deploy = decodeDeploy(

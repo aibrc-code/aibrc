@@ -11,8 +11,10 @@
 - Keep seven AIPs and the Merkle reference Proposed; no current instruction or
   state-hash format is changed by those documents.
 - Set code licensing to MIT and documentation to CC0-1.0; retain dependency terms.
-- Use the public genesis placeholder `{GENESIS_HEIGHT}`, **filled once at
-  publication**, with a pinned network/rule context rather than mutable history.
+- Keep the public starting height in one field: `genesisHeight` in
+  [config/release.json](config/release.json), `null` until selected for publication.
+  Documents reference that file; the site and checker read it. Name Policy V2
+  activation derives from the same height. Activated release context remains pinned.
 - Provide the directory-style MkDocs site and Cloudflare Pages Git-build instructions;
   the repository remains the only maintained content source.
 - Use Covenant Inscription, Account Abstraction, Smart Covenant and Agent Key consistently

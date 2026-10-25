@@ -1,11 +1,5 @@
 {
-  "templateKind": "documentation-only-not-a-runtime-manifest",
-  "protocolVersion": "0.25",
-  "bitcoinNetwork": "mainnet",
-  "genesisHeight": "{GENESIS_HEIGHT}",
-  "namePolicy": {
-    "version": 2,
-    "activationHeight": "{GENESIS_HEIGHT}"
-  },
-  "inputAuthorizationRuleId": "aibrc-input-authorization/bip341-keypath-v1"
+  "templateKind": "documentation-only-release-reference",
+  "releaseFile": "./release.json",
+  "description": "Read the release context from releaseFile. Name Policy V2 activation uses the same genesisHeight. This reference file is not a runtime manifest."
 }

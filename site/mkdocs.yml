@@ -3,9 +3,22 @@ site_description: Covenant Inscription, account abstraction and Smart Covenant f
 docs_dir: ../docs
 site_dir: ../site-build
 use_directory_urls: true
+repo_url: https://github.com/aibrc-code/aibrc
+repo_name: GitHub
 theme:
   name: material
   font: false
+  custom_dir: overrides
+  palette:
+    scheme: slate
+    primary: black
+    accent: grey
+  features:
+    - navigation.sections
+extra:
+  generator: false
+extra_css:
+  - site/assets/stylesheets/aibrc-dark.css
 plugins:
   - search
 hooks:
