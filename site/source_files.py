@@ -6,12 +6,12 @@ from mkdocs.structure.files import File, Files
 
 ROOT = Path(__file__).resolve().parent.parent
 ROOT_PAGES = (
-    "README.md", "TRUST_MODEL.md", "CONTRIBUTING.md", "CHANGELOG.md",
+    "README.md", "TRUST_MODEL.md", "CONTRIBUTING.md",
     "THIRD_PARTY_NOTICES.md", "LICENSE-CODE", "LICENSE-DOCS",
 )
 SOURCE_DIRS = ("docs", "spec", "proposals", "merkle", "vectors", "config")
 SDK_FILES = ("packages/protocol/README.md", "packages/protocol/package.json")
-SITE_FILES = ("site/README.md", "site/CLOUDFLARE_PAGES.md", "site/mkdocs.yml", "site/source_files.py", "site/requirements.txt", "site/assets/stylesheets/aibrc-dark.css")
+SITE_ASSETS = ("site/assets/stylesheets/aibrc-dark.css",)
 
 
 def on_config(config):
@@ -68,7 +68,7 @@ def on_pre_build(config):
 
 def on_files(files, config):
     # src_uri mirrors GitHub paths, so relative links stay identical in both views.
-    paths = [ROOT / name for name in ROOT_PAGES + SDK_FILES + SITE_FILES]
+    paths = [ROOT / name for name in ROOT_PAGES + SDK_FILES + SITE_ASSETS]
     for directory in SOURCE_DIRS:
         paths.extend(sorted((ROOT / directory).rglob("*")))
     paths.extend(sorted((ROOT / "packages/protocol/src").glob("*.ts")))

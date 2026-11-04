@@ -45,15 +45,6 @@ Deploy/Transfer behavior remains governed by the versioned specification.
   you cannot license. Discuss protocol issues through the public process in the
   [trust model](TRUST_MODEL.md#public-discussion-and-versioned-correction).
 
-## Source releases and documentation
-
-This release publishes source and local build instructions, not an npm registry package. Consumers can use
-`npm pack --workspace @aibrc/protocol` after building, then install the resulting local archive. Keep the
-public specification, examples and version context alongside any integration.
-
-The website renders the same repository files through [Cloudflare Pages](site/CLOUDFLARE_PAGES.md). Edit the
-source Markdown rather than maintaining a separate website draft.
-
 ## Licensing contributions
 
 Code is [MIT](LICENSE-CODE); documentation is [CC0-1.0](LICENSE-DOCS).

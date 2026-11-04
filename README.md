@@ -116,6 +116,7 @@ aibtc.bot is the first application built on AIBRC; it holds no privileged positi
 | Why build a common foundation for Bitcoin? | [Overview](docs/00-overview.md) · [Background and architecture](docs/01-introduction.md) |
 | How do Covenant Inscriptions and accounts work? | [Assets and account abstraction](docs/02-protocol-model.md) |
 | Which addresses are supported? | [Taproot and Native SegWit](docs/02-protocol-model.md#supported-mainnet-addresses) |
+| How do I send an AIBRC asset from my wallet? | [Transfer](https://aibrc.io/sign/) |
 | What bytes go into a transaction? | [Instructions and examples](docs/03-instructions.md) · [Wire specification](spec/AIBRC_PROTOCOL_V0.25.md) |
 | How do programmable rules and Agent Key fit together? | [Smart Covenant](docs/04-smart-covenant.md) · [Covenant Inscription R1](spec/covenants/R1.md) · [Covenant Inscription X1](spec/covenants/X1.md) |
 | How do different asset standards connect? | [Shared-root issuance and settlement](docs/05-cross-protocol.md) |
@@ -123,10 +124,6 @@ aibtc.bot is the first application built on AIBRC; it holds no privileged positi
 | What can developers and Agents build? | [Applications and economic loops](docs/07-applications.md) |
 | How does the protocol evolve? | [Extensions](docs/08-extensions.md) · [Seven AIPs](proposals/README.md) · [Merkle reference](merkle/STATE_PROOF_REFERENCE.md) |
 | Where do I find exact terminology? | [Glossary](docs/glossary.md) |
-
-GitHub is the source for this whitepaper, specification and documentation. The directory-style website renders
-these same files through [Cloudflare Pages](site/CLOUDFLARE_PAGES.md), without a separate server or a second
-copy of the prose.
 
 ## Protocol statement
 
@@ -198,23 +195,17 @@ npm install ./aibrc-protocol-0.25.0.tgz
 
 ## Activation context
 
-The release has one source for its starting height: **`genesisHeight` in
-[config/release.json](config/release.json)**. Leave it `null` during preparation.
-When the release height is selected, replace that one value with its unsigned
-integer block height, without quotes. The website reads it during the build;
-GitHub readers can inspect the same source file through this link.
+Every AIBRC state belongs to a Bitcoin network and a published rule context.
+The network, starting block height and rule identity are recorded in
+[config/release.json](config/release.json), so independent indexers can apply
+the same rules to the same blocks.
 
 <!-- AIBRC_RELEASE_CONTEXT -->
 
-The current release uses Name Policy V2 from that same height. Its activation
-height is derived from `genesisHeight`, not entered separately. The
-[example reference](config/network.example.json) points to this source and does
-not duplicate any editable height.
-
-A configured value publishes release parameters; it does not start, reset or
-reconfigure a running indexer. Hosts explicitly load and pin the same network,
-rule identity and height before interpreting blocks. After activation the
-release context is fixed. Synthetic vector heights remain test data.
+Name Policy V2 applies from the same starting height. Independent indexers pin
+the network, rule identity and activation height before interpreting blocks.
+Once activated, that release context is fixed. Synthetic vector heights remain
+test data.
 
 ## Open source and trust
 
