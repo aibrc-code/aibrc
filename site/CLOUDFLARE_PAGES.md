@@ -26,8 +26,10 @@ Select the branch whose commits should update the production site.
 | Build output directory | `site-build` |
 | Build environment | `PYTHON_VERSION=3.11` |
 
-Dependencies are pinned in `site/requirements.txt`. For this dedicated source export, the documentation
-build uses Python and needs no private platform package installation. These settings assume the protocol
+Dependencies are pinned in `site/requirements.txt` and `package-lock.json`. The MkDocs pre-build hook
+installs the protocol's pinned npm dependencies with install lifecycle scripts disabled, then builds and
+copies the current browser module before rendering the site. Node.js 20.19 or newer and npm must be
+available in the existing Cloudflare build environment; no private platform packages are needed. These settings assume the protocol
 export is the repository root, not nested inside the private application repository.
 
 Subsequent pushes to the configured production branch trigger builds. Preview-branch builds follow the

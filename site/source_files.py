@@ -1,6 +1,7 @@
 """Render the repository sources in memory; never create a second content copy."""
 from pathlib import Path
 import json
+import subprocess
 from mkdocs.structure.files import File, Files
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -56,6 +57,13 @@ def on_page_markdown(markdown, page, config, files):
         "| Name Policy V2 activation | " + display + " |\n"
     )
     return markdown.replace(marker, table)
+
+
+def on_pre_build(config):
+    # Also covers the existing Cloudflare command that invokes MkDocs directly.
+    # Install only pinned protocol dependencies; no npm lifecycle install scripts.
+    subprocess.run(["npm", "ci", "--ignore-scripts", "--no-audit", "--no-fund"], cwd=ROOT, check=True)
+    subprocess.run(["npm", "run", "build"], cwd=ROOT, check=True)
 
 
 def on_files(files, config):

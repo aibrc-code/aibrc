@@ -2667,9 +2667,10 @@ function applyDeploy(instruction, tx, state, namePolicy) {
   const reason = validateDeploy(instruction, tx, state, namePolicy);
   if (reason !== "VALID") return { status: "NO_OP", reason };
   const owner = tx.outputs[instruction.ownerOutputIndex];
+  const deployTxid = encodeTxidDisplayBytes(decodeTxidDisplayBytes(tx.txid));
   const assetId = deriveAssetId({
     network: instruction.network,
-    deployTxid: tx.txid,
+    deployTxid,
     ownerOutputIndex: instruction.ownerOutputIndex,
     canonicalNameBytes: instruction.canonicalNameBytes
   }, namePolicy);
@@ -2679,7 +2680,7 @@ function applyDeploy(instruction, tx, state, namePolicy) {
     name: instruction.name,
     network: instruction.network,
     totalSupply: instruction.totalSupply,
-    deployTxid: tx.txid,
+    deployTxid,
     ownerOutputIndex: instruction.ownerOutputIndex,
     locator
   };
