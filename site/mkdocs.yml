@@ -30,6 +30,8 @@ markdown_extensions:
       permalink: true
 nav:
   - Home: README.md
+  - Tools:
+      - Transfer: /sign/
   - Protocol:
       - Overview: docs/00-overview.md
       - Introduction: docs/01-introduction.md
@@ -78,10 +80,7 @@ nav:
       - Trust model: TRUST_MODEL.md
       - Contributing: CONTRIBUTING.md
       - SDK: packages/protocol/README.md
-      - Changelog: CHANGELOG.md
       - Third-party notices: THIRD_PARTY_NOTICES.md
-      - Documentation website: site/README.md
-      - Cloudflare Pages: site/CLOUDFLARE_PAGES.md
 validation:
   nav:
     not_found: warn

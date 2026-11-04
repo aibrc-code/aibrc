@@ -35,10 +35,10 @@ function anchors(path) {
 const all = files(root);
 const names = all.map(path => relative(root, path).replaceAll('\\', '/'));
 const required = ['README.md', 'LICENSE-CODE', 'LICENSE-DOCS', 'TRUST_MODEL.md',
-  'CONTRIBUTING.md', 'CHANGELOG.md', 'THIRD_PARTY_NOTICES.md', 'docs/glossary.md',
+  'CONTRIBUTING.md', 'THIRD_PARTY_NOTICES.md', 'docs/glossary.md',
   'spec/AIBRC_PROTOCOL_V0.25.md', 'spec/naming-policy.md', 'spec/reason-codes.md',
   'spec/covenants/R1.md', 'spec/covenants/X1.md', 'merkle/STATE_PROOF_REFERENCE.md',
-  'site/README.md', 'site/mkdocs.yml', 'site/source_files.py', 'site/requirements.txt',
+  'site/mkdocs.yml', 'site/source_files.py', 'site/requirements.txt',
   'config/release.json', 'config/network.example.json',
   ...['00-overview', '01-introduction', '02-protocol-model', '03-instructions',
     '04-smart-covenant', '05-cross-protocol', '06-indexer-guide', '07-applications',
