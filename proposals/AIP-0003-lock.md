@@ -2,10 +2,9 @@
 
 **Stage: Proposed. No opcode, wire bytes or activation height assigned.**
 
-- **What it implements:** Make a specified asset quantity unavailable before an explicit Bitcoin height.
-- **What it enables:** Make vesting, team allocations and task bonds independently checkable.
-- **In plain words:** State which assets become spendable when, without relying on a verbal promise.
-- **Technical line:** `spendable = balance − activeLocks(height)`.
+Height-based locks make a defined asset quantity unavailable until a specified Bitcoin height. Vesting, team allocations and task bonds use the same independently checkable availability rule.
+
+`spendable = balance − activeLocks(height)`.
 
 ## Purpose
 

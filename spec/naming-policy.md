@@ -3,10 +3,9 @@
 **Stage: Live reference rules.** This is a byte-level companion to [Wire §4 and
 §4.1](AIBRC_PROTOCOL_V0.25.md#4-deploy-body), not an identity or trademark registry.
 
-- **What it implements:** Give issuance names consistent, replayable byte rules.
-- **What it enables:** Keep language, operating-system and display handling from changing asset identity.
-- **In plain words:** Everyone checks the same name using the same byte rules.
-- **Technical line:** `validateCanonicalNameBytes(bytes, explicitHeightPolicy)`.
+Name validation uses canonical bytes under a height-selected policy. Wallets and indexers apply the same rules across languages and operating systems to preserve asset identity.
+
+`validateCanonicalNameBytes(bytes, explicitHeightPolicy)`.
 
 ## Bytes, not displayed characters
 

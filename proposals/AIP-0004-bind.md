@@ -2,10 +2,9 @@
 
 **Stage: Proposed. No opcode, wire bytes or activation height assigned.**
 
-- **What it implements:** Publish explicit, authorized associations between accounts, assets and external identifiers.
-- **What it enables:** Let wallets and Agents identify an association's issuer instead of guessing from names.
-- **In plain words:** Publish that this account declares a relationship to that identifier.
-- **Technical line:** `bind(subject, relationType, target, expectedGeneration)`.
+A typed binding records an authorized relationship between accounts, assets or external identifiers. Wallets and Agents can identify which account declared that relationship.
+
+`bind(subject, relationType, target, expectedGeneration)`.
 
 ## Purpose
 

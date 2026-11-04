@@ -2,10 +2,9 @@
 
 **Stage: Proposed. No opcode, wire bytes or activation height assigned.**
 
-- **What it implements:** Allocate several AIBRC assets in one instruction with one all-or-nothing result.
-- **What it enables:** Express bundles, composite payments and selected exchanges without separate protocol transfers.
-- **In plain words:** Check all assets together; if any required leg fails, none moves.
-- **Technical line:** `validate(all asset groups) → apply(all deltas)`.
+A multi-asset transfer groups allocations of several AIBRC assets into one all-or-nothing operation. Bundles and composite payments apply every required asset leg together.
+
+`validate(all asset groups) → apply(all deltas)`.
 
 ## Purpose
 

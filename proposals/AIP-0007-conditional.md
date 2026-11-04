@@ -2,10 +2,9 @@
 
 **Stage: Proposed. No opcode, wire bytes or activation height assigned.**
 
-- **What it implements:** Make an asset movement depend on explicit, deterministic transaction conditions.
-- **What it enables:** Explore rules for single-transaction settlement, task payments and bounded pre-signed orders.
-- **In plain words:** Transfer only when the declared conditions hold, rather than treat a promise as delivery.
-- **Technical line:** `verifyAuthorization && verifyConditions && verifyBalance → apply`.
+Conditional transfers apply an asset movement when defined transaction conditions hold. They provide a design path for exact exchanges, task payments and bounded offers.
+
+`verifyAuthorization && verifyConditions && verifyBalance → apply`.
 
 ## Purpose
 

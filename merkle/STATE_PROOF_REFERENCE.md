@@ -1,16 +1,13 @@
 # Merkle State Proof Reference
 
 **Stage: Proposed. Candidate reference format, not an activated AIBRC rule.**
-This document makes one complete set of interoperability choices so builders
-can review the design. The choices are not Owner-frozen parameters. There is no
-Merkle implementation, executable Merkle vector suite or production proof service
-in this package. The current State Hash remains SHA256 of canonical JSON, as
-specified in [Wire §6.1–§6.2](../spec/AIBRC_PROTOCOL_V0.25.md#61-canonical-zero-balance-state).
+The SDK currently exposes canonical-state hashing; this proof format is a proposed
+extension. The current State Hash remains SHA256 of canonical JSON, as specified in
+[Wire §6.1–§6.2](../spec/AIBRC_PROTOCOL_V0.25.md#61-canonical-zero-balance-state).
 
-- **What it implements:** Provide membership and non-membership proofs for canonical state at an identified block.
-- **What it enables:** Let a wallet check whether a stated balance belongs to an identified state commitment.
-- **In plain words:** Check which ledger a number belongs to without downloading the whole ledger.
-- **Technical line:** `SparseMerkle256(namespace || logicalKey, value, context)`.
+Canonical-state proofs let a client check a record’s membership or absence against a state root bound to a block. Accepting that root requires a separate chain and rule-context check.
+
+`SparseMerkle256(namespace || logicalKey, value, context)`.
 
 ## 1. What a proof establishes
 
