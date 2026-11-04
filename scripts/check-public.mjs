@@ -69,13 +69,6 @@ const aip = names.filter(name => /^proposals\/AIP-\d{4}-.*\.md$/.test(name));
 const apps = names.filter(name => /^docs\/applications\/.*\.md$/.test(name));
 assert.equal(aip.length, 7);
 assert.equal(apps.length, 14);
-for (const file of apps) {
-  const text = read(file);
-  assert.equal((text.match(/^## /gm) ?? []).length, 6, file + ' section count');
-  for (const field of ['What it implements', 'What it enables', 'In plain words', 'Technical line']) {
-    assert.equal((text.match(new RegExp('^(?:\\*\\*)?' + field + ':', 'gm')) ?? []).length, 1, file + ' field ' + field);
-  }
-}
 const release = JSON.parse(read('config/release.json'));
 assert.deepEqual(Object.keys(release).sort(), ['protocolVersion', 'bitcoinNetwork', 'genesisHeight', 'namePolicyVersion', 'inputAuthorizationRuleId'].sort(), 'Unexpected release fields');
 assert.equal(release.protocolVersion, '0.25', 'Unexpected protocol release version');

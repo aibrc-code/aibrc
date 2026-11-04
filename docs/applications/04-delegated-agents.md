@@ -47,10 +47,7 @@ The proposal requires specification, activation, all state consumers, snapshot a
 
 An Agent that may “sell only, with proceeds returning to the owner” needs a settlement rule beyond an outgoing transfer allowance. A later incoming balance can also be spent by a still-valid remaining grant; users must understand that scope rather than assume the grant refers only to today's holdings.
 
-**What it implements:** **Proposed.** An Agent could transfer a specified asset within an owner's remaining total allowance and block-height limits.\
-**What it enables:** Useful automation without granting complete control of the owner's wallet.\
-**In plain words:** Give an assistant a limited mandate, not the key to the safe.\
-**Technical line:** `grantId + ownerPermitNonce + remaining allowance + height bounds`.
+`grantId + ownerPermitNonce + remaining allowance + height bounds`.
 
 ## Where it can lead
 

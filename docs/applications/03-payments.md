@@ -51,10 +51,7 @@ A stable asset requires substantially more than transfer support: an issuer or e
 
 For both uses, recipient outputs and Bitcoin transaction bytes have costs. The maximum allocation count is not a promise that every 25-recipient transaction fits every relay policy.
 
-**What it implements:** **Live — single-asset allocation; Proposed — multi-asset transfer; Research — stable-value financial products.**\
-**What it enables:** Communities can distribute assets clearly, while builders can distinguish a payment instrument from the financial arrangements that support its value.\
-**In plain words:** Sending a token is one problem; making it reliably worth a dollar is another.\
-**Technical line:** `asset + allocations[]`; stable value additionally needs `issuer + reserves or collateral + redemption + risk controls`.
+`asset + allocations[]`; stable value additionally needs `issuer + reserves or collateral + redemption + risk controls`.
 
 ## Where it can lead
 

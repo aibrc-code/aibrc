@@ -22,9 +22,8 @@ Bitcoin L1 · transactions and canonical history
 Independent indexers derive the asset result
 ```
 
-Current core rules, application examples, AIPs and research are identified in the
-[capability map](../README.md#current-core-and-protocol-evolution). Each section below explains the value and
-its path forward; exact validity and trust conditions live in the linked technical chapters.
+Current core rules, application examples, AIPs and research are listed in the
+[capability map](../README.md#current-core-and-protocol-evolution).
 
 ## Ecosystems: many protocols, one interaction language
 
@@ -208,5 +207,5 @@ calculation, rather than the model's confidence, supplies the verification.
 | **Bitcoin–Agent double helix** | Connects open money and verifiable history with useful services and sustainable operating demand |
 
 Continue with the [background](01-introduction.md), [account model](02-protocol-model.md),
-[Smart Covenant](04-smart-covenant.md) and [protocol statement](99-closing.md). The
-[glossary](glossary.md) keeps the terminology consistent across the whitepaper and website.
+[Smart Covenant](04-smart-covenant.md), [protocol statement](99-closing.md) or
+[glossary](glossary.md).

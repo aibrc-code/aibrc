@@ -1,11 +1,6 @@
 # Glossary
 
-A common language makes the ecosystem easier to build on. These terms connect the whitepaper's ideas with
-precise protocol meanings. **Proposed** and **Research** identify the evolution path. Exact rule definitions
-live in the [specification](../spec/AIBRC_PROTOCOL_V0.25.md); verification assumptions are collected in the
-[trust model](../TRUST_MODEL.md).
-
-| Term | Meaning in this repository |
+| Term | Meaning |
 | --- | --- |
 | **Covenant Inscription** | AIBRC's name for its native assets and declarative on-chain representation. Their ownership is recorded as balances on script-derived accounts. AIBRC is the protocol; Covenant Inscription names the native asset expression. |
 | **Shared-root issuance** | Parallel issuance paths under different asset standards, rooted in a common Bitcoin transaction. It gives the resulting artifacts a verifiable shared origin; each path retains its own validity and confirmation conditions. Also described as shared-origin issuance. |

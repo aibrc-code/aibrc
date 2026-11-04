@@ -127,7 +127,5 @@ State changes must carry through encoding, validation, hashing, rollback, snapsh
 The existing name-policy schedule is one defined activation rule; generic extension activation needs its own
 complete design. `activatedVersions` supplies classification context, not network coordination.
 
-Use [CONTRIBUTING](../CONTRIBUTING.md) to propose an AIP, build another implementation or contribute test
-vectors. GitHub holds the shared source for this whitepaper, its rules and reference code. Code is
-[MIT](../LICENSE-CODE); documentation is [CC0-1.0](../LICENSE-DOCS). The next chapter belongs to the people and
-Agents who turn these building blocks into something useful.
+Contribute an [AIP](../CONTRIBUTING.md), an independent implementation, test vectors or an application.
+Code is [MIT](../LICENSE-CODE); documentation is [CC0-1.0](../LICENSE-DOCS).

@@ -47,14 +47,11 @@ Ownership, use, operation and spending authority need separate meanings. A norma
 
 ## Building the first version
 
-The first prototype should deliver one paid service with a bounded budget. It needs explicit memory versions, content backups, authority rotation and a tested handover procedure. A third party should actually be able to resume it before the project claims operational continuity.
+The first prototype should deliver one paid service with a bounded budget. It needs explicit memory versions, content backups, authority rotation and a tested handover procedure. Operational continuity means an authorized replacement can resume the service from that package.
 
 A hash identifies content but does not store it. A chain record does not make an Agent immortal, and a model's natural-language decision is not deterministic proof. Budget exhaustion, supplier failure and service termination require visible outcomes. Any treasury or delegation extension must keep the same canonical-chain and confirmed-revocation boundaries as its underlying proposal.
 
-**What it implements:** **Research.** Give an Agent a continuous identity, a treasury, bounded operating authority and commitments to its evolving memory.\
-**What it enables:** A useful service could survive a change of operator while its income and operating costs remain explainable.\
-**In plain words:** The model does not run inside a Bitcoin block; its identity, authority and economic history can be anchored to Bitcoin.\
-**Technical line:** `identity + treasury + bounded authority + memory commitments + service receipts`.
+`identity + treasury + bounded authority + memory commitments + service receipts`.
 
 ## Where it can lead
 

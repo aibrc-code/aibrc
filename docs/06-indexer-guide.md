@@ -6,7 +6,7 @@ and applications choose a data provider without giving that provider the power t
 
 **Don't trust, verify.** An independent indexer turns that conviction into a repeatable calculation.
 
-This chapter describes how to connect an independent implementation. The public package supplies protocol rules and decoding, not an application's production storage, query projections, service orchestration or database configuration.
+An independent indexer combines the public protocol rules and decoder with its own recoverable storage, queries and chain connection.
 
 ## 1. Establish the verification context
 
@@ -42,7 +42,7 @@ A server seeing a transaction first cannot move it ahead of an earlier transacti
 
 See [§§2 and 7](../spec/AIBRC_PROTOCOL_V0.25.md). Do not renumber transactions after filtering for AIBRC: deployment locators retain their original Bitcoin transaction positions.
 
-A suggested integration flow is shown below. Bracketed storage and coordination steps belong to the integrator; they are not a complete node included in the public package.
+The integrator supplies the bracketed chain-access, storage and coordination steps:
 
 ```text
 [Obtain canonical block and parent identity]
@@ -60,7 +60,7 @@ Call public validate/apply functions
 [Atomically persist state, outcomes and verified tip]
 ```
 
-The package exposes `extractAibrcPayloadsFromOutputs`, `classifyExtractedAibrcTransaction`, `applyDeploy` and `applyTransfer`. Do not write a second approximate balance updater and use the vectors only to test encoding.
+The package exposes `extractAibrcPayloadsFromOutputs`, `classifyExtractedAibrcTransaction`, `applyDeploy` and `applyTransfer` for instruction recognition and the specified state transitions.
 
 ## 3. Separate invalid operations from conditions that require stopping
 
@@ -142,8 +142,6 @@ A production storage file is not automatically an interoperable standard. Canoni
 ### Recognizable upgrade boundaries · Live / Proposed
 
 The current classifier distinguishes unknown-version NO_OP from an activated-but-unimplemented NEEDS_UPGRADE; future extensions also require a complete height-based activation design. An implementation that does not understand new rules can stop explicitly instead of silently publishing another current balance.
-
-Say when you cannot verify the next rule rather than pretend the calculation is complete.
 
 `network → version classification → height-selected rule context`.
 

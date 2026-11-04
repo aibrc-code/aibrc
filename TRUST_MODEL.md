@@ -1,8 +1,7 @@
 # Trust model
 
-Open verification starts with a clear chain of evidence. This reference explains what Bitcoin validates,
-what AIBRC interprets and what an application must establish about its own service. These responsibilities
-let independent builders reproduce results and make informed choices about the systems they use.
+Bitcoin validates the chain. AIBRC derives asset state. Applications provide evidence for their own
+services. Independent implementations can check each layer against its source data and rules.
 
 ## The verification chain
 

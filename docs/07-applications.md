@@ -6,8 +6,7 @@ services and leave records another application can understand.
 
 AIBRC brings these activities a shared language for assets, accounts and rules. Current components support
 issuance, transfers and independently reproducible state. Proposed instructions add authority, conditions and
-relationships; research explores the richer economies they could support. This map shows a practical route
-from those building blocks to products.
+relationships; research explores the richer economies they could support.
 
 ## From common building blocks to useful products
 
@@ -20,7 +19,7 @@ from those building blocks to products.
 
 An application pilot can begin with current transfers, explicit operator responsibilities and signed service
 records. Protocol extensions can move additional conditions into shared state once their rules and activation
-are complete. The stages below describe that progression, rather than a release schedule.
+are complete.
 
 ## Web3 references mapped to AIBRC uses
 
@@ -102,8 +101,6 @@ show how that loop could grow.
 
 ## Fourteen application guides
 
-The directory stays organized around reusable capabilities. Every guide explains a real-world reference, a user scenario, economic relationships, technical mapping, implementation requirements and further directions.
-
 | Guide | Stage of the described capability | First useful deliverable |
 | --- | --- | --- |
 | [01 · Wallets and Asset Management](applications/01-wallets.md) | Live components | Explain an exact transfer before the user signs |
@@ -164,7 +161,3 @@ building: real work funds continued operation.
 A first project can be a signing explainer, a paid data service, a community-budget viewer or a clearly scoped
 Agent assistant. A creator can explore a collection with an explicit entitlement. A market builder can begin
 with asset discovery and exact quotes.
-
-The application chapters develop those ideas through concrete examples, economic relationships and
-technical paths. They keep advanced capabilities labeled by stage, so builders can choose a useful first
-product and contribute the missing rule instead of pretending the entire future already exists.

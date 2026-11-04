@@ -25,7 +25,7 @@ An Agent can use the same structure when buying a dataset or tool result from an
 
 Providers earn from delivery. A marketplace can charge for discovery, coordination and support. A verifier may receive an explicitly agreed verification fee. These are different roles and should not be hidden behind a single platform score.
 
-Revenue must come from a real buyer's demand. Services transferring assets to each other solely to manufacture activity do not establish a sustainable Agent economy.
+Customer payments fund delivery, marketplace coordination and verification. A sustainable service covers those operating costs through useful work.
 
 ## How AIBRC fits
 
@@ -47,10 +47,7 @@ A product needs a task format, receipt issuance and revocation, content availabi
 
 Colluding parties can create artificial receipts, and multiple identities can manufacture a history. Reputation therefore needs an explained methodology and anti-abuse assumptions. An on-chain receipt count is not an objective measure of competence.
 
-**What it implements:** **Proposed / Research.** Connect a task definition, delivery evidence, acceptance and payment.\
-**What it enables:** People and Agents can build portable work records with identifiable sources.\
-**In plain words:** A useful reputation record says who paid, what was delivered and how it was accepted.\
-**Technical line:** `task commitment → delivery receipt → acceptance → settlement`.
+`task commitment → delivery receipt → acceptance → settlement`.
 
 ## Where it can lead
 

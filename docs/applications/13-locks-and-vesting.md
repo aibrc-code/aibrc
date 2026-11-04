@@ -47,10 +47,7 @@ A usable extension needs specification, positive and negative vectors, state rep
 
 Block height is not exact calendar time. Reorganization across a release point, partial-release rounding, restart recovery and delegated spending all need explicit outcomes. AIBRC asset locks cannot directly restrict BTC outputs controlled by unrelated Bitcoin scripts.
 
-**What it implements:** **Proposed.** Restrict asset availability using explicit block-height conditions.\
-**What it enables:** Teams and applications can describe vesting, reserved budgets and staged payments consistently.\
-**In plain words:** When an amount becomes usable should follow a rule, not an administrator's memory.\
-**Technical line:** `locked amount + release conditions → available balance at height H`.
+`locked amount + release conditions → available balance at height H`.
 
 ## Where it can lead
 

@@ -47,10 +47,7 @@ A minimal experiment should identify one work, one attributable source and one e
 
 Availability, infringement, duplicate issuance and misleading rights descriptions need clear handling. A token transfer cannot silently transfer credentials to an external content system.
 
-**What it implements:** **Proposed / Research.** Associate an asset identity with content, collection relationships and explicitly defined rights.\
-**What it enables:** A collection can offer more than a ticker: identifiable works, sources and meaningful use conditions.\
-**In plain words:** Which work you own and which rights you receive are separate questions.\
-**Technical line:** `asset identity + content commitment + collection relation + explicit rights`.
+`asset identity + content commitment + collection relation + explicit rights`.
 
 ## Where it can lead
 

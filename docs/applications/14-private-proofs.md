@@ -47,10 +47,7 @@ First establish the basic proof format and root acceptance model. Then evaluate 
 
 One-time receiving scripts may reduce certain direct links, but common inputs or other behavior may restore them. Encrypting off-chain content does not hide public transfers. Confidential amounts and shielded state would change supply checks, balance validation and recovery, so they remain separate research directions.
 
-**What it implements:** **Research.** Prove a necessary property against an accepted state commitment while reducing unrelated disclosure.\
-**What it enables:** Wallets and services can request less information without abandoning verification.\
-**In plain words:** Proving eligibility need not mean revealing every wallet activity.\
-**Technical line:** `justified state commitment + minimal property proof + freshness and revocation checks`.
+`justified state commitment + minimal property proof + freshness and revocation checks`.
 
 ## Where it can lead
 
