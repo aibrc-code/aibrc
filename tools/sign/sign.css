@@ -5,7 +5,7 @@
 .aibrc-sign-tool input, .aibrc-sign-tool select, .aibrc-sign-tool button { font: inherit; border: 1px solid #4b4e57; border-radius: 5px; }
 .aibrc-sign-tool input:not([type=checkbox]), .aibrc-sign-tool select { background: #1c1e23; color: #f0f0f2; padding: .6rem; width: 100%; min-width: 0; }
 .aibrc-sign-tool input[type=checkbox] { width: 18px; height: 18px; margin: 0; flex: 0 0 auto; }
-.aibrc-sign-tool .inline { display: flex; gap: 9px; align-items: center; font-size: .75rem; margin-top: .6rem; }
+.aibrc-sign-tool .sign-inline { display: flex; gap: 9px; align-items: center; font-size: .75rem; margin-top: .6rem; }
 .aibrc-sign-tool button { cursor: pointer; padding: .55rem .8rem; background: #e0e2e8; color: #111214; margin-top: .7rem; }
 .aibrc-sign-tool button:disabled { opacity: .4; cursor: default; }
 .aibrc-sign-tool :focus-visible { outline: 2px solid #fff; outline-offset: 3px; }

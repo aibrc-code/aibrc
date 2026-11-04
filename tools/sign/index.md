@@ -11,7 +11,7 @@ Your wallet keeps your keys and handles coin selection, the network fee, signing
   <label for="sign-wallet">Wallet</label><select id="sign-wallet" aria-describedby="sign-connected"></select>
   <button id="sign-connect" type="button">Connect wallet</button><p id="sign-connected" class="mono"></p>
   <label for="sign-asset">Deploy transaction ID</label><input id="sign-asset" type="text" spellcheck="false" autocomplete="off" maxlength="80">
-  <label class="inline"><input id="sign-manual" type="checkbox"> Advanced: use height:txIndex instead</label>
+  <label class="sign-inline"><input id="sign-manual" type="checkbox"> Advanced: use height:txIndex instead</label>
   <label for="sign-amount">Amount (tokens)</label><input id="sign-amount" type="text" inputmode="decimal" autocomplete="off" maxlength="48" placeholder="1000">
   <small>Up to 8 decimal places. The review shows the exact base-unit amount.</small>
   <label for="sign-recipient">Recipient address</label><input id="sign-recipient" type="text" spellcheck="false" autocomplete="off" maxlength="90" placeholder="bc1q… or bc1p…">
