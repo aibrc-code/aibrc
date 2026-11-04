@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>AIBRC Transfer</title>
+  <link rel="stylesheet" href="./sign.css">
+  <script type="module" src="./sign.js"></script>
+</head>
+<body>
+  <main>
+    <header><a href="../">AIBRC</a><span>Protocol 0.25.0 · Sign v1</span></header>
+    <h1>Send an AIBRC asset</h1>
+    <p>Your wallet builds, signs and broadcasts a Bitcoin transaction. This page encodes the AIBRC instruction.</p>
+    <aside>Reference tool · Test mode. UniSat output order and memo encoding, and OKX in-app support, require a small live wallet test.</aside>
+    <label for="wallet">Wallet</label><select id="wallet" aria-describedby="connected"></select>
+    <button id="connect" type="button">Connect wallet</button><p id="connected" class="mono"></p>
+    <label for="asset">Deploy transaction ID</label><input id="asset" type="text" spellcheck="false" autocomplete="off" maxlength="80">
+    <label class="inline"><input id="manual" type="checkbox"> Advanced: use height:txIndex instead</label>
+    <label for="amount">Amount (tokens)</label><input id="amount" type="text" inputmode="decimal" autocomplete="off" maxlength="48" placeholder="1000">
+    <small>Up to 8 decimal places. The review shows the exact base-unit amount.</small>
+    <label for="recipient">Recipient address</label><input id="recipient" type="text" spellcheck="false" autocomplete="off" maxlength="90" placeholder="bc1q… or bc1p…">
+    <button id="review" type="button">Review transfer</button>
+    <section id="confirmation" hidden><h2>Confirm the instruction</h2><pre id="summary"></pre><button id="send" type="button">Send with wallet</button></section>
+    <section class="result"><p id="status" role="status" aria-live="polite">Choose a wallet and connect when ready.</p><p id="transaction" class="mono"></p><a id="explorer" target="_blank" rel="noopener noreferrer" hidden>View the original Bitcoin transaction</a></section>
+    <div class="actions"><button id="retry" type="button" hidden>Retry verification only</button><button id="reset" type="button">New draft</button></div>
+    <footer>No account, backend, balance check or platform indexer. Your wallet sets the network fee. Bitcoin confirmation alone does not prove the AIBRC transfer applied.</footer>
+  </main>
+</body>
+</html>
