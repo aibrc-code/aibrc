@@ -1,6 +1,7 @@
 """Render the repository sources in memory; never create a second content copy."""
 from pathlib import Path
 import json
+import subprocess
 from mkdocs.structure.files import File, Files
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -58,6 +59,13 @@ def on_page_markdown(markdown, page, config, files):
     return markdown.replace(marker, table)
 
 
+def on_pre_build(config):
+    # Also covers the existing Cloudflare command that invokes MkDocs directly.
+    # Install only pinned protocol dependencies; no npm lifecycle install scripts.
+    subprocess.run(["npm", "ci", "--ignore-scripts", "--no-audit", "--no-fund"], cwd=ROOT, check=True)
+    subprocess.run(["npm", "run", "build"], cwd=ROOT, check=True)
+
+
 def on_files(files, config):
     # src_uri mirrors GitHub paths, so relative links stay identical in both views.
     paths = [ROOT / name for name in ROOT_PAGES + SDK_FILES + SITE_FILES]
@@ -75,4 +83,11 @@ def on_files(files, config):
         name = path.relative_to(ROOT).as_posix()
         uri = name
         rendered.append(File.generated(config, uri, abs_src_path=str(path)))
+        
+    for name in ("index.html", "sign.js", "sign.css", "aibrc-protocol.browser.js"):
+        path = ROOT / "tools/sign" / name
+        if not path.is_file() or path.is_symlink():
+            raise ValueError(f"Static sign asset missing: {name}; run npm run build first")
+        rendered.append(File.generated(config, f"sign/{name}", abs_src_path=str(path)))
+    rendered.append(File.generated(config, "_headers", abs_src_path=str(ROOT / "site/static/_headers")))
     return rendered

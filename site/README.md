@@ -6,7 +6,7 @@ site, hosted on Cloudflare Pages.
 
 ## Build locally
 
-Use Python 3.11 or newer. From the repository root:
+Use Python 3.11 or newer and Node.js 20.19 or newer (with npm). From the repository root:
 
 ```sh
 python3 -m venv .docs-venv
@@ -16,6 +16,11 @@ python3 -m venv .docs-venv
 
 The generated output is `site-build/`. A local build writes static files; publishing is a separate action.
 Follow [the Cloudflare setup](CLOUDFLARE_PAGES.md) to connect the public-source repository and protocol domain.
+
+The MkDocs pre-build hook runs `npm ci --ignore-scripts` and `npm run build` first.
+It copies the current protocol browser module into `/sign/` before rendering the
+documentation, so the existing Cloudflare build command also refreshes that module.
+Run `npm run test:sign` to check the static transfer page without using a real wallet.
 
 ## One source, two ways to read it
 

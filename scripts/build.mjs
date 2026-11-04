@@ -1,6 +1,6 @@
 import { build } from 'esbuild';
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, rmSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, rmSync, readFileSync, writeFileSync, copyFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 const packageDir = fileURLToPath(new URL('../packages/protocol/', import.meta.url));
 rmSync(new URL('../packages/protocol/dist/', import.meta.url), { recursive: true, force: true });
@@ -17,3 +17,10 @@ const notices = ['@noble/hashes', 'buffer', 'base64-js', 'ieee754'].map((name) =
   return `${name}@${metadata.version}\n${readFileSync(new URL('LICENSE', root), 'utf8')}`;
 }).join('\n\n');
 writeFileSync(new URL('../packages/protocol/dist/THIRD_PARTY_LICENSES.txt', import.meta.url), notices + '\n');
+
+// Refresh the static tool from this repository's current SDK on every build.
+copyFileSync(new URL('../packages/protocol/dist/browser.js', import.meta.url), new URL('../tools/sign/aibrc-protocol.browser.js', import.meta.url));
+const packageVersion = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version;
+if (!readFileSync(new URL('../tools/sign/index.html', import.meta.url), 'utf8').includes(`Protocol ${packageVersion} ·`)) {
+  throw new Error('SIGN_PAGE_PROTOCOL_VERSION_MISMATCH');
+}
