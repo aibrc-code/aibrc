@@ -2,10 +2,9 @@
 
 **Stage: Proposed. No opcode, wire bytes or activation height assigned.**
 
-- **What it implements:** Let an account commit to receipts, credentials or memory content.
-- **What it enables:** Give Agents portable public records that independent applications can interpret.
-- **In plain words:** Show who stated what and when; attribution alone does not make the statement true.
-- **Technical line:** `attest(issuer, type, subject, contentHash, revision)`.
+An attestation commits an account to a receipt, credential or memory record. Its issuer and chain context make the statement attributable; applications evaluate the underlying claim.
+
+`attest(issuer, type, subject, contentHash, revision)`.
 
 ## Purpose
 

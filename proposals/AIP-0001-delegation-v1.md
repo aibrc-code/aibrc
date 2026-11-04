@@ -2,10 +2,9 @@
 
 **Stage: Proposed. No opcode, wire bytes or activation height assigned.**
 
-- **What it implements:** Let an owner authorize another script account to transfer one asset within a total allowance and lifetime.
-- **What it enables:** Let an Agent make bounded asset payments without holding the owner wallet key.
-- **In plain words:** Grant limited authority rather than hand over the owner key.
-- **Technical line:** `delegate → grantId; transfer_for(grantId); confirmed revoke`.
+Agent Key would let an owner authorize another script account to transfer one asset within a total allowance and a height interval. The Agent uses its own key while the owner retains the owner key.
+
+`delegate → grantId; transfer_for(grantId); confirmed revoke`.
 
 ## Purpose
 

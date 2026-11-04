@@ -2,10 +2,9 @@
 
 **Stage: Proposed. No opcode, wire bytes or activation height assigned.**
 
-- **What it implements:** Publish comparable state commitments bound to a block and rule identity.
-- **What it enables:** Help independent indexers find disagreements and wallets identify a proof's state context.
-- **In plain words:** State publicly which result was computed for a block under a given rule set.
-- **Technical line:** `checkpoint(network, manifest, block, stateHash, optionalRoot)`.
+A state checkpoint identifies a block, a rule set and the computed state commitment. Independent indexers can compare results, while wallets retain the context needed to interpret a proof.
+
+`checkpoint(network, manifest, block, stateHash, optionalRoot)`.
 
 ## Purpose
 
