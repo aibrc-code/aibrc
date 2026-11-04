@@ -21,6 +21,6 @@ writeFileSync(new URL('../packages/protocol/dist/THIRD_PARTY_LICENSES.txt', impo
 // Refresh the static tool from this repository's current SDK on every build.
 copyFileSync(new URL('../packages/protocol/dist/browser.js', import.meta.url), new URL('../tools/sign/aibrc-protocol.browser.js', import.meta.url));
 const packageVersion = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version;
-if (!readFileSync(new URL('../tools/sign/index.html', import.meta.url), 'utf8').includes(`Protocol ${packageVersion} ·`)) {
+if (!readFileSync(new URL('../tools/sign/index.md', import.meta.url), 'utf8').includes(`Protocol ${packageVersion} ·`)) {
   throw new Error('SIGN_PAGE_PROTOCOL_VERSION_MISMATCH');
 }

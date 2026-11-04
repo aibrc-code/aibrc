@@ -79,8 +79,8 @@ test('link is data only, v1 and no duplicate or unknown parameters',()=>{
   assert.deepEqual(parsePrefill(''),{});
   for(const v of ['?v=2','?v=1&amount=1&amount=2','?v=1&script=https://example.com/a.js'])assert.throws(()=>parsePrefill(v));
 });
-test('static page version matches package and has no external runtime script/link',()=>{
-  const html=readFileSync(new URL('index.html',import.meta.url),'utf8');
+test('documentation tool version matches package and has no external runtime script/link',()=>{
+  const html=readFileSync(new URL('index.md',import.meta.url),'utf8');
   const pkg=JSON.parse(readFileSync(new URL('../../package.json',import.meta.url),'utf8'));
   assert(html.includes(`Protocol ${pkg.version} ·`));assert(!/<(?:script|link)\b[^>]*(?:src|href)=["']https?:/i.test(html));
   assert(!readFileSync(new URL('sign.js',import.meta.url),'utf8').includes('innerHTML'));

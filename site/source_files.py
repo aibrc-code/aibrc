@@ -1,5 +1,8 @@
 """Render the repository sources in memory; never create a second content copy."""
 from pathlib import Path
+from html.parser import HTMLParser
+import base64
+import hashlib
 import json
 import subprocess
 from mkdocs.structure.files import File, Files
@@ -84,10 +87,53 @@ def on_files(files, config):
         uri = name
         rendered.append(File.generated(config, uri, abs_src_path=str(path)))
         
-    for name in ("index.html", "sign.js", "sign.css", "aibrc-protocol.browser.js"):
+    rendered.append(File.generated(config, "sign/index.md", abs_src_path=str(ROOT / "tools/sign/index.md")))
+    for name in ("sign.js", "sign.css", "aibrc-protocol.browser.js"):
         path = ROOT / "tools/sign" / name
         if not path.is_file() or path.is_symlink():
             raise ValueError(f"Static sign asset missing: {name}; run npm run build first")
         rendered.append(File.generated(config, f"sign/{name}", abs_src_path=str(path)))
     rendered.append(File.generated(config, "_headers", abs_src_path=str(ROOT / "site/static/_headers")))
     return rendered
+
+
+class _InlineScripts(HTMLParser):
+    """Collect executable theme bootstrap scripts without allowing all inline JS."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=False)
+        self.active = False
+        self.parts = []
+        self.hashes = set()
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "script":
+            attrs = dict(attrs)
+            self.active = "src" not in attrs and attrs.get("type", "").lower() in (
+                "", "module", "text/javascript", "application/javascript",
+            )
+            self.parts = []
+
+    def handle_data(self, data):
+        if self.active:
+            self.parts.append(data)
+
+    def handle_endtag(self, tag):
+        if tag == "script" and self.active:
+            digest = hashlib.sha256("".join(self.parts).encode("utf-8")).digest()
+            self.hashes.add("'sha256-" + base64.b64encode(digest).decode("ascii") + "'")
+            self.active = False
+
+
+def on_post_build(config):
+    # The tool is a normal Material page. Authorize only the exact inline theme
+    # bootstraps present in its final HTML; keep arbitrary inline scripts blocked.
+    output = Path(config.site_dir)
+    scripts = _InlineScripts()
+    scripts.feed((output / "sign/index.html").read_text(encoding="utf-8"))
+    headers = (output / "_headers").read_text(encoding="utf-8")
+    marker = "script-src 'self';"
+    if headers.count(marker) != 1 or not scripts.hashes:
+        raise ValueError("SIGN_PAGE_CSP_BOOTSTRAP_MISMATCH")
+    headers = headers.replace(marker, "script-src 'self' " + " ".join(sorted(scripts.hashes)) + ";")
+    (output / "_headers").write_text(headers, encoding="utf-8")
