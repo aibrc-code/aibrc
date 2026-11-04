@@ -56,7 +56,7 @@ The fields are:
           total supply: 1 base unit
 ```
 
-A readable presentation of the decoded fields is shown below. **This JSON is a decoded view, not the wire payload.**
+**Decoded fields (JSON view, not the wire payload):**
 
 ```json
 {
@@ -119,7 +119,7 @@ A BTC output value is not an AIBRC amount. Satoshis assigned to an output belong
 
 Stable outcomes for malformed data, wrong networks, unknown versions, unsupported authority and invalid balances. Wallets and indexers can distinguish an invalid operation from a rule version they must understand before proceeding.
 
-“it reached a block” is not an adequate explanation of asset delivery.
+Bitcoin confirmation records the transaction; a valid AIBRC instruction determines its asset effects.
 
 `APPLIED / NO_OP / NEEDS_UPGRADE + stable reason code`.
 

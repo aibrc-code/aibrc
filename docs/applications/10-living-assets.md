@@ -43,14 +43,11 @@ The [Resident Agent](06-resident-agent.md) is a related research direction focus
 
 ## Building the first version
 
-A first prototype can have one service and one operator role. It needs versioned content, authority replacement, budget policy and a defined stopping condition. It should demonstrate a real third-party handover before claiming that the service is portable.
+A first prototype can have one service and one operator role. It needs versioned content, authority replacement, budget policy and a defined stopping condition. A handover test lets an authorized third party resume the service under the replacement authority.
 
-A hash does not ensure download availability, and downloadable code does not establish model or data licenses. An old operator may retain copies, while a buyer may not automatically gain control of external accounts. The product must define these limits rather than imply that ownership solves them.
+A hash does not ensure download availability, and downloadable code does not establish model or data licenses. An old operator may retain copies, while a buyer may not automatically gain control of external accounts. The handover terms cover content availability, licenses, retained copies and control of external accounts.
 
-**What it implements:** **Research.** Associate a transferable asset with a versioned digital service, operating responsibilities and a handover process.\
-**What it enables:** Ownership can have an intelligible relationship to continued operation rather than represent only a static symbol.\
-**In plain words:** Transfer a service relationship that somebody else can continue, not just an image.\
-**Technical line:** `asset owner + operator authority + versioned content + operating budget`.
+`asset owner + operator authority + versioned content + operating budget`.
 
 ## Where it can lead
 

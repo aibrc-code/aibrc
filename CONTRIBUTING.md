@@ -22,7 +22,7 @@ Activation notice + pinned release identity
 Verifier releases and agreed-height activation
 ```
 
-This is the contribution process, not an automatic on-chain governance system.
+AIP discussion, review and activation coordination take place off-chain.
 An AIP number assigns neither an opcode nor an activated rule. New state must be
 covered by canonical serialization, state hashes, snapshots, undo, replay,
 queries and historical interpretation. New authority must address old signed
@@ -37,8 +37,8 @@ Deploy/Transfer behavior remains governed by the versioned specification.
   behavior preserved and the behavior changed.
 - Distinguish Live rules, Proposed extensions and Research. Include a
   counterexample that fails on the previous rule when changing correctness.
-- Run build, typecheck, tests and vector checks. Record unknown, skipped and
-  environment-failed checks; do not change expectations to conceal a mismatch.
+- Include reproducible build, typecheck, test and vector-check results, with
+  the commands and environment requirements needed to repeat them.
 - Update examples and documentation with interface changes. Serialize large
   integers as canonical decimal strings rather than floating-point values.
 - Never commit credentials, deployment paths, private-system code or material

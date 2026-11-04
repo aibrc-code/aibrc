@@ -45,10 +45,7 @@ The binding and statement formats, their state transitions and wallet displays n
 
 Multiple identities, name squatting and false issuance remain possible. A transferable qualification may be inappropriate for a credential tied to a specific person. Sensitive information is not made confidential merely by hashing a guessable value; the privacy model must be designed separately.
 
-**What it implements:** **Proposed.** Express identifiable account relationships and typed claims with validity and revocation context.\
-**What it enables:** People and Agents can carry attributable credentials across applications.\
-**In plain words:** Know who issued a claim, whom it concerns and whether it is still valid.\
-**Technical line:** `subject account + issuer + typed claim + validity/revocation context`.
+`subject account + issuer + typed claim + validity/revocation context`.
 
 ## Where it can lead
 

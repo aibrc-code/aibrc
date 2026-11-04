@@ -6,7 +6,7 @@ AIBRC is being built as a common asset, account and Agent-interaction foundation
 
 Shared-root issuance — parallel issuance across asset standards — gives distinct protocol artifacts a verifiable common starting point. The existing AIBRC–BTC block-exchange path also provides a concrete example of coordinating payment and asset delivery in one Bitcoin transaction. These building blocks give applications a path toward connected markets without requiring one mandatory platform gateway.
 
-The broader ambition is a connected liquidity and Agent collaboration network: new protocol innovations should expand what a community can build, while preserving its accumulated relationships and market activity. Cross-protocol conditional settlement is one of the proposed rules for advancing that direction; [AIP-0007](../proposals/AIP-0007-conditional.md) sets out the design questions. The identity, issuance and settlement sections below distinguish the current building blocks from that wider goal.
+The broader ambition is a connected liquidity and Agent collaboration network: new protocol innovations should expand what a community can build, while preserving its accumulated relationships and market activity. Cross-protocol conditional settlement is one of the proposed rules for advancing that direction; [AIP-0007](../proposals/AIP-0007-conditional.md) sets out the design questions.
 
 ## Identify the asset before discussing its price
 

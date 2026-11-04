@@ -50,10 +50,7 @@ Start with a bounded operating budget rather than the entire reserve. A product 
 
 Legal rights and operational control must match the product. A contributor's entitlement, a token holder's vote and a signer's ability to move BTC are not the same permission. Application ledgers and on-chain assets need their own reconciliation. The current delegation proposal does not include periodic allowances or a general rule that payments may go only to approved vendors.
 
-**What it implements:** **Research.** Connect organizational balances, approved budgets, bounded operators and reasons for expenditure.\
-**What it enables:** A community can distinguish capital, committed operating funds and completed payments.\
-**In plain words:** A treasury should explain not only how much it holds, but who may spend it and what the community receives.\
-**Technical line:** `owned balances + bounded operator grants + explicit accounting + receipts`.
+`owned balances + bounded operator grants + explicit accounting + receipts`.
 
 ## Where it can lead
 

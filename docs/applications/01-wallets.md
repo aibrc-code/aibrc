@@ -47,13 +47,10 @@ A complete product still needs a wallet bridge, BTC funding and fee handling, an
 
 An unknown outcome must continue to be investigated by its original transaction identity. A new payment should not be created merely because the first query timed out. The shared boundaries are collected in [the trust model](../../TRUST_MODEL.md).
 
-**What it implements:** **Live — protocol components.** A wallet can use the current issuance, transfer, script-account and decoder rules to explain AIBRC assets.\
-**What it enables:** Users can understand an asset action before signing and check delivery after confirmation.\
-**In plain words:** A wallet should explain what a signature changes, not merely ask for one.\
-**Technical line:** `script account → decoded intent → wallet signature → canonical asset result`.
+`script account → decoded intent → wallet signature → canonical asset result`.
 
 ## Where it can lead
 
 The same wallet can grow with the protocol: explain an Agent Key grant, show a height-based lock or request
-a local state proof as those capabilities become specified and activated. Keep the sequence recognizable:
+a local state proof as those capabilities become specified and activated. Each follows the same sequence:
 understand the intent, preview the transaction, authorize it and inspect the result.

@@ -52,10 +52,7 @@ Checking independent index sources can help detect disagreement. Agreement betwe
 
 An exchange must state which conditions make all legs safe together and what happens if those conditions cannot be established. “No bridge” describes the absence of one mechanism; it does not prove that the exchange is atomic, permissionless or safe for indefinite offline posting. See [the cross-protocol chapter](../05-cross-protocol.md).
 
-**What it implements:** **Proposed / Research.** Coordinate asset-specific validation, exact quotes and controlled execution through a common request-for-quote experience.\
-**What it enables:** Users can compare offers while professional services and Agents manage inventory and execution responsibilities.\
-**In plain words:** One trade screen can simplify the experience, but every asset still has to be delivered under its own rules.\
-**Technical line:** `asset-specific validity + bounded inventory + RFQ + exact transaction + settlement checks`.
+`asset-specific validity + bounded inventory + RFQ + exact transaction + settlement checks`.
 
 ## Where it can lead
 

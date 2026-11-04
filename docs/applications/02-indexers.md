@@ -43,14 +43,11 @@ A locator resolves in the current canonical chain. A query must not quietly pres
 
 ## Building the first version
 
-The public package supplies pure rules and vectors, not the platform's production storage, query projections or replica mechanism. A service must choose its own persistence, bounded queries, retention and reorganization recovery. Conformance comes first; operational capacity requires separate measurements.
+The public package supplies pure rules and vectors, not the platform's production storage, query projections or replica mechanism. A service must choose its own persistence, bounded queries, retention and reorganization recovery.
 
 Full-state serialization, history access and snapshots grow with the data they cover. A failed read must remain unavailable, never become a fabricated zero balance. Multiple services sharing one faulty implementation can agree and still be wrong.
 
-**What it implements:** **Live — protocol components.** Independent services can interpret the open asset rules and expose contextual queries.\
-**What it enables:** Users can compare results rather than depend on a single balance provider.\
-**In plain words:** A number is more useful when you can trace how it was calculated.\
-**Technical line:** `verified blocks → ordered interpretation → canonical state + contextual queries`.
+`verified blocks → ordered interpretation → canonical state + contextual queries`.
 
 ## Where it can lead
 

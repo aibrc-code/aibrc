@@ -47,8 +47,8 @@ Shared origin · clear identities · common interaction
 Connected wallets, services, markets and Agents
 ```
 
-The diagram describes the integration direction. [Shared-root issuance and settlement](05-cross-protocol.md)
-explain which relationships exist today and which need additional rules.
+[Shared-root issuance and settlement](05-cross-protocol.md) connect this common origin to asset-specific
+issuance and exchange conditions.
 
 ## How the layers fit
 

@@ -45,14 +45,11 @@ Publish a recipe and bounded inventory
 
 Before a protocol recipe is activated, demonstrate conservation, bounded reserve release, deterministic rounding and protection against concurrent double claims. Define whether “consume” means a real supply change, an unavailable reserve or another specified operation; sending to an ordinary account must not be described as burning without an applicable rule.
 
-A failed asset instruction may still be carried by a confirmed Bitcoin transaction whose miner fee was paid. Protocol-level rollback of the recipe does not refund that fee. Model simulation and game-server tests are not proof that an on-chain rule is implemented.
+A failed asset instruction may still be carried by a confirmed Bitcoin transaction whose miner fee was paid. Protocol-level rollback of the recipe does not refund that fee. A protocol recipe requires published state-transition rules and an activation context.
 
 An early product can use a conventional game with ordinary asset transfers to test demand. That leaves game outcomes with the game's operator while the asset layer remains independently interpretable.
 
-**What it implements:** **Research.** Explore game assets, temporary use rights and deterministic combinations of material consumption and reserve release.\
-**What it enables:** Players can inspect asset changes while games retain room to build engaging experiences.\
-**In plain words:** A successful recipe should consume the right materials once; a failed recipe should not take them away.\
-**Technical line:** `checked inputs + explicit use rights + bounded reserves → defined game-state outcome`.
+`checked inputs + explicit use rights + bounded reserves → defined game-state outcome`.
 
 ## Where it can lead
 
