@@ -75,4 +75,10 @@ def on_files(files, config):
         name = path.relative_to(ROOT).as_posix()
         uri = name
         rendered.append(File.generated(config, uri, abs_src_path=str(path)))
+        for name in ("index.html", "sign.js", "sign.css", "aibrc-protocol.browser.js"):
+        path = ROOT / "tools/sign" / name
+        if not path.is_file() or path.is_symlink():
+            raise ValueError(f"Static sign asset missing: {name}; run npm run build first")
+        rendered.append(File.generated(config, f"sign/{name}", abs_src_path=str(path)))
+    rendered.append(File.generated(config, "_headers", abs_src_path=str(ROOT / "site/static/_headers")))
     return rendered
