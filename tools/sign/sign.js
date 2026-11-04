@@ -7,7 +7,7 @@ import {
 export const MEMPOOL_API_BASE = 'https://mempool.space/api';
 export const BTC_TO_RECIPIENT_SATS = 546;
 export const OKX_BTC_VALUE = '0.00000546'; // OKX send.value is BTC, not satoshis.
-// Pending a real UniSat wallet test. This is not a verified layout guarantee.
+// Expected receiver position; checked against each returned transaction.
 export const UNISAT_RECEIVER_OUTPUT_INDEX = 0;
 const HEX64 = /^[0-9a-f]{64}$/i;
 const alphabet = 'qpzry9x8gf2tvdw0s3jn54khce6mua7l';
@@ -139,16 +139,20 @@ export function parsePrefill(search) {
 }
 
 export function startPage({ doc = document, browser = window, fetcher = fetch, apiBase = MEMPOOL_API_BASE } = {}) {
-  const $ = id => doc.getElementById(id);
+  const root = doc.querySelector('[data-aibrc-sign-tool]');
+  if (!root) return;
+  const $ = id => root.querySelector(`#sign-${id}`);
   let connected = null, review = null, pending = null, busy = false, attempted = false, revision = 0;
   const providers = () => ({ unisat: browser.unisat, okx: browser.okxwallet?.bitcoin });
   const status = (text, error = false) => { $('status').textContent = text; $('status').dataset.error = String(error); };
   const controls = () => {
-    for (const el of doc.querySelectorAll('input,select')) el.disabled = busy || attempted;
+    for (const el of root.querySelectorAll('input,select')) el.disabled = busy || attempted;
     $('connect').disabled = busy || attempted || !$('wallet').value;
     $('review').disabled = busy || attempted || !connected;
     $('send').disabled = busy || attempted || !review;
-    $('retry').hidden = !pending; $('retry').disabled = busy;
+    $('retry').hidden = !pending || pending.phase === 'confirmed';
+    $('retry').textContent = pending?.phase === 'unconfirmed' ? 'Refresh confirmation' : 'Check transaction';
+    $('retry').disabled = busy;
     $('reset').disabled = busy;
   };
   const invalidate = () => { revision++; review = null; $('confirmation').hidden = true; controls(); };
@@ -201,8 +205,8 @@ export function startPage({ doc = document, browser = window, fetcher = fetch, a
     $('asset').value = values.asset ?? ''; $('amount').value = values.amount ?? ''; $('recipient').value = values.to ?? '';
     $('manual').checked = /^\d+:\d+$/.test($('asset').value);
   } catch (error) { status(error.message, true); }
-  for (const el of doc.querySelectorAll('input,select')) el.addEventListener('input', () => {
-    invalidate(); if (el.id === 'wallet') { connected = null; $('connected').textContent = ''; controls(); }
+  for (const el of root.querySelectorAll('input,select')) el.addEventListener('input', () => {
+    invalidate(); if (el === $('wallet')) { connected = null; $('connected').textContent = ''; controls(); }
   });
   $('connect').addEventListener('click', async () => {
     if (busy || attempted) return; busy = true; controls(); status('Waiting for wallet connection…');
@@ -252,13 +256,27 @@ export function startPage({ doc = document, browser = window, fetcher = fetch, a
   async function inspectPending() {
     if (!pending) return;
     const current = pending;
-    status('Broadcast returned a transaction ID. Reading its structure…');
+    status('Transaction broadcast. Checking the original transaction…');
     try {
-      const result = verifyBroadcast(await read(`/tx/${current.txid}`), current.intent, current.txid);
+      const tx = await read(`/tx/${current.txid}`);
+      const result = verifyBroadcast(tx, current.intent, current.txid);
       if (pending !== current) return;
-      status(result.ok ? 'Broadcast. Structure verified. After 1 confirmation, check the recipient balance on the platform or any AIBRC indexer.'
-        : `${result.errors.join(' ')} The asset result is not verified. Do not send again; inspect the original transaction in your wallet or explorer.`, !result.ok);
-    } catch (error) { if (pending === current) status(`Pending verification. ${error.message}`, true); }
+      if (!result.ok) {
+        current.phase = 'mismatch';
+        status(`${result.errors.join(' ')} The transaction does not match the review. Inspect the original transaction; do not send again.`, true);
+      } else if (tx.status?.confirmed === true) {
+        current.phase = 'confirmed';
+        status('Confirmed on Bitcoin. The transfer instruction matches your review. Check the recipient’s AIBRC balance in a compatible indexer.');
+      } else {
+        current.phase = 'unconfirmed';
+        status('Transaction broadcast. The transfer instruction matches your review. Waiting for Bitcoin confirmation.');
+      }
+    } catch {
+      if (pending === current) {
+        current.phase = 'unavailable';
+        status('Transaction broadcast. Its details are not available from the Bitcoin data service yet. Check the original transaction again or open it in the explorer; do not send again.');
+      }
+    }
   }
   $('send').addEventListener('click', async () => {
     if (busy || attempted || !review) return;
@@ -276,7 +294,7 @@ export function startPage({ doc = document, browser = window, fetcher = fetch, a
         throw new Error('Wallet or form changed. Review again.');
       const request = walletSendRequest(original.intent); attempted = true; controls(); status('Waiting for your wallet. It builds, signs and broadcasts the transaction.');
       const returned = await provider[request.method](...request.args);
-      pending = { txid: walletTxid(wallet, returned), intent: original.intent };
+      pending = { txid: walletTxid(wallet, returned), intent: original.intent, phase: 'broadcast' };
       $('transaction').textContent = pending.txid;
       $('explorer').href = `https://mempool.space/tx/${pending.txid}`; $('explorer').hidden = false;
       await inspectPending();

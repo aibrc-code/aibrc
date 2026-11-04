@@ -1,5 +1,5 @@
 /sign/*
-  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; connect-src https://mempool.space; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self' https://mempool.space; worker-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
   X-Frame-Options: DENY
   Referrer-Policy: no-referrer
   X-Content-Type-Options: nosniff
