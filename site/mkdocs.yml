@@ -38,6 +38,7 @@ nav:
       - Introduction: docs/01-introduction.md
       - Covenant Inscription and accounts: docs/02-protocol-model.md
       - Instructions: docs/03-instructions.md
+      - Code examples: docs/quickstart.md
       - Smart Covenant: docs/04-smart-covenant.md
       - Cross-protocol: docs/05-cross-protocol.md
       - Indexer guide: docs/06-indexer-guide.md

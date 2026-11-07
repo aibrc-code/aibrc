@@ -117,6 +117,7 @@ aibtc.bot is the first application built on AIBRC; it holds no privileged positi
 | How do Covenant Inscriptions and accounts work? | [Assets and account abstraction](docs/02-protocol-model.md) |
 | Which addresses are supported? | [Taproot and Native SegWit](docs/02-protocol-model.md#supported-mainnet-addresses) |
 | How do I send an AIBRC asset from my wallet? | [Transfer](https://aibrc.io/sign/) |
+| How do I encode Deploy, transfer to 1–25 recipients, decode or hash state? | [Runnable code examples](docs/quickstart.md) |
 | What bytes go into a transaction? | [Instructions and examples](docs/03-instructions.md) · [Wire specification](spec/AIBRC_PROTOCOL_V0.25.md) |
 | How do programmable rules and Agent Key fit together? | [Smart Covenant](docs/04-smart-covenant.md) · [Covenant Inscription R1](spec/covenants/R1.md) · [Covenant Inscription X1](spec/covenants/X1.md) |
 | How do different asset standards connect? | [Shared-root issuance and settlement](docs/05-cross-protocol.md) |
@@ -152,34 +153,31 @@ the build only produces this public package.
 ```sh
 npm ci --ignore-scripts
 npm run build
-npm run typecheck
-npm test
-npm run vectors:check
-npm run docs:check
 ```
 
-Decode an existing synthetic Signet vector. The hex is the actual wire payload;
-the following object is not a JSON instruction sent to Bitcoin.
+Run the example you need:
 
 ```sh
-node --input-type=module <<'JS'
-import {
-  Buffer, decodeDeploy,
-  NAME_POLICY_V1_SCHEDULE, namePolicyContextForBlock
-} from '@aibrc/protocol';
-const instruction = decodeDeploy(Buffer.from(
-  '41494252010201001600000001014100000000000000000000000000000001',
-  'hex'
-), namePolicyContextForBlock(NAME_POLICY_V1_SCHEDULE, 0));
-console.log(instruction.kind, instruction.name,
-  instruction.totalSupply.toString());
-// DEPLOY A 1
-JS
+node examples/deploy.mjs
+node examples/transfer-single.mjs
+node examples/transfer-batch.mjs 25
+node examples/decode.mjs
+node examples/state-hash.mjs
+npm run examples:check
 ```
 
-Decoding alone does not establish a valid asset operation. Supply the verified
-Bitcoin context, actual prevouts and witnesses, expected network, name policy
-and pre-state before validating and applying it.
+The batch count can be any integer from **1 through 25**. These offline Signet
+examples print instruction fields, payload hex or a state hash. They make no
+network requests and do not sign or broadcast. Amounts use exact integer base
+units with the protocol's fixed display precision of 8.
+
+[Code and step-by-step explanations](docs/quickstart.md) ·
+[Runnable source files](examples/README.md)
+
+Encoding and decoding prepare or read an instruction. Applying it also needs the
+verified Bitcoin context, actual prevouts and witnesses, expected network, name
+policy and pre-state. Recipient indexes must match actual transaction outputs;
+the complete payload must fit the protocol byte limit and the chosen relay profile.
 
 The package provides Node ESM, standalone browser ESM and type declarations.
 Its byte API intentionally retains an explicitly exported Buffer implementation.

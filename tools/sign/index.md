@@ -44,6 +44,8 @@ Bitcoin confirmation and a matching instruction are distinct from an applied ass
 
 ## A small code example
 
+For complete SDK scripts, see [deployment, single and batch transfers, decoding and state hashing](https://aibrc.io/docs/quickstart/). The wallet form on this page sends to one recipient. The protocol supports 1–25 allocations when the Bitcoin transaction contains the corresponding receiver outputs.
+
 The browser module encodes the instruction; UniSat builds and sends the Bitcoin transaction. This example sends **10 tokens** of an asset at the illustrative locator `961555:3`. Replace the locator and recipient with your own, and check your balance before sending.
 
 ```js

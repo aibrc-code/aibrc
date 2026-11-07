@@ -96,6 +96,8 @@ Compare the ledger fingerprint, then locate the records that differ.
 
 `assets, names, locators, positive balances → sorted canonical bytes → SHA256`.
 
+Run `node examples/state-hash.mjs` after building the repository to reproduce the non-empty state hash from a published chain vector. The [complete state-hash example](quickstart.md#compute-a-canonical-state-hash) shows the JSON-to-map and integer conversions. The [decoder example](quickstart.md#decode-an-instruction) reads instruction fields before any state application.
+
 See [§6.1](../spec/AIBRC_PROTOCOL_V0.25.md). Big integers are decimal strings without leading zeroes; zero balances are omitted; names are ordered by their canonical bytes.
 
 **Current canonical serialization traverses the complete state, with additional sorting work.** It is not a constant-time growth solution. Returning one hash does not mean only one small lookup occurred. An application can reuse materialization within an unchanged state generation, but must measure state size, memory and persistence costs. A cache cannot remain valid across a state change merely because a request uses the same URL.

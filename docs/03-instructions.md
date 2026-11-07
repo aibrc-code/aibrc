@@ -72,6 +72,8 @@ The fields are:
 
 Decoding these bytes does not establish a valid deployment. Execution also needs the actual authorizing input and owner output, the applicable name policy, supported scripts and sighash, a valid supply, and a name not already claimed by an earlier valid Deploy. Only then does the operation create the asset and credit its owner.
 
+To generate an instruction with the SDK, run `node examples/deploy.mjs` after building the repository. The [runnable deployment example](quickstart.md#deploy-a-fixed-supply-asset) shows the complete call to `encodeDeploy`, including its name-policy context.
+
 ```text
 Raw payload
   ↓ decode
@@ -100,6 +102,10 @@ The same [vector file](../vectors/operation-vectors.json) includes `sixRecipient
 ```
 
 It specifies Signet, Transfer, authorization input 0 and the asset deployed at height 840000, original transaction index 7. Outputs 1–6 receive `10 / 20 / 30 / 40 / 50 / 60` base units. The checked total is 210, which the sender must hold before execution. See [§§5 and 7](../spec/AIBRC_PROTOCOL_V0.25.md).
+
+Run `node examples/transfer-single.mjs` for one recipient, or `node examples/transfer-batch.mjs 25` for 25. The [batch-transfer example](quickstart.md#batch-transfer-125-recipients) accepts every count from 1 through 25 and shows how each amount binds to an actual output index. These files generate payloads; the Bitcoin transaction also needs the corresponding receiver outputs.
+
+To read an instruction back, use the [decoder example](quickstart.md#decode-an-instruction): `node examples/decode.mjs <payload-hex>`.
 
 ```text
 Declared authorization input

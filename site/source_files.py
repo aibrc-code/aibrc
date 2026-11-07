@@ -15,6 +15,10 @@ ROOT_PAGES = (
 SOURCE_DIRS = ("docs", "spec", "proposals", "merkle", "vectors", "config")
 SDK_FILES = ("packages/protocol/README.md", "packages/protocol/package.json")
 SITE_ASSETS = ("site/assets/stylesheets/aibrc-dark.css",)
+EXAMPLE_FILES = tuple("examples/" + name for name in (
+    "README.md", "deploy.mjs", "transfer-single.mjs", "transfer-batch.mjs",
+    "decode.mjs", "state-hash.mjs",
+))
 
 
 def on_config(config):
@@ -71,7 +75,7 @@ def on_pre_build(config):
 
 def on_files(files, config):
     # src_uri mirrors GitHub paths, so relative links stay identical in both views.
-    paths = [ROOT / name for name in ROOT_PAGES + SDK_FILES + SITE_ASSETS]
+    paths = [ROOT / name for name in ROOT_PAGES + SDK_FILES + SITE_ASSETS + EXAMPLE_FILES]
     for directory in SOURCE_DIRS:
         paths.extend(sorted((ROOT / directory).rglob("*")))
     paths.extend(sorted((ROOT / "packages/protocol/src").glob("*.ts")))
