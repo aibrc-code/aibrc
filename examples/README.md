@@ -17,4 +17,4 @@ npm run build
 
 These offline Signet examples make no network requests and do not sign or broadcast. Output indexes and heights are illustrative. Amounts are integer base units with the protocol's fixed display precision of 8. The batch default is 25; the 25-recipient sample is 168 bytes and uses the Extended Profile.
 
-Run `npm run examples:check` to execute and check the examples, including every recipient count from 1 through 25. The complete source blocks in the quick start are checked against these files.
+Run `npm run examples:check` to execute and check the examples, including every recipient count from 1 through 25. The quick start shows short core calls; these files retain the complete runnable programs. Both are executed by the example checks.

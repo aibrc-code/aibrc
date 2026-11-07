@@ -96,6 +96,13 @@ Compare the ledger fingerprint, then locate the records that differ.
 
 `assets, names, locators, positive balances → sorted canonical bytes → SHA256`.
 
+Given a verified `ProtocolState`, the SDK call is:
+
+<!-- snippet: state-hash -->
+```js
+const stateHash = deriveStateHash(state);
+```
+
 Run `node examples/state-hash.mjs` after building the repository to reproduce the non-empty state hash from a published chain vector. The [complete state-hash example](quickstart.md#compute-a-canonical-state-hash) shows the JSON-to-map and integer conversions. The [decoder example](quickstart.md#decode-an-instruction) reads instruction fields before any state application.
 
 See [§6.1](../spec/AIBRC_PROTOCOL_V0.25.md). Big integers are decimal strings without leading zeroes; zero balances are omitted; names are ordered by their canonical bytes.

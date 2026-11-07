@@ -14,7 +14,10 @@ ROOT_PAGES = (
 )
 SOURCE_DIRS = ("docs", "spec", "proposals", "merkle", "vectors", "config")
 SDK_FILES = ("packages/protocol/README.md", "packages/protocol/package.json")
-SITE_ASSETS = ("site/assets/stylesheets/aibrc-dark.css",)
+SITE_ASSETS = (
+    "site/assets/stylesheets/aibrc-dark.css",
+    "site/assets/images/aibrc-at.svg",
+)
 EXAMPLE_FILES = tuple("examples/" + name for name in (
     "README.md", "deploy.mjs", "transfer-single.mjs", "transfer-batch.mjs",
     "decode.mjs", "state-hash.mjs",
