@@ -103,7 +103,7 @@ const assetLocator = { blockHeight: 840000, txIndex: 7 };
 
 `UNIT` is the integer display conversion: AIBRC has a fixed precision of 8, so `10n * UNIT` means 10 tokens. Real Mainnet integrations use the [published release context](../README.md#activation-context), the actual asset locator and the actual transaction input/output positions. The hashing excerpt additionally takes a verified `state` from the caller; its full runnable file supplies a published test state.
 
-## Run the full examples
+## Run from the repository
 
 Use the Node version declared in the [package](../packages/protocol/package.json). From the repository root, build once:
 
@@ -120,6 +120,10 @@ npm run build
 | Decode Deploy or Transfer | `node examples/decode.mjs` |
 | Reproduce a state hash | `node examples/state-hash.mjs` |
 
-Each file runs independently and prints JSON. They make no network requests and do not sign or broadcast. Run `npm run examples:check` to check the runnable files and these short excerpts against the SDK.
+Each file runs independently and prints JSON. They make no network requests and do not sign or broadcast.
+
+## Check all examples
+
+Run `npm run examples:check` to check the runnable files and these short excerpts against the SDK.
 
 Read the [instructions](03-instructions.md), [wire specification](../spec/AIBRC_PROTOCOL_V0.25.md) and [indexer guide](06-indexer-guide.md) for the corresponding fields, validity rules and state context.
