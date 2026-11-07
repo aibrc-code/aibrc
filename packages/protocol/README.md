@@ -6,15 +6,30 @@ AIBRC wire codec, OP_RETURN extraction, authorization-shape checks and canonical
 
 From the repository root: `npm ci --ignore-scripts`, `npm run build`, then `npm test`. The package is prepared for publication; registry publication is a separate operation.
 
+## Core calls
+
+These are SDK excerpts using the [shared setup](../../docs/quickstart.md#shared-setup).
+
+<!-- snippet: deploy -->
 ```js
-import { Buffer, decodeTransfer } from '@aibrc/protocol';
-const instruction = decodeTransfer(Buffer.from(
-  '41494252010202000b000001000cd14000070001', 'hex'
-));
-console.log(instruction.kind);
+const payload = encodeDeploy({
+  network, name: 'DEMO',
+  totalSupply: 1_000_000n * UNIT,
+  deployAuthInputIndex: 0, ownerOutputIndex: 1,
+}, namePolicy);
 ```
 
-Use the complete root README quickstart for an official vector rather than constructing an instruction from application prose.
+<!-- snippet: transfer-single -->
+```js
+const payload = encodeTransfer({
+  network, authInputIndex: 0,
+  assetLocator,
+  allocations: [{ receiverOutputIndex: 1, amount: 10n * UNIT }],
+});
+```
+
+A receiver index refers to the actual Bitcoin transaction output. The full
+examples below include imports, explicit network context and printed results.
 
 ## Runnable examples
 

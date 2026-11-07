@@ -98,13 +98,68 @@ test('state hashing uses a non-empty published state and matches independent SHA
   assert.equal(output.matchesPublishedVector, true);
 });
 
-test('the website quick-start code blocks are the actual runnable source files', () => {
-  const markdown = readFileSync(new URL('../docs/quickstart.md', import.meta.url), 'utf8');
-  const blocks = [...markdown.matchAll(/<!-- example: (\S+) -->\n```js\n([\s\S]*?)\n```/g)];
-  assert.deepEqual(blocks.map(block => block[1]), [
-    'deploy.mjs', 'transfer-single.mjs', 'transfer-batch.mjs', 'decode.mjs', 'state-hash.mjs',
-  ]);
-  for (const [, name, code] of blocks) {
-    assert.equal(code, readFileSync(new URL(name, import.meta.url), 'utf8').trimEnd(), name);
+test('short documentation excerpts execute with the declared shared setup and inputs', () => {
+  const quickstart = readFileSync(new URL('../docs/quickstart.md', import.meta.url), 'utf8');
+  const excerpt = (text, name) => {
+    const match = new RegExp('<!-- snippet: ' + name + ' -->\\n```js\\n([\\s\\S]*?)\\n```').exec(text);
+    assert(match, 'Missing excerpt ' + name);
+    return match[1];
+  };
+  const setup = excerpt(quickstart, 'shared-setup');
+  const execute = (code, expression, prefix = '') => JSON.parse(execFileSync(process.execPath,
+    ['--input-type=module', '-e', setup + '\n' + prefix + '\n' + code +
+      '\nconsole.log(JSON.stringify(' + expression +
+      ", (_, value) => typeof value === 'bigint' ? value.toString() : value));"],
+    { encoding: 'utf8', cwd: fileURLToPath(new URL('../', import.meta.url)) }));
+
+  const pages = [quickstart,
+    readFileSync(new URL('../README.md', import.meta.url), 'utf8'),
+    readFileSync(new URL('../packages/protocol/README.md', import.meta.url), 'utf8'),
+    readFileSync(new URL('../docs/03-instructions.md', import.meta.url), 'utf8')];
+  const required = [
+    ['deploy', 'transfer-single', 'transfer-batch'],
+    ['deploy', 'transfer-single'],
+    ['deploy', 'transfer-single'],
+    ['deploy', 'transfer-batch'],
+  ];
+  for (const [pageIndex, page] of pages.entries()) {
+    for (const name of required[pageIndex]) {
+      const output = execute(excerpt(page, name), "{hex: payload.toString('hex')}");
+      if (name === 'deploy') {
+        const decoded = decodeDeploy(Buffer.from(output.hex, 'hex'), namePolicy);
+        assert.equal(decoded.name, 'DEMO');
+        assert.equal(decoded.network, NetworkId.SIGNET);
+        assert.equal(decoded.totalSupply, 100_000_000_000_000n);
+        assert.equal(decoded.deployAuthInputIndex, 0);
+        assert.equal(decoded.ownerOutputIndex, 1);
+      } else {
+        const decoded = decodeTransfer(Buffer.from(output.hex, 'hex'));
+        const amounts = name === 'transfer-single' ? [1_000_000_000n] : [1_000_000_000n, 2_000_000_000n, 3_000_000_000n];
+        assert.equal(decoded.network, NetworkId.SIGNET);
+        assert.equal(decoded.authInputIndex, 0);
+        assert.deepEqual(decoded.assetLocator, { blockHeight: 840000, txIndex: 7 });
+        assert.deepEqual(decoded.allocations, amounts.map((amount, i) => ({ receiverOutputIndex: i + 1, amount })));
+      }
+    }
   }
+  for (const name of ['deploy', 'transfer-batch']) {
+    const result = execute(excerpt(quickstart, name) + '\n' + excerpt(quickstart, 'decode'), 'result');
+    assert.equal(result.status, 'VALID');
+    assert.equal(result.instruction.kind, name === 'deploy' ? 'DEPLOY' : 'TRANSFER');
+  }
+  const { vectors } = JSON.parse(readFileSync(new URL('../vectors/chain-vectors.json', import.meta.url), 'utf8'));
+  const vector = vectors.find(item => item.id === 'chain-shallow-reorg');
+  const prefix = `import { createProtocolState } from '@aibrc/protocol';
+    const snapshot = ${JSON.stringify(vector.expected.canonicalFinalState)};
+    const state = createProtocolState();
+    for (const asset of snapshot.assets) state.assetsById.set(asset.assetId, {
+      ...asset, totalSupply: BigInt(asset.totalSupply),
+      locator: { blockHeight: asset.locator[0], txIndex: asset.locator[1] },
+    });
+    state.assetIdByName = new Map(snapshot.names);
+    state.assetIdByLocator = new Map(snapshot.locators);
+    state.balances = new Map(snapshot.balances.map(([key, value]) => [key, BigInt(value)]));`;
+  assert.equal(execute(excerpt(quickstart, 'state-hash'), 'stateHash', prefix), vector.expected.stateHash);
+  const indexer = readFileSync(new URL('../docs/06-indexer-guide.md', import.meta.url), 'utf8');
+  assert.equal(execute(excerpt(indexer, 'state-hash'), 'stateHash', prefix), vector.expected.stateHash);
 });

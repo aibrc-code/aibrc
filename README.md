@@ -146,6 +146,36 @@ AIBRC carries that inspiration into open asset rules and independent recomputati
 
 ## Quick start
 
+The core operation is a short SDK call. These excerpts share the imports and
+values in the [common setup](docs/quickstart.md#shared-setup): `network`,
+`namePolicy`, `UNIT` and the asset's actual `assetLocator`.
+
+**Deploy a fixed-supply asset:**
+
+<!-- snippet: deploy -->
+```js
+const payload = encodeDeploy({
+  network, name: 'DEMO',
+  totalSupply: 1_000_000n * UNIT,
+  deployAuthInputIndex: 0, ownerOutputIndex: 1,
+}, namePolicy);
+```
+
+**Transfer to a receiver output:**
+
+<!-- snippet: transfer-single -->
+```js
+const payload = encodeTransfer({
+  network, authInputIndex: 0,
+  assetLocator,
+  allocations: [{ receiverOutputIndex: 1, amount: 10n * UNIT }],
+});
+```
+
+For multiple recipients, add allocations with their own output index and amount.
+[Batch transfers, decoding and state hashing](docs/quickstart.md) use the same SDK;
+[complete runnable files](examples/README.md) include the full setup and output.
+
 Use the Node version declared in the [package](packages/protocol/package.json).
 Run from this repository's root. Installation lifecycle scripts are disabled;
 the build only produces this public package.

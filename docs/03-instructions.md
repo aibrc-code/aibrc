@@ -35,6 +35,17 @@ You can initiate an issuance while explicitly assigning the initial assets to an
 
 The rules are in [§§4 and 4.1](../spec/AIBRC_PROTOCOL_V0.25.md). Deploy does not grant an additional issuance operation; the current core has no separate Mint opcode.
 
+The core SDK call is shown below. It uses the [shared imports and context](quickstart.md#shared-setup); the [complete deployment file](../examples/deploy.mjs) runs independently.
+
+<!-- snippet: deploy -->
+```js
+const payload = encodeDeploy({
+  network, name: 'DEMO',
+  totalSupply: 1_000_000n * UNIT,
+  deployAuthInputIndex: 0, ownerOutputIndex: 1,
+}, namePolicy);
+```
+
 These bytes come from `deploy-valid-01` in the [official operation vectors](../vectors/operation-vectors.json). This is a **Signet offline test case**, not a broadcast transaction or a Mainnet issuance record.
 
 ```text
@@ -92,6 +103,21 @@ One sender can allocate one asset through up to 25 allocation entries in one ins
 State who receives how much; if one required allocation is invalid, none is applied.
 
 `auth_input + allocation_count + asset_locator + (output_index, amount)[]`.
+
+One receiver uses one allocation; a batch adds further entries. This excerpt uses the [shared setup](quickstart.md#shared-setup).
+
+<!-- snippet: transfer-batch -->
+```js
+const payload = encodeTransfer({
+  network, authInputIndex: 0,
+  assetLocator,
+  allocations: [
+    { receiverOutputIndex: 1, amount: 10n * UNIT },
+    { receiverOutputIndex: 2, amount: 20n * UNIT },
+    { receiverOutputIndex: 3, amount: 30n * UNIT },
+  ],
+});
+```
 
 See [§§5–6](../spec/AIBRC_PROTOCOL_V0.25.md). The complete byte limit also applies, so 25 arbitrary large amounts are not guaranteed to fit a particular broadcast profile.
 

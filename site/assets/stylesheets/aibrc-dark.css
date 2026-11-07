@@ -40,7 +40,16 @@ body { background: #111214; }
   box-shadow: none;
 }
 .md-header__inner { min-height: 62px; }
-.md-header__button.md-logo,
+.md-header__inner > .md-header__button.md-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 8px;
+  margin: 0 8px 0 0;
+}
+.md-header__button.md-logo img { width: 28px; height: 28px; }
 .md-nav__title .md-logo { display: none; }
 .md-header__title { font-weight: 600; letter-spacing: .045em; }
 .md-header__source {
