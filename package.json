@@ -10,6 +10,7 @@
     "build": "npm run build --workspace @aibrc/protocol",
     "typecheck": "npm run typecheck --workspace @aibrc/protocol",
     "test:sign": "node --test tools/sign/sign.test.mjs",
+    "examples:check": "node --test examples/examples.test.mjs",
     "test": "npm run test --workspace @aibrc/protocol",
     "vectors:check": "npm run vectors:check --workspace @aibrc/protocol",
     "package:check": "npm pack --workspace @aibrc/protocol --dry-run",

@@ -16,6 +16,12 @@ console.log(instruction.kind);
 
 Use the complete root README quickstart for an official vector rather than constructing an instruction from application prose.
 
+## Runnable examples
+
+The [SDK quick start](../../docs/quickstart.md) contains complete source and commands for [deployment](../../examples/deploy.mjs), [single-recipient transfer](../../examples/transfer-single.mjs), [1–25 recipient batch transfer](../../examples/transfer-batch.mjs), [decoding](../../examples/decode.mjs) and [canonical state hashing](../../examples/state-hash.mjs). Run them from the source repository after the build above. `npm run examples:check` executes and checks the actual files, including every batch count from 1 through 25.
+
+All examples are offline Signet demonstrations. Amounts are integer base units with a fixed display precision of 8. A receiver index must match an actual Bitcoin output in a transaction; a successful encoding does not establish authorization, balance or chain confirmation. The 25-recipient sample is 168 bytes and needs the Extended Profile.
+
 ## Runtime and exports
 
 - Node: ESM `@aibrc/protocol` and `@aibrc/protocol/decoder`.
