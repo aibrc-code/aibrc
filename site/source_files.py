@@ -13,14 +13,16 @@ ROOT_PAGES = (
     "THIRD_PARTY_NOTICES.md", "LICENSE-CODE", "LICENSE-DOCS",
 )
 SOURCE_DIRS = ("docs", "spec", "proposals", "merkle", "vectors", "config")
-SDK_FILES = ("packages/protocol/README.md", "packages/protocol/package.json")
+SDK_FILES = ("packages/protocol/README.md", "packages/protocol/package.json",
+             "packages/indexer/README.md", "packages/indexer/package.json",
+             "packages/indexer/indexer.example.json", "packages/indexer/reuse-manifest.json")
 SITE_ASSETS = (
     "site/assets/stylesheets/aibrc-dark.css",
     "site/assets/images/aibrc-black.svg",
 )
 EXAMPLE_FILES = tuple("examples/" + name for name in (
     "README.md", "deploy.mjs", "transfer-single.mjs", "transfer-batch.mjs",
-    "decode.mjs", "state-hash.mjs",
+    "decode.mjs", "state-hash.mjs", "indexer-demo.mjs",
 ))
 
 
@@ -82,6 +84,7 @@ def on_files(files, config):
     for directory in SOURCE_DIRS:
         paths.extend(sorted((ROOT / directory).rglob("*")))
     paths.extend(sorted((ROOT / "packages/protocol/src").glob("*.ts")))
+    paths.extend(sorted((ROOT / "packages/indexer/src").rglob("*.ts")))
     # Keep theme/plugin CSS, JavaScript and search assets. Only replace the
     # document mapping; replacing the entire collection drops the theme assets.
     rendered = Files(file for file in files if not file.is_documentation_page())

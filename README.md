@@ -121,10 +121,36 @@ aibtc.bot is the first application built on AIBRC; it holds no privileged positi
 | What bytes go into a transaction? | [Instructions and examples](docs/03-instructions.md) · [Wire specification](spec/AIBRC_PROTOCOL_V0.25.md) |
 | How do programmable rules and Agent Key fit together? | [Smart Covenant](docs/04-smart-covenant.md) · [Covenant Inscription R1](spec/covenants/R1.md) · [Covenant Inscription X1](spec/covenants/X1.md) |
 | How do different asset standards connect? | [Shared-root issuance and settlement](docs/05-cross-protocol.md) |
-| How can an independent indexer reproduce state? | [Indexer guide](docs/06-indexer-guide.md) · [Test vectors](vectors/README.md) |
+| How can I run my own indexer? | [Run your own indexer](docs/run-indexer.md) · [Implementation guide](docs/06-indexer-guide.md) · [Test vectors](vectors/README.md) |
 | What can developers and Agents build? | [Applications and economic loops](docs/07-applications.md) |
 | How does the protocol evolve? | [Extensions](docs/08-extensions.md) · [Seven AIPs](proposals/README.md) · [Merkle reference](merkle/STATE_PROOF_REFERENCE.md) |
 | Where do I find exact terminology? | [Glossary](docs/glossary.md) |
+
+## Run your own ledger
+
+The [reference indexer](packages/indexer/README.md) reads your Bitcoin Core node,
+replays AIBRC rules and keeps assets, balances and transfer history in your own
+SQLite database. No platform backend or private key is required.
+
+```text
+Your Bitcoin node → public AIBRC rules → your local ledger
+                                           ↓
+                                Wallets · applications · Agents
+```
+
+With Node.js 22.16+, build this repository and try the isolated walkthrough:
+
+```sh
+npm ci --ignore-scripts
+npm run build
+npm run indexer:demo
+npm run test:indexer
+```
+
+The walkthrough uses synthetic local blocks and real SQLite, with no signing or
+broadcasting. For your own Bitcoin node, follow the
+[human and AI runbook](docs/run-indexer.md). Mainnet uses the published release
+context and refuses to start while its genesis height is unselected.
 
 ## Protocol statement
 

@@ -54,3 +54,7 @@ Full-state serialization, history access and snapshots grow with the data they c
 Checkpoint exchange and proposed Merkle proofs can extend that independence toward lighter clients.
 A useful next product might compare the same block across implementations or let a wallet verify one record
 against an accepted commitment. The common goal is a shorter path from a displayed number to its evidence.
+
+## Run the reference implementation
+
+Use the [local indexer runbook](../run-indexer.md) to connect your own Bitcoin Core node, persist a recoverable SQLite ledger, query balances and follow canonical blocks. The same guide includes a no-credentials isolated walkthrough for people and AI operators.

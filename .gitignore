@@ -9,3 +9,11 @@ coverage/
 .docs-venv/
 site-build/
 __pycache__/
+
+# Local reference-indexer configuration, credentials and database
+/indexer.json
+/bitcoin.cookie
+/regtest.cookie
+/data/
+*.sqlite
+*.sqlite-*

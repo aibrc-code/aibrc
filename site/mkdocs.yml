@@ -42,6 +42,7 @@ nav:
       - Code examples: docs/quickstart.md
       - Smart Covenant: docs/04-smart-covenant.md
       - Cross-protocol: docs/05-cross-protocol.md
+      - Run your own indexer: docs/run-indexer.md
       - Indexer guide: docs/06-indexer-guide.md
       - Applications:
           - Application map: docs/07-applications.md
