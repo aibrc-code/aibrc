@@ -7,8 +7,7 @@ repo_url: https://github.com/aibrc-code/aibrc
 repo_name: GitHub
 theme:
   name: material
-  logo: site/assets/images/aibrc-at.svg
-  favicon: site/assets/images/aibrc-at.svg
+  favicon: site/assets/images/aibrc-black.svg
   font: false
   custom_dir: overrides
   palette:
