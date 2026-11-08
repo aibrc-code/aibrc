@@ -6,7 +6,7 @@ and applications choose a data provider without giving that provider the power t
 
 **Don't trust, verify.** An independent indexer turns that conviction into a repeatable calculation.
 
-An independent indexer combines the public protocol rules and decoder with its own recoverable storage, queries and chain connection.
+The [runnable reference indexer](run-indexer.md) combines the public protocol rules and decoder with recoverable SQLite storage, local queries and a read-only Bitcoin Core connection. Start there to run it; this chapter explains the contracts for an independent implementation.
 
 ## 1. Establish the verification context
 
@@ -42,7 +42,7 @@ A server seeing a transaction first cannot move it ahead of an earlier transacti
 
 See [§§2 and 7](../spec/AIBRC_PROTOCOL_V0.25.md). Do not renumber transactions after filtering for AIBRC: deployment locators retain their original Bitcoin transaction positions.
 
-The integrator supplies the bracketed chain-access, storage and coordination steps:
+The reference runtime supplies the bracketed chain-access, storage and coordination steps. An alternative implementation must preserve the same contracts:
 
 ```text
 [Obtain canonical block and parent identity]

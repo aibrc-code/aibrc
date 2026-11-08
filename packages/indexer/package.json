@@ -1,0 +1,17 @@
+{
+  "name": "@aibrc/indexer",
+  "version": "0.25.0",
+  "description": "Self-hosted AIBRC reference indexer: read-only Bitcoin RPC, local SQLite and deterministic replay.",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=22.16.0" },
+  "bin": { "aibrc-indexer": "dist/cli.js" },
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "files": ["dist", "README.md", "LICENSE", "reuse-manifest.json", "indexer.example.json"],
+  "scripts": {
+    "build": "node ../../scripts/build-indexer.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": { "@aibrc/protocol": "0.25.0" }
+}

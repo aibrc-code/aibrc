@@ -4,20 +4,24 @@
   "private": true,
   "type": "module",
   "workspaces": [
-    "packages/protocol"
+    "packages/protocol",
+    "packages/indexer"
   ],
   "scripts": {
-    "build": "npm run build --workspace @aibrc/protocol",
-    "typecheck": "npm run typecheck --workspace @aibrc/protocol",
+    "build": "npm run build --workspace @aibrc/protocol && npm run build --workspace @aibrc/indexer",
+    "typecheck": "npm run typecheck --workspace @aibrc/protocol && npm run typecheck --workspace @aibrc/indexer",
     "test:sign": "node --test tools/sign/sign.test.mjs",
     "examples:check": "node --test examples/examples.test.mjs",
-    "test": "npm run test --workspace @aibrc/protocol",
+    "test": "npm run test --workspace @aibrc/protocol && npm run test:indexer",
     "vectors:check": "npm run vectors:check --workspace @aibrc/protocol",
-    "package:check": "npm pack --workspace @aibrc/protocol --dry-run",
-    "docs:check": "node scripts/check-public.mjs"
+    "package:check": "npm pack --workspace @aibrc/protocol --dry-run && npm pack --workspace @aibrc/indexer --dry-run",
+    "docs:check": "node scripts/check-public.mjs",
+    "test:indexer": "npm test --workspace @aibrc/indexer",
+    "indexer:demo": "node examples/indexer-demo.mjs",
+    "indexer:package:check": "node scripts/check-indexer-package.mjs"
   },
   "devDependencies": {
-    "@types/node": "22.10.5",
+    "@types/node": "22.19.0",
     "esbuild": "0.28.1",
     "tsx": "4.23.0",
     "typescript": "5.9.3"

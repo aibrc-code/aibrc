@@ -1,0 +1,201 @@
+{
+  "sourceRevision": "ee1ac78a11dc17b6fe6d57d20db9f1d454c40955",
+  "files": [
+    {
+      "source": "packages/aibrc-indexer-core/src/canonical-chain-cursor.ts",
+      "target": "packages/indexer/src/core/canonical-chain-cursor.ts",
+      "sourceSha256": "c432e4abcbfca7f7f72b9fc110fb909d4312ffc3c42cbaf584c66641b497a5c0",
+      "adaptation": "package import paths only",
+      "targetSha256": "c432e4abcbfca7f7f72b9fc110fb909d4312ffc3c42cbaf584c66641b497a5c0"
+    },
+    {
+      "source": "packages/aibrc-indexer-core/src/fixture-block-source.ts",
+      "target": "packages/indexer/src/core/fixture-block-source.ts",
+      "sourceSha256": "a2943265690054422f2efe4fa7acd871d6626a1358dc33c18d008d6fde37a126",
+      "adaptation": "package import paths only",
+      "targetSha256": "a2943265690054422f2efe4fa7acd871d6626a1358dc33c18d008d6fde37a126"
+    },
+    {
+      "source": "packages/aibrc-indexer-core/src/index.ts",
+      "target": "packages/indexer/src/core/index.ts",
+      "sourceSha256": "fa0e66688c1e3e3d9679eb319e85294bca1ba7f93312d6813bc9f4b339741d6a",
+      "adaptation": "package import paths only",
+      "targetSha256": "fa0e66688c1e3e3d9679eb319e85294bca1ba7f93312d6813bc9f4b339741d6a"
+    },
+    {
+      "source": "packages/aibrc-indexer-core/src/indexer.ts",
+      "target": "packages/indexer/src/core/indexer.ts",
+      "sourceSha256": "7e83ffd5929c69e0c061a3718b746a3000ef97156f0bff3dbeca83eeef415f97",
+      "adaptation": "package import paths only",
+      "targetSha256": "7e83ffd5929c69e0c061a3718b746a3000ef97156f0bff3dbeca83eeef415f97"
+    },
+    {
+      "source": "packages/aibrc-indexer-core/src/memory-adapters.ts",
+      "target": "packages/indexer/src/core/memory-adapters.ts",
+      "sourceSha256": "a36364ff5631d4506fcf449a5119f5d351a49caacd8635ed3fc305892c980603",
+      "adaptation": "package import paths only",
+      "targetSha256": "a36364ff5631d4506fcf449a5119f5d351a49caacd8635ed3fc305892c980603"
+    },
+    {
+      "source": "packages/aibrc-indexer-core/src/rollback-retention.ts",
+      "target": "packages/indexer/src/core/rollback-retention.ts",
+      "sourceSha256": "f0b0cd12e32bcff73ace792ab3b83710149944c08f1fd88af6df54c9fc9e4c16",
+      "adaptation": "package import paths only",
+      "targetSha256": "f0b0cd12e32bcff73ace792ab3b83710149944c08f1fd88af6df54c9fc9e4c16"
+    },
+    {
+      "source": "packages/aibrc-indexer-core/src/types.ts",
+      "target": "packages/indexer/src/core/types.ts",
+      "sourceSha256": "b1503fccca05adcfbd465026bd79fd682a129f4774fc41e76e137dcfb0e6e5d8",
+      "adaptation": "package import paths only",
+      "targetSha256": "b1503fccca05adcfbd465026bd79fd682a129f4774fc41e76e137dcfb0e6e5d8"
+    },
+    {
+      "source": "packages/aibrc-indexer-engine/src/index.ts",
+      "target": "packages/indexer/src/engine/index.ts",
+      "sourceSha256": "0df36d5cdc1cd274d45866036d327916f465cba202c56a3b30b67c8a969658ad",
+      "adaptation": "package import paths only",
+      "targetSha256": "0df36d5cdc1cd274d45866036d327916f465cba202c56a3b30b67c8a969658ad"
+    },
+    {
+      "source": "packages/aibrc-indexer-engine/src/protocol-engine-adapter.ts",
+      "target": "packages/indexer/src/engine/protocol-engine-adapter.ts",
+      "sourceSha256": "23d5da5156c41ac954b841fb5e9396ff9f329b203a778e6da6701c3e889d95b8",
+      "adaptation": "package import paths only",
+      "targetSha256": "e2c08a5eece2e8f76200fcbc9e15fb11174fddf0f78384aedf18bc1fd3638318"
+    },
+    {
+      "source": "packages/aibrc-indexer-engine/src/state.ts",
+      "target": "packages/indexer/src/engine/state.ts",
+      "sourceSha256": "29cf7f488d3e333ad6d915f064416692be0bee968053108cd01cbda4cfc7ee63",
+      "adaptation": "package import paths only",
+      "targetSha256": "32900b9c3eba98e407e0dea9d89f94d3ad7957961a12c60056adf6f1290a299e"
+    },
+    {
+      "source": "packages/aibrc-indexer-engine/src/types.ts",
+      "target": "packages/indexer/src/engine/types.ts",
+      "sourceSha256": "c0ca4f8994f3c5c2de3a20d2e48022c175e9f80736a00463e664c31179b760af",
+      "adaptation": "package import paths only",
+      "targetSha256": "965fbc6fa453f52a88419065c4dc457bd42f18cc7adf36247cb214d769879cd7"
+    },
+    {
+      "source": "packages/aibrc-indexer-query/src/contracts.ts",
+      "target": "packages/indexer/src/query/contracts.ts",
+      "sourceSha256": "14211f30f524079db084675772eb6cba27362238531e8969127e00458c183616",
+      "adaptation": "package import paths only",
+      "targetSha256": "f47f2546bfec03fb1b0c9263b95cee5c8acfacbef0b42b46959d65312ee94256"
+    },
+    {
+      "source": "packages/aibrc-indexer-query/src/index.ts",
+      "target": "packages/indexer/src/query/index.ts",
+      "sourceSha256": "9bb24faaebcc385f0333673d8bd975c96f87ce556384e0e619991eec634c17aa",
+      "adaptation": "package import paths only",
+      "targetSha256": "9bb24faaebcc385f0333673d8bd975c96f87ce556384e0e619991eec634c17aa"
+    },
+    {
+      "source": "packages/aibrc-indexer-query/src/proof-identity.ts",
+      "target": "packages/indexer/src/query/proof-identity.ts",
+      "sourceSha256": "f2a2d8fe8f50295907bb7683f42590ef05d2ac57bb01c30dc8dcf3309ab64850",
+      "adaptation": "package import paths; local pure identity helper import",
+      "targetSha256": "ba4d2a8591f761ef2c2beb4086b1e598883e936e2b587691fffb23cc81800fa2"
+    },
+    {
+      "source": "packages/aibrc-indexer-query/src/query-service.ts",
+      "target": "packages/indexer/src/query/query-service.ts",
+      "sourceSha256": "61dfb9f497629ed0427b9fade07657077217c7be8ad0a600ea4e8967d44f0d73",
+      "adaptation": "package import paths only",
+      "targetSha256": "4c6d11e148365cd7978806ec0c3bfe421cab05c3c9b2eafea3636cb3c847c8a1"
+    },
+    {
+      "source": "packages/aibrc-indexer-sqlite/src/index.ts",
+      "target": "packages/indexer/src/storage/index.ts",
+      "sourceSha256": "76001413beb71bd7b999e9478097e0542db858f1378519362798c49e3d80c095",
+      "adaptation": "package import paths only",
+      "targetSha256": "76001413beb71bd7b999e9478097e0542db858f1378519362798c49e3d80c095"
+    },
+    {
+      "source": "packages/aibrc-indexer-sqlite/src/query-projection.ts",
+      "target": "packages/indexer/src/storage/query-projection.ts",
+      "sourceSha256": "ccb4226cff535c96241305894f14b857a853489fb96e18e279794e6e4019022d",
+      "adaptation": "package import paths only",
+      "targetSha256": "608cce737bd4d9dfef3515db8fb43456e869fed62b9fcfb253a84a770f951654"
+    },
+    {
+      "source": "packages/aibrc-indexer-sqlite/src/sqlite-storage.ts",
+      "target": "packages/indexer/src/storage/sqlite-storage.ts",
+      "sourceSha256": "3944b83b7a49fc20bd95718da30ab27242afd8e10ecf8580055889ac77e5c1dd",
+      "adaptation": "package import paths; public runtime identity pin; read-only snapshot entry; backup return typing",
+      "targetSha256": "6c89d902b3404211a91ce85f4ca4f6d022251cc619ad339044a1f27d3c56c366"
+    },
+    {
+      "source": "packages/aibrc-indexer-sqlite/src/transfer-history.ts",
+      "target": "packages/indexer/src/storage/transfer-history.ts",
+      "sourceSha256": "7726fdfbb57adc7a035f4c1286433a54629e27a83b2fc58aa019197fa69dd917",
+      "adaptation": "package import paths only",
+      "targetSha256": "89284c7819c41cd5aa2626c2c6ca4bd41bd9c41c005cc6502321fa239a8655d6"
+    },
+    {
+      "source": "packages/aibrc-signet-ingestion/src/block-sources.ts",
+      "target": "packages/indexer/src/ingestion/block-sources.ts",
+      "sourceSha256": "9e9a285b8f29624cfa5711c6552fd18fad535c3e1ab9df23503342e2afa21744",
+      "adaptation": "package import paths only",
+      "targetSha256": "1c9adfcb9d22a8162746cdfba6ace2592e64fbc7e7d99029503b3bf2d522e484"
+    },
+    {
+      "source": "packages/aibrc-signet-ingestion/src/index.ts",
+      "target": "packages/indexer/src/ingestion/index.ts",
+      "sourceSha256": "53e1d20dff835f22d493e5c2aed57d3acfeaf48198c31a6c8959b913d1bdda3d",
+      "adaptation": "package import paths only",
+      "targetSha256": "53e1d20dff835f22d493e5c2aed57d3acfeaf48198c31a6c8959b913d1bdda3d"
+    },
+    {
+      "source": "packages/aibrc-signet-ingestion/src/raw-block.ts",
+      "target": "packages/indexer/src/ingestion/raw-block.ts",
+      "sourceSha256": "455c76d6693633acb0f340946bf5e9732710ecfd239a1df4886e04959662cf23",
+      "adaptation": "package import paths only",
+      "targetSha256": "8d8ecdea164169caaf2fd4b4af65d664f33148712e906e945e5f525a4f968b79"
+    },
+    {
+      "source": "packages/aibrc-signet-ingestion/src/types.ts",
+      "target": "packages/indexer/src/ingestion/types.ts",
+      "sourceSha256": "17f0c7f612a34e2e5de36a8793a01a3acc27113d90839e4ee399f104425d3f1d",
+      "adaptation": "package import paths only",
+      "targetSha256": "f4179edc30c37be4fbad89b771bcafceecdfc475427d3a04cbf7e7e4e5d386de"
+    },
+    {
+      "source": "packages/aibrc-signet-rpc/src/http-transport.ts",
+      "target": "packages/indexer/src/rpc/http-transport.ts",
+      "sourceSha256": "0068be8b1383a99a4321a2e227cbef3f50a2fa546d4ba6242c24f06291fb910c",
+      "adaptation": "package import paths only",
+      "targetSha256": "0068be8b1383a99a4321a2e227cbef3f50a2fa546d4ba6242c24f06291fb910c"
+    },
+    {
+      "source": "packages/aibrc-signet-rpc/src/signet-rpc-provider.ts",
+      "target": "packages/indexer/src/rpc/signet-rpc-provider.ts",
+      "sourceSha256": "fb7d62d963bcf178465c3b022a66dca484975c2ae97534afc393e98a2fd9e1f0",
+      "adaptation": "package import paths only",
+      "targetSha256": "4ed0dbc57ebdc29e9bb19d55f111239ea57c6ce9a5a93e06db4ba000cf2e78e3"
+    },
+    {
+      "source": "packages/aibrc-signet-rpc/src/types.ts",
+      "target": "packages/indexer/src/rpc/types.ts",
+      "sourceSha256": "af6b2c9f6e53cfb6db73a26f2462485d101f36cc204d8f1747a8a99ae01e96bf",
+      "adaptation": "package import paths only",
+      "targetSha256": "af6b2c9f6e53cfb6db73a26f2462485d101f36cc204d8f1747a8a99ae01e96bf"
+    },
+    {
+      "source": "packages/shared/src/aibrc-query-proof-identity.ts",
+      "target": "packages/indexer/src/query/query-proof-identity.ts",
+      "sourceSha256": "18505291c065261b6e70aa745177591d6d764e9ac82a4e282c4ff1da40ce8a8b",
+      "adaptation": "none",
+      "targetSha256": "18505291c065261b6e70aa745177591d6d764e9ac82a4e282c4ff1da40ce8a8b"
+    },
+    {
+      "source": "packages/aibrc-signet-indexer-cli/src/sync-errors.ts",
+      "target": "packages/indexer/src/sync-errors.ts",
+      "sourceSha256": "0b853e27c0d36e486b1216e50d54d0273f554334c4ec6fac0c30d5b9e0c7f791",
+      "adaptation": "classifier unchanged; platform operational narrative omitted",
+      "targetSha256": "88f42ed6a5c0b42aaf566f88567f7c634aa8c1a43c6a27b7eb3827ebf0740e6d"
+    }
+  ]
+}
