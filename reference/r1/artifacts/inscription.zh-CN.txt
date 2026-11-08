@@ -1,0 +1,57 @@
+aibtc@R1
+
+01 [PARAMETERS] 固定参数。
+规范参数行为 aibtc@R1:0x<40位小写十六进制地址>:T<税率基点>:C<去向基点>。这是 ASCII 单行，无空格或换行，十进制整数无前导零；字段顺序固定，不接受未知、缺失或重复字段。地址指向所选不可变参考合约。
+T 为 0，或 10 至 500 之间的 10 的倍数，买卖使用同一税率；10000 基点等于 100%，T10=0.1%，T100=1%。C0 表示全部资产规则费用于回购锁定，C10000 表示全部资产规则费归创作者；T0 唯一对应 C0。“全部”不包括平台基础费。资产创建后参数不可更改。
+isValidRule(T,C) 返回上述组合是否有效：T<=500 且 T%10=0；C 为 0 或 10000；T=0 时 C 必须为 0。无效组合返回 false。此接口不读取或登记资产。
+
+02 [PURE_MATH] 费用与毕业边界。
+金额以整数 satoshi 计。ceilBps(a,b) 输入非负金额 a、0<=b<=10000 的基点 b，返回 ceil(a×b/10000)。令 q=a div 10000、r=a mod 10000，用 q×b+(r×b div 10000)+(r×b mod 10000 非零时加1) 计算，不使用浮点或先做可能溢出的 a×b。b 超范围时拒绝调用。
+effectiveTax=成交开始时已毕业 ? T : 0。
+totalFee=ceilBps(base,50+effectiveTax)。
+platformFee=ceilBps(base,50)。
+ruleFee=totalFee-platformFee。
+总费单次向上取整，平台基础费优先确定，规则费取差额；不得将两项费用分别取整后相加。毕业前只收 0.5% 平台基础费，触发毕业的最后一笔仍按毕业前规则，下一笔普通成交才启用资产规则费。
+
+03 [PURE_MATH] quoteUserBuy(requestedTotal,executedTotal,T,postAtTradeStart)。
+输入为用户请求总额、实际成交总额、规则税率和成交开始时是否已毕业。要求 requestedTotal>=1000、0<executedTotal<=requestedTotal、T 有效；postAtTradeStart=true 时还要求 executedTotal=requestedTotal。
+以 base=executedTotal 按第 02 条计算，返回 platformFee、ruleFee、totalFee、principal=base-totalFee、totalDebit=executedTotal；principal 必须大于 0。不在请求总额外加费，未成交额不计费。输入不满足条件则拒绝调用。
+此纯函数不判定真实毕业状态，不决定实际成交额，也不执行购买。例如输入 (1000,2,10,false) 返回 (1,0,1,1,2)，只是费用结果，不是部分成交授权。
+
+04 [PURE_MATH] quoteUserSell(G,T,postAtTradeStart)。
+输入为 BTC 毛收入 G、规则税率和成交开始时是否已毕业。要求 G>=1000 sats 且 T 有效；以 base=G 按第 02 条计算，返回 platformFee、ruleFee、totalFee、net=G-totalFee。输入不满足条件则拒绝调用，不要求 net>=1000。此函数不计算 AMM 价格或执行卖出。
+
+05 [PURE_MATH] 示例向量。
+毕业后 T10：base / platformFee / ruleFee / totalFee / AMM本金或卖出净额，依次为：
+1000 / 5 / 1 / 6 / 994
+1001 / 6 / 1 / 7 / 994
+1200 / 6 / 2 / 8 / 1192
+1201 / 7 / 1 / 8 / 1193
+base=1000、T0：5 / 0 / 5 / 995。
+base=1000、T500：毕业前 5 / 0 / 5 / 995，毕业后 5 / 50 / 55 / 945。
+这些取整边界下，用户所得不随 base 增加而减少；规则费可能下降 1 sat。
+
+06 [PURE_MATH] routeRuleFee(ruleFee,C)。
+输入非负规则费及去向 C。C10000 时返回 creatorAmount=ruleFee、buybackAmount=0；C0 时返回 creatorAmount=0、buybackAmount=ruleFee；其他 C 拒绝调用。它只计算去向金额，不转账、不分配账户；零规则费返回两个 0。
+
+07 [BUYBACK] planBuyback(V,N) 与锁定含义。
+输入为执行者提供的可用回购余额 V 和当前事件序号 N，返回 shouldExecute、spend、nextSequence、platformFee、ruleFee。
+V<1000 时返回 (false,0,0,0,0)；V>=1000 时返回 (true,V,N+1,0,0)。仅需要 N+1 且发生整数溢出时拒绝调用。余额 50000 对应一笔 50000 sats 全额回购，不拆分，免平台费、规则费和普通用户最低额；买入数量按该资产正常 AMM 买入数学确定，不由本函数计算。
+回购锁定的语义是所得 AIBRC 永久只进不出，不可卖出、转出、提现或由管理权限释放；总供应量不变，不是销毁。
+本函数只返回计划，不核实余额，不分配事件槽，不调度、执行或锁定资产；结果不证明回购已发生，也不授予调用者免税资格。
+
+08 [RESERVED_DIRECTORY] 预留目录。
+以下 15 项均为 RESERVED_DOCUMENTATION_ONLY：X402（x402 支付）、AGENT（AI Agent）、LLM（语言模型接入）、DAO（治理）、STOCK（股票/RWA）、EXTERNAL_RECEIPT（外部收款记录）、EXTERNAL_WALLET_CLAIM（外部钱包认领）、CERTIFIED_EXTERNAL_CONTRACT（认证外部合约）、DIVIDEND（分红）、AUTO_LP（自动流动性）、AIRDROP（空投）、MISSION（使命金库）、ORBIT（卫星代币）、BRIDGE（桥）、ORACLE（预言机）。
+这些名称只展示未来可能讨论的方向，不是已实现的业务函数、有效 R1 参数、自动启用能力或兼容性承诺。STOCK 不构成证券发行、交易、托管或资质承诺。
+
+09 [VERSION] 版本与适用范围。
+本规则仅适用于创建时明确选择该版本和合约地址的新资产，不改变旧资产或旧 LP 权益。合约地址与公开内容识别不可变版本；版本及资产参数不能事后替换。未来扩展须使用新版本、新地址和新资产明确的新参数，现有资产不因软件升级自动获得未声明能力。
+
+10 [BOUNDARY] 实现与信任边界。
+AIBTCInscription 是不可变、无业务状态的规则与纯计算参考，不托管 BTC 或 AIBRC，不读取外部链状态，不执行交易或领取，不自动强制执行者遵守规则。
+执行者根据固定参数应用相同数学，无需逐笔调用 EVM；真实参数、执行和托管仍由执行者负责。任何人可独立核算；纯函数返回值不证明已成交、已付款或已锁定。记录参数、提交交易、保管资金和证明执行的实现方式不属于本合约。本版本不实现真实资产销毁或预留目录中的业务能力。
+
+11 [READ_API] 只读信息接口。
+VERSION 返回 1；PLATFORM_FEE_BPS 返回 50；MIN_USER_GROSS_SATS 和 BUYBACK_TRIGGER_SATS 均返回 1000。inscriptionText() 返回本全文，INSCRIPTION_TEXT_SHA256 返回该全文 UTF-8 字节的 SHA-256。
+reservedCapabilityCount() 返回 15；reservedCapabilityAt(index) 对 0<=index<15 按第 08 条顺序返回 id、title、RESERVED_DOCUMENTATION_ONLY，越界则拒绝调用。
+数值接口使用 uint256，无法表示的结果拒绝而不环绕。不存在修改规则或参数的写接口，也没有预留目录对应的可执行业务接口。

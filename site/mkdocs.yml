@@ -68,6 +68,7 @@ nav:
       - Naming: spec/naming-policy.md
       - Reasons: spec/reason-codes.md
       - Covenant Inscription R1: spec/covenants/R1.md
+      - R1 source and examples: reference/r1/README.md
       - Covenant Inscription X1: spec/covenants/X1.md
       - Vectors: vectors/README.md
   - Proposals:

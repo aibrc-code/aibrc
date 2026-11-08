@@ -12,7 +12,7 @@ ROOT_PAGES = (
     "README.md", "TRUST_MODEL.md", "CONTRIBUTING.md",
     "THIRD_PARTY_NOTICES.md", "LICENSE-CODE", "LICENSE-DOCS",
 )
-SOURCE_DIRS = ("docs", "spec", "proposals", "merkle", "vectors", "config")
+SOURCE_DIRS = ("docs", "spec", "proposals", "merkle", "vectors", "config", "reference")
 SDK_FILES = ("packages/protocol/README.md", "packages/protocol/package.json",
              "packages/indexer/README.md", "packages/indexer/package.json",
              "packages/indexer/indexer.example.json", "packages/indexer/reuse-manifest.json")

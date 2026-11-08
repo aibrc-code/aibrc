@@ -1,16 +1,18 @@
 # 04 · Bounded Agent Assistants
 
-**Proposed · Agent Key**
+**Current read-only tools · Application authorization next · Proposed Agent Key**
 
 **Give Agents the Task. Put Boundaries in the Rules.**
 
-Agent Key proposes a way for a community to authorize an operating Agent to spend up to 1,000 tokens of one
-asset within a defined block range. The Agent can organize payments and distributions, while the community
-keeps its private key and can inspect the grant and transfers.
+An assistant can read asset and market information, explain a budget and prepare purchases or distributions
+for approval. Public API and MCP tools provide read-only inputs; the [R1 calculator](../../reference/r1/README.md)
+gives it a reusable way to calculate applicable fees. The user reviews and signs the actual action through
+an application or wallet.
 
-Its scoped authority draws on the wallet-execution permission model discussed in
-[ERC-7715](https://eips.ethereum.org/EIPS/eip-7715). AIBRC's proposal uses a specified asset, cumulative
-allowance and Bitcoin block heights, giving independent software explicit conditions to check.
+The next step is a limited mandate for a particular application task. Native Agent Key develops that idea
+into a protocol grant: one asset, a cumulative allowance and Bitcoin block-height bounds. Its design draws
+on the wallet-execution permission model discussed in
+[ERC-7715](https://eips.ethereum.org/EIPS/eip-7715), giving independent software explicit conditions to check.
 
 ## Why it matters
 
@@ -20,19 +22,31 @@ A protocol grant aims to make the relevant boundary deterministic. It is not an 
 
 ## A practical example
 
-An owner chooses an asset, a delegate, a total allowance and a validity interval. The wallet explains the complete scope before the owner signs. Once the grant is confirmed, an Agent proposes actions and a controlled signing component checks each one against the grant.
+A research assistant prepares a week's data purchases: the supplier, deliverable, price, payment asset and
+deadline for each task. The user reviews the plan and signs the payments. Suppliers return their results
+with records that link the work to the agreed task.
 
-The model can decide which request to make without reading the owner's private key. The application's interface should show the remaining allowance and the chain context in which a revocation takes effect.
+A later application mandate can let the assistant repeat approved purchases within a budget and expiry.
+The service can then spend less time asking for routine approvals while the owner keeps the main key.
 
 ## Who pays, who earns
 
 An assistant can charge for a task that a user actually wants performed: distributing funds, preparing purchases or operating a limited workflow. Automation is valuable when the saved work exceeds its execution, network and support costs.
 
-The Agent's name or token is not itself a revenue model. An allowance is a spending permission, not a profit guarantee or a promise that trading proceeds return to the owner.
+Paid data, verification and research give the assistant a reason to operate: customers receive a defined
+result, suppliers earn for delivery and revenue covers continued computation and support.
 
 ## How AIBRC fits
 
 [AIP-0001](../../proposals/AIP-0001-delegation-v1.md) proposes a unique grant identity, an owner permission-generation nonce, a remaining total allowance and block-height bounds. A delegated transfer must satisfy both the owner's available balance and the grant's remaining allowance. The grant identity prevents old material from being reinterpreted as a different authorization.
+
+| Stage | Authority | Useful outcome |
+| --- | --- | --- |
+| Current tools and user approval | Read and analyze; the user signs the action | Explain a purchase and prepare its payment |
+| Application authorization | A future credential checked by the application's executor | Repeat defined purchases within an explicit mandate |
+| Proposed Agent Key | A native grant checked under shared protocol rules | Transfer the specified AIBRC asset using the delegate's own key |
+
+The proposed native flow is:
 
 ```text
 Owner approves exact scope
@@ -46,7 +60,13 @@ Revocation becomes effective through confirmed canonical-chain state. It is not 
 
 ## Building the first version
 
-The proposal requires specification, activation, all state consumers, snapshot and rollback handling, wallet displays and constrained signing tools. Version one does not add periodic allowances, price conditions, redelegation or authority over a platform's internal custody balance.
+Application authorization belongs at the actual execution boundary, with balance and budget checks,
+revocation and durable operation identities. A retry should query the original result before attempting
+another payment.
+
+Native grants require consistent interpretation across canonical state, hashes, snapshots, undo and replay,
+along with wallet displays and signing tools. The first proposal uses a total allowance. Periodic budgets,
+recipient or price restrictions and authority over a platform balance or BTC wallet need their own rules.
 
 An Agent that may “sell only, with proceeds returning to the owner” needs a settlement rule beyond an outgoing transfer allowance. A later incoming balance can also be spent by a still-valid remaining grant; users must understand that scope rather than assume the grant refers only to today's holdings.
 
@@ -54,6 +74,6 @@ An Agent that may “sell only, with proceeds returning to the owner” needs a 
 
 ## Where it can lead
 
-Start with one task: a community distribution, a service budget or another limited transfer workflow.
-Recipient restrictions and settlement conditions can extend the mandate through separate rules. As the
-scope grows, keep the model's planning, the signing tool and the protocol's authority checks distinguishable.
+Start with one task: a data subscription, a paid analysis or a community distribution. Establish the
+customer, delivery and payment records, then add the authority needed to repeat that useful workflow.
+The model plans the work; signing tools and execution rules define what it may spend.

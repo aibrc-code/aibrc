@@ -1,12 +1,17 @@
 # 04 · Smart Covenant: programmable rules for Bitcoin assets
 
-An asset standard gives software a common way to identify and transfer an asset. Smart Covenant takes the
-next step: identify the rules attached to an application relationship, the authority they require and the
-results an independent program can check.
+AIBRC records native assets as balances on accounts derived from Bitcoin addresses. Wallets, applications
+and Agents share a way to identify an asset, name a recipient and specify an amount. Smart Covenant connects
+that foundation with public rules that applications can reuse and independent programs can calculate.
 
-This is AIBRC's route to native programmability. Compact instructions carry intent; deterministic rules
-define asset effects; applications execute the commitments that belong to their services. EVM rule extensions
-can connect through identified external references, with each execution environment keeping its own responsibilities.
+R1 is the first rule template on this route. An asset selects its version, fee rate and fee destination at
+creation; applications apply the fixed mathematics to their actual inputs. AiBTC is the first application
+infrastructure to connect these rules with trading and liquidity. Other applications can use the same rules
+in their own execution systems.
+
+The path continues from assets and public rules to useful Agent cooperation: read the relevant state,
+understand a rule, prepare an action and work within an explicit mandate. EVM rule extensions can connect
+through identified external references, with each execution environment keeping its own responsibilities.
 
 Three relationships make the framework easier to follow: **R1** identifies an application's rule template;
 **X1** identifies an external contract relationship; proposed **Agent Key** introduces bounded authority
@@ -41,27 +46,76 @@ relationships. Agent Key and further AIPs develop new protocol authority and set
 
 ## R1: an identifiable Covenant Inscription rule template
 
-An application can support several asset behaviors while keeping each one's rules recognizable. AIBTC Covenant Inscription R1 supplies
-a fixed template and identity for the economic parameters selected by an asset. A client can inspect the
-chosen version and parameters, then compare them with the application's execution records.
+R1 makes three calculations public: how much a trade pays in fees, where its rule fee goes and what buyback
+plan follows from an available balance. At creation, an asset selects the R1 version, reference address,
+fee rate `T` and destination `C`. Those parameters stay fixed for that asset.
 
-For example, creator allocations and buyback configurations express different destinations and triggers.
-Their base fee, rule fee, recipients and activation conditions belong in the rule interpretation, rather than
-being hidden behind a label.
+The available configurations are no rule fee, a rule fee allocated to the creator, or a rule fee allocated
+to buyback and permanent locking. The platform base fee is separate. Developers can reuse the calculation
+locally, and users or Agents can compare its results with execution records without an EVM transaction for
+each trade.
 
 ```text
-Asset selects R1 and its parameters
-  ↓
-Application identifies the matching execution version
-  ↓
-Operation applies the selected rule
-  ↓
-Result records support independent comparison
+Bitcoin asset + fixed R1 version and parameters
+  |
+  v
+Public calculations
+  |
+  v
+Application execution
+  +-- Instant: execution and accounting
+  +-- Block Swap: wallet signs -> Bitcoin confirms
+  |
+  v
+Execution records + independently calculated rule results
 ```
 
+The two paths above are an application example. Instant trading supports continuous interaction through
+the application ledger; Block Swap uses a transaction signed by the user's wallet. The public rule
+calculation gives both paths an explicit reference for the applicable fees.
+
+### A fee calculation anyone can repeat
+
+Consider a fully executed user buy of **100,000 sats**, with the asset already graduated at the start of
+the trade, `T100` (1%) and `C0` (buyback and locking):
+
+| Calculation | Result |
+| --- | --- |
+| Platform base fee | 500 sats |
+| Rule fee | 1,000 sats |
+| Total fee | 1,500 sats |
+| Buy principal after fees | 98,500 sats |
+| Rule-fee destination | 0 sats to the creator; 1,000 sats to the application's buyback route |
+
+For a user sell with the same gross amount and starting conditions, the net amount is also 98,500 sats.
+The following three lines are taken from the reference contract's `_fees` function. `ceilBps` rounds up
+using integer arithmetic; the rule fee is the difference after calculating the total fee.
+
+```solidity
+platformFee = ceilBps(base, 50);
+totalFee = ceilBps(base, 50 + (postAtTradeStart ? T : 0));
+ruleFee = totalFee - platformFee;
+```
+
+The [R1 calculation reference](../reference/r1/README.md) provides the Solidity source, ABI, frozen text,
+vectors and a local JavaScript calculator, with commands to run the example and check the vectors.
+`planBuyback` takes the available buyback balance and event sequence to calculate the next plan.
+
 The [published AIBTC Covenant Inscription R1 reference](../spec/covenants/R1.md) preserves the complete frozen text and its binding
-explanation. It is the source for exact wording and identifiers. R1 application execution is separate from
-the two core wire instructions.
+explanation. It is the source for exact wording and identifiers.
+
+### Different Bitcoin programmability routes
+
+| Route | Native protocol approach | What builders can work with |
+| --- | --- | --- |
+| [Runes](https://docs.ordinals.com/runes.html) | Runestones allocate rune balances across Bitcoin transaction outputs | Defined issuance and asset-allocation rules |
+| [ARC-20](https://github.com/atomicals-community/atomicals-guide/blob/main/arc20-tokens/README.md) | Asset units are associated with sats and follow the protocol's output-allocation rules | Satoshi-linked assets and their transfer rules |
+| [BRC2.0](https://github.com/bestinslot-xyz/brc20-proposals/blob/main/000-programmable-module/index.md) | Bitcoin inscriptions submit operations to an indexer-executed EVM module | General contract state and application logic |
+| [Alkanes](https://github.com/kungfuflex/alkanes-rs/blob/main/README.md) | Bitcoin carries program data and calls interpreted by a WASM indexer runtime | Programmable assets and contracts |
+| AIBRC + R1 | Native account balances and public asset rules; R1 supplies a reusable calculation reference | Common asset interfaces and application execution, illustrated by AiBTC's Instant and Block Swap paths |
+
+The first four entries describe native protocol approaches. The AiBTC paths illustrate an application
+built on AIBRC. Application trading speed and native Bitcoin confirmation time describe different layers.
 
 ## X1: a reference, not remote execution
 
@@ -83,6 +137,11 @@ settlement integration can build on that identity with its own verified conditio
 ## Agent Key: delegate authority without handing a model the owner key
 
 **Give Agents the Task. Put Boundaries in the Rules.**
+
+An assistant can begin with read-only API and MCP tools, calculate R1 fees locally and prepare a plan for
+the user to review and sign through an application or wallet. Scoped application authorization is the next
+step; native Agent Key develops a permission that independent protocol implementations can share. The
+[bounded-assistant guide](applications/04-delegated-agents.md) follows this sequence.
 
 Agent Key proposes a way for a community to give an operating Agent permission to spend up to 1,000 tokens
 of a specified asset within a defined block range. The Agent can organize payments and distributions, while
@@ -130,7 +189,10 @@ exchanges and evidence-linked service payments when the relevant conditions are 
 
 These definitions keep Smart Covenant's responsibilities precise:
 
-- **Core and application execution:** R1 is a fixed application template, not a third core opcode. X1 records a
+- **Core and application execution:** R1 is an immutable pure calculation reference for fees, their destination
+  and buyback plans. Applications supply the actual state and handle AMM pricing, trading, custody and locking.
+  Fixed parameters identify the rule to check; the necessary inputs and execution records let others assess
+  whether the application followed it. R1 is separate from the two core wire instructions. X1 records a
   chain and address, not an external code hash, code-existence proof or instruction for Bitcoin to run the EVM.
   Neither reference alone establishes redemption rights, contract safety or application reserve coverage.
 - **Grant scope:** the first Agent Key proposal uses a total allowance, not periodic budgets. An allowance

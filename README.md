@@ -47,6 +47,44 @@ transfers require a valid instruction. Bitcoin inputs, recipient outputs, change
 to follow Bitcoin's transaction rules. AIBRC separates asset accounting from BTC coin selection, reducing
 the extra work of managing asset carriers, splits and tracking.
 
+### Smart Covenant: Rules Applications Can Share
+
+**Give assets clear rules. Give Agents a foundation for action.**
+
+Smart Covenant connects assets with identifiable application rules. R1 is its first rule template:
+an asset selects a fixed version, fee rate and fee destination at creation. The public reference contract
+defines fee calculations, rule-fee routing and buyback plans. Applications apply the same mathematics
+locally, and developers and Agents can calculate the results from the same inputs.
+
+AiBTC is the first application infrastructure built on this foundation. Its two trading routes connect
+these rules to instant trades and wallet-signed Block Swaps on Bitcoin. Instant execution needs no
+Bitcoin transaction or EVM call for each fill; Block Swaps follow the wallet and Bitcoin confirmation path.
+
+```text
+AIBRC asset + fixed R1 parameters
+  ↓
+Public calculation standard
+  ↓
+Application execution
+  ├─ Instant trade → execution and account record
+  └─ Block Swap → wallet signature → confirmation
+  ↓
+Execution records for queries and verification
+```
+
+The [R1 reference](reference/r1/README.md) includes the frozen Solidity source, ABI, build identity,
+test vectors and dependency-free Node examples. Try the fee calculation and check the reference vectors:
+
+```sh
+node reference/r1/example.mjs
+node reference/r1/check-vectors.mjs
+```
+
+For a post-graduation buy of **100,000 sats** with a **1% rule fee**, R1 calculates a 500-sat base fee,
+a 1,000-sat rule fee and 98,500 sats of buy principal. The selected destination assigns the rule fee to
+the creator or to the application's buyback-and-lock path. The
+[Smart Covenant chapter](docs/04-smart-covenant.md) follows the rule from asset creation to application use.
+
 ### A Shared Account Foundation for Agents
 
 Clear asset IDs, account balances and operation rules give Agents a foundation for payments and
@@ -72,6 +110,11 @@ Results checked against protocol rules
 
 Accounts make assets easier for software to work with. Scoped authority sets boundaries on what an Agent
 can do. Shared interfaces provide a foundation for applications and Agents to cooperate economically.
+
+Start with useful work: an Agent reads market data, prepares an operation or purchases a research service
+for its user. A service Agent can buy data or verification from another provider and settle an agreed
+payment for the delivery. Existing account transfers provide a payment foundation; proposed Agent Key
+and settlement rules extend it toward budgeted execution and cross-application collaboration.
 
 ### Run Your Own Indexer. Verify Your Own Ledger.
 
@@ -165,6 +208,7 @@ aibtc.bot is the first application built on AIBRC; it holds no privileged positi
 | How do I encode Deploy, transfer to 1–25 recipients, decode or hash state? | [Runnable code examples](docs/quickstart.md) |
 | What bytes go into a transaction? | [Instructions and examples](docs/03-instructions.md) · [Wire specification](spec/AIBRC_PROTOCOL_V0.25.md) |
 | How do programmable rules and Agent Key fit together? | [Smart Covenant](docs/04-smart-covenant.md) · [Covenant Inscription R1](spec/covenants/R1.md) · [Covenant Inscription X1](spec/covenants/X1.md) |
+| How do I calculate R1 fees locally? | [R1 source, ABI and runnable examples](reference/r1/README.md) |
 | How do different asset standards connect? | [Shared-root issuance and settlement](docs/05-cross-protocol.md) |
 | How can I run my own indexer? | [Run your own indexer](docs/run-indexer.md) · [Implementation guide](docs/06-indexer-guide.md) · [Test vectors](vectors/README.md) |
 | What can developers and Agents build? | [Applications and economic loops](docs/07-applications.md) |
@@ -311,8 +355,8 @@ test data.
 Code: [MIT](LICENSE-CODE), © AIBRC contributors. Specification and documentation: [CC0-1.0](LICENSE-DOCS).
 [Third-party notices](THIRD_PARTY_NOTICES.md) preserve dependency licenses.
 
-This repository contains the protocol specification, pure codec, state-validation core, test vectors and
-whitepaper. Applications maintain their own execution systems and operations. Read the
+This repository contains the protocol specification, pure codec, state-validation core, reference indexer,
+R1 calculation reference, test vectors and whitepaper. Applications maintain their own execution systems and operations. Read the
 [trust model](TRUST_MODEL.md) for verification assumptions and [contribution guide](CONTRIBUTING.md) to take part.
 
 AIBRC is an open Web3 experiment, inspired by Bitcoin and the possibilities of the Agent era. Its future is
