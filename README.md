@@ -1,46 +1,99 @@
 # AIBRC
 
-**A unified protocol for assets, account abstraction and Smart Covenant on Bitcoin L1.**
+## From Assets in Your Address to an Agent Economy on Bitcoin
 
-**One interface · Many protocols · Native programmable assets · Settlement on Bitcoin.**
+### Independent Protocols. Shared Foundations.
 
-`bitcoin` · `protocol` · `op-return` · `account-abstraction` · `smart-covenant` · `indexer` · `agents` · `merkle`
+Bitcoin keeps inspiring new protocols, each bringing its own asset rules, wallet tools and application
+stack. Every new protocol can mean another round of integration work, making it harder for the ecosystem
+to build on what already exists.
 
-AIBRC (Covenant Inscription) establishes a unified protocol, asset and account standard for the Bitcoin
-ecosystem, providing a shared application language and open infrastructure.
+AIBRC (Covenant Inscription) aims to establish common standards for assets, accounts and Agent applications.
+Protocols keep their native rules, while wallets, applications and Agents gain a shared interaction
+language and reusable infrastructure.
 
-Through Smart Covenant, AIBRC brings native Bitcoin programmability and EVM rule extensions into a common
-design for composable asset rules, permissions and application interactions.
+Blockchain ecosystems have shown what shared standards make possible: common asset interfaces and execution
+conventions let wallets, developer tools, markets and application frameworks build on one another.
+[ERC-20](https://eips.ethereum.org/EIPS/eip-20) is a familiar example. An ecosystem grows through the tools and
+applications that people can reuse, combine and extend.
 
-Built on Bitcoin L1 transactions, ordering and settlement, AIBRC makes asset state independently reproducible
-from public blocks and protocol rules.
+AIBRC brings that ambition to Bitcoin. The goal is to connect BRC-20, Runes and future protocols through
+shared ways to read, describe and interact with assets, laying the groundwork for cross-protocol markets,
+Agent collaboration and shared infrastructure.
 
-Through proposed [Agent Key](docs/04-smart-covenant.md#agent-key-delegate-authority-without-handing-a-model-the-owner-key)
-delegation, agents will be able to carry out authorized operations within defined asset allowances and
-block-height limits, supporting verifiable activity on Bitcoin L1.
+### Assets Live in Your Address
 
-## A common language for the Bitcoin ecosystem
+AIBRC draws on the account-balance model and common asset interfaces familiar from other blockchain
+ecosystems. Native AIBRC assets are recorded as balances on accounts derived from Bitcoin addresses.
 
-Bitcoin gave the world open money and a history anyone can verify. Its ecosystem has since grown through
-Ordinals inscriptions, BRC-20, Runes, new asset models and the communities building around them. Every wave has added
-culture, tools and possibilities. Shared foundations can help those contributions connect and compound.
+**One address can hold multiple AIBRC assets. Assets are not tied to individual satoshis, and there is no
+need to keep a separate carrier UTXO for each balance.**
 
-ERC standards and the EVM show the power of reusable asset interfaces and programmable rules. AIBRC brings
-that ambition to Bitcoin through script accounts, deterministic instructions and Smart Covenant: a common
-foundation on which independent wallets, applications and agents can build.
+```text
+Bitcoin address
+  ↓ corresponding scriptPubKey
+AIBRC account
+  ├─ Asset A balance
+  ├─ Asset B balance
+  └─ Asset C balance
+```
 
-**Compatibility, not replacement. Aggregation, not fragmentation.**
+To transfer assets, the sender specifies the asset, amount and recipient, then authorizes the operation
+with an eligible Bitcoin input. Indexers apply the public authorization and balance rules before updating
+both accounts. There is no need to locate a particular UTXO carrying those tokens.
 
-BRC-20, Runes and future protocols retain their native rules. [Shared-root issuance](docs/05-cross-protocol.md#shared-root-issuance)
-gives assets under different standards a verifiable common origin. Cross-protocol interfaces and proposed
-settlement conditions extend that connection toward markets and Agent collaboration, with each asset's
-validity preserved. New protocols should grow what a community can build, rather than make it start again.
+An ordinary BTC payment does not automatically move the AIBRC balance held by the same account. Asset
+transfers require a valid instruction. Bitcoin inputs, recipient outputs, change and miner fees continue
+to follow Bitcoin's transaction rules. AIBRC separates asset accounting from BTC coin selection, reducing
+the extra work of managing asset carriers, splits and tracking.
 
-## Assets on accounts. Rules open to everyone.
+### A Shared Account Foundation for Agents
 
-A Covenant Inscription records asset ownership as a balance on a script-derived account. There is no separate
-carrier UTXO to guard for each asset balance: an ordinary BTC spend does not move the AIBRC balance with it.
-The [account model](docs/02-protocol-model.md) makes transfers a question of asset, recipient, amount and authority.
+Clear asset IDs, account balances and operation rules give Agents a foundation for payments and
+collaboration. They can build workflows around which asset to use, how much to pay and who should receive
+it, with explicit inputs and verifiable outcomes.
+
+Through the evolution of Smart Covenant and Agent Key, AIBRC is exploring permissions expressed as protocol
+rules. An owner defines the permitted asset, cumulative allowance and valid block range. The Agent executes
+authorized tasks using its own key; the owner keeps their private key.
+
+**The Agent Key delegation proposal draws on the scoped wallet-execution permission model discussed in
+[ERC-7715](https://eips.ethereum.org/EIPS/eip-7715), adapted to Bitcoin block heights and AIBRC asset rules.**
+
+```text
+Owner sets permissions
+  ↓ asset · allowance · valid block range
+Agent executes with its own key
+  ↓
+Service payments · task settlement · asset distribution
+  ↓
+Results checked against protocol rules
+```
+
+Accounts make assets easier for software to work with. Scoped authority sets boundaries on what an Agent
+can do. Shared interfaces provide a foundation for applications and Agents to cooperate economically.
+
+### Run Your Own Indexer. Verify Your Own Ledger.
+
+Shared standards also allow different participants to compute the ledger independently.
+
+AIBRC provides public rules, reference code, test vectors and a [standalone indexer package](packages/indexer/README.md).
+People, developers and Agents can read blocks from their own Bitcoin nodes, reconstruct assets and balances
+under the same rules, and compare results for the same canonical chain state.
+
+```text
+The same Bitcoin blocks
+  + the same protocol rules
+  ↓
+Independently reproducible asset state and ledger hash
+```
+
+Wallets can choose their data provider. Applications can run their own indexers. Communities can check the
+results. Using and verifying the protocol does not require permission from any one platform.
+
+**Don't trust, verify.**
+
+## Protocol at a Glance
 
 Instructions use a compact `OP_RETURN`. Its unspendable output keeps the instruction out of Bitcoin's active
 UTXO set; it does not require a spendable dust output for each asset balance. Bitcoin funding, receiver outputs
@@ -69,14 +122,6 @@ account      = TaggedHash("AIBRC/account/v1", scriptPubKey)
 stateHash(H) = SHA256(canonical_state)
 wire bounds  = 1 tx · 1 marker · ≤ 480 B · ≤ 25 allocations
 ```
-
-## From programmable assets to an Agent economy
-
-Smart Covenant connects an asset's rules with the applications that execute them. Agent Key extends that
-vision to delegated action: give an Agent a defined mandate while keeping the owner's key separate.
-Identity, allowances, service payments and verifiable receipts can become the foundations of an open machine
-economy. Heavy computation and inference stay off-chain; ownership and protocol outcomes remain traceable
-to Bitcoin.
 
 The [Smart Covenant chapter](docs/04-smart-covenant.md) explains the current R1 rule template, X1 external
 references and proposed Agent Key. The [application guides](docs/07-applications.md) explore what builders can
