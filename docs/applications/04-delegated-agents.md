@@ -2,12 +2,15 @@
 
 **Proposed · Agent Key**
 
-An assistant should receive enough authority to do its job. Agent Key proposes a protocol-level mandate for
-that purpose: a specified asset, a total allowance and a block-height interval, authorized by the owner and
-usable through the Agent's controlled signing tool.
+**Give Agents the Task. Put Boundaries in the Rules.**
 
-This gives automation a concrete shape. People retain their owner keys; Agents can coordinate useful work
-inside a scope that independent software can read and enforce.
+Agent Key proposes a way for a community to authorize an operating Agent to spend up to 1,000 tokens of one
+asset within a defined block range. The Agent can organize payments and distributions, while the community
+keeps its private key and can inspect the grant and transfers.
+
+Its scoped authority draws on the wallet-execution permission model discussed in
+[ERC-7715](https://eips.ethereum.org/EIPS/eip-7715). AIBRC's proposal uses a specified asset, cumulative
+allowance and Bitcoin block heights, giving independent software explicit conditions to check.
 
 ## Why it matters
 

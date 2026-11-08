@@ -2,12 +2,13 @@
 
 **Live components**
 
-A wallet is where an asset rule becomes a human decision. Choose a Covenant Inscription, name a recipient and
-approve an exact quantity. The wallet handles transaction construction while showing what the signature
-changes, what Bitcoin fees cost and how to check the result.
+A wallet makes the account model useful: one Bitcoin address can hold multiple native AIBRC assets.
+Choose a Covenant Inscription, specify a recipient and approve an exact quantity. The wallet constructs the
+Bitcoin transaction and shows the asset movement, BTC funding and network fee as separate parts of the action.
 
-AIBRC's account abstraction lets that experience revolve around balances and authority. The wallet can use
-the open codec and rules to explain the same operation that an independent indexer will interpret.
+The balance belongs to the account, not a particular carrier UTXO. The wallet can use the open codec and
+rules to explain the same operation that an independent indexer will interpret. The
+[account model](../02-protocol-model.md#one-address-multiple-assets) explains ownership and authorization.
 
 ## Why it matters
 

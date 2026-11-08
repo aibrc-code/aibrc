@@ -2,11 +2,21 @@
 
 ## Compatibility, not replacement. Aggregation, not fragmentation.
 
-AIBRC is being built as a common asset, account and Agent-interaction foundation for the Bitcoin ecosystem. BRC-20, Runes and future protocols keep their own identities and native rules. Bitcoin does not need another standards war that makes existing assets, communities and liquidity start from zero with every new protocol.
+**Different Protocols. Shared Application Foundations.**
 
-Shared-root issuance — parallel issuance across asset standards — gives distinct protocol artifacts a verifiable common starting point. The existing AIBRC–BTC block-exchange path also provides a concrete example of coordinating payment and asset delivery in one Bitcoin transaction. These building blocks give applications a path toward connected markets without requiring one mandatory platform gateway.
+BRC-20, Runes and AIBRC can evolve under their own rules. AIBRC aims to help wallets, markets and Agents reuse
+ways to identify, read and interact with assets, reducing the need to rebuild tools for every protocol.
+Shared-root issuance and cross-protocol exchange are distinct application directions built on that common
+foundation.
 
-The broader ambition is a connected liquidity and Agent collaboration network: new protocol innovations should expand what a community can build, while preserving its accumulated relationships and market activity. Cross-protocol conditional settlement is one of the proposed rules for advancing that direction; [AIP-0007](../proposals/AIP-0007-conditional.md) sets out the design questions.
+Shared tools give users and developers a consistent way to work with different assets. Optional shared-root
+issuance establishes a common origin for assets issued under several standards. Exchange asks a different
+question: what conditions establish that each side received the agreed asset? A shared issuance root is not
+a prerequisite for a common interface.
+
+The existing AIBRC–BTC block-exchange path provides an application example of coordinating payment and
+asset delivery in one Bitcoin transaction. General cross-protocol conditional settlement is a proposed next
+step; [AIP-0007](../proposals/AIP-0007-conditional.md) sets out its design questions.
 
 ## Identify the asset before discussing its price
 

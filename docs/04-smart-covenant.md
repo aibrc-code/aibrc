@@ -8,6 +8,10 @@ This is AIBRC's route to native programmability. Compact instructions carry inte
 define asset effects; applications execute the commitments that belong to their services. EVM rule extensions
 can connect through identified external references, with each execution environment keeping its own responsibilities.
 
+Three relationships make the framework easier to follow: **R1** identifies an application's rule template;
+**X1** identifies an external contract relationship; proposed **Agent Key** introduces bounded authority
+to transfer a native asset. They connect rules, applications and permissions in different ways.
+
 ## From an intention to an explicit rule
 
 Imagine an asset whose application allocates a selected fee to a creator, or an Agent allowed to spend only a
@@ -78,14 +82,20 @@ settlement integration can build on that identity with its own verified conditio
 
 ## Agent Key: delegate authority without handing a model the owner key
 
-Agent Key is the proposed bounded-delegation model: an owner grants an agent script account permission to
-transfer a specified asset within a total allowance and a block-height interval. The owner retains the owner
-key; the Agent operates through its own controlled signing tool.
+**Give Agents the Task. Put Boundaries in the Rules.**
 
-A person might authorize an assistant to distribute a limited service budget. The wallet explains the asset,
-delegate, total allowance and valid heights. After confirmation, the Agent can prepare actions and its signing
-tool checks them against that mandate. Protocol interpretation checks both the owner's available balance and
-the remaining grant allowance.
+Agent Key proposes a way for a community to give an operating Agent permission to spend up to 1,000 tokens
+of a specified asset within a defined block range. The Agent can organize payments and distributions, while
+the community keeps its private key and can inspect the grant and resulting transfers.
+
+A grant identifies one asset, a cumulative allowance and valid heights. The Agent uses its own working key
+to prepare authorized transfers through a controlled signing tool. Each delegated transfer must still
+satisfy the owner's available balance and the grant's remaining allowance.
+
+The scoped-delegation design draws on the wallet-execution permissions discussed in
+[ERC-7715](https://eips.ethereum.org/EIPS/eip-7715), expressed through AIBRC asset rules and Bitcoin block
+heights. The model handles planning; the permission boundary is defined by rules that independent software
+can check.
 
 ```text
 Owner defines asset, allowance and valid heights

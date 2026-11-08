@@ -12,7 +12,7 @@ relationships; research explores the richer economies they could support.
 
 | Layer | Applications | AIBRC's role | What remains to be built |
 | --- | --- | --- | --- |
-| Current foundations | Asset display, fixed-supply issuance, transfers, single-asset distributions, public data inspection | Current Deploy/Transfer rules, canonical state and decoder | Wallet integration, chain access, recoverable storage and product-specific checks |
+| Current foundations | Asset display, fixed-supply issuance, transfers, single-asset distributions, public data inspection | Current Deploy/Transfer rules, canonical state, decoder and the [reference RPC/SQLite indexer](run-indexer.md) | Wallet integration, configuration of the operator's Bitcoin node, product-specific interfaces and checks |
 | Application-layer pilots | RFQ preparation, market-making assistants, LP risk analysis, paid Agent APIs, attributable work receipts | Existing assets and explicit application execution; signed off-chain records where appropriate | Actual delivery, custody or signing boundaries, inventory policy and exception handling |
 | New protocol instructions | Agent Key, asset locks, multi-asset allocation, typed identity relationships and Living Asset state | Proposed grants, locks, bindings, statements and settlement conditions | Complete specifications, vectors, implementation, review and activation |
 | Full financial infrastructure | Stable-value assets, collateralized lending, liquidation markets, BTC strategy treasuries and real-world claims | Asset identity and a possible rules substrate | Reserves, legal rights, data sources, liquidation or external funding and custody arrangements |

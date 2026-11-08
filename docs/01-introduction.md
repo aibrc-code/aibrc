@@ -97,7 +97,9 @@ individual records; the present state hash covers the complete canonical state.
 
 The current operations are Deploy and Transfer. They provide fixed-supply issuance and transfers from an
 authorized script account to one or more recipients. The public package supplies the codec, deterministic
-validation and state functions, test vectors and implementation guidance.
+validation and state functions, test vectors and implementation guidance. The
+[standalone reference indexer](run-indexer.md) packages read-only chain access, recoverable SQLite storage
+and local queries for people and AI operators who want to run their own ledger.
 
 The next building blocks are organized as [AIPs](../proposals/README.md): Agent Key, multi-asset transfers,
 height locks, bindings, attestations, checkpoints and conditional settlement. New behavior becomes a rule

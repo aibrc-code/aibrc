@@ -6,6 +6,10 @@ Open rules become shared infrastructure when independent services can reproduce 
 reads Bitcoin history, interprets Covenant Inscription operations and exposes the resulting asset state.
 An explorer gives people a readable path through those same facts.
 
+The [reference indexer and runbook](../run-indexer.md) provide a runnable starting point: a read-only Bitcoin
+Core connection, recoverable SQLite storage and local asset, balance and transfer queries. People and AI
+operators can try the isolated walkthrough before connecting their own node.
+
 A wallet, exchange or Agent can choose a provider and still know which block and rule version produced its
 answer. Another implementation can run the calculation again and investigate a disagreement.
 
@@ -43,7 +47,13 @@ A locator resolves in the current canonical chain. A query must not quietly pres
 
 ## Building the first version
 
-The public package supplies pure rules and vectors, not the platform's production storage, query projections or replica mechanism. A service must choose its own persistence, bounded queries, retention and reorganization recovery.
+The protocol SDK supplies pure rules and vectors. The separate reference indexer packages chain reading,
+SQLite persistence, rollback and local queries, so a builder does not need to recreate those pieces just
+to get started. It does not include the platform's trading backend or a hosted query service.
+
+Operators configure their own Bitcoin node, rule context and local database. A production data service
+then adds the interfaces, query limits, availability and resource planning its users need. Independent
+implementations can also choose another storage design while preserving the same state and recovery rules.
 
 Full-state serialization, history access and snapshots grow with the data they cover. A failed read must remain unavailable, never become a fabricated zero balance. Multiple services sharing one faulty implementation can agree and still be wrong.
 

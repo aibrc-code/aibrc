@@ -9,6 +9,10 @@ Providers contribute inventory and executable quotes; Agents can help find and c
 AIBRC's role is a common interaction foundation with exact asset identity and explicit settlement
 conditions. Each participating protocol keeps the rules that determine whether its own asset was delivered.
 
+The aim is reusable market tooling across protocols. A quote interface can work with assets that were
+issued independently; a shared issuance root is optional. Exact asset identity, fresh inventory and each
+protocol's settlement rules remain part of the exchange.
+
 ## Why it matters
 
 In an RFQ market, competing providers quote a specific exchange rather than require every order to sit indefinitely in one public order book. A provider earns a spread for making inventory and execution available. The same model is relevant to assets whose transfer preparation and confirmation differ between protocols.
