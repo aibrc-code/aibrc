@@ -13,13 +13,25 @@ relationships; research explores the richer economies they could support.
 | Layer | Applications | AIBRC's role | What remains to be built |
 | --- | --- | --- | --- |
 | Current foundations | Asset display, fixed-supply issuance, transfers, single-asset distributions, public data inspection | Current Deploy/Transfer rules, canonical state, decoder and the [reference RPC/SQLite indexer](run-indexer.md) | Wallet integration, configuration of the operator's Bitcoin node, product-specific interfaces and checks |
-| Application-layer pilots | RFQ preparation, market-making assistants, LP risk analysis, paid Agent APIs, attributable work receipts | Existing assets and explicit application execution; signed off-chain records where appropriate | Actual delivery, custody or signing boundaries, inventory policy and exception handling |
+| Application-layer pilots | RFQ preparation, market-making assistants, LP risk analysis, paid analysis and verification, attributable work receipts | Existing assets and explicit application execution; signed off-chain records where appropriate | Actual delivery, custody or signing boundaries, inventory policy and exception handling |
 | New protocol instructions | Agent Key, asset locks, multi-asset allocation, typed identity relationships and Living Asset state | Proposed grants, locks, bindings, statements and settlement conditions | Complete specifications, vectors, implementation, review and activation |
 | Full financial infrastructure | Stable-value assets, collateralized lending, liquidation markets, BTC strategy treasuries and real-world claims | Asset identity and a possible rules substrate | Reserves, legal rights, data sources, liquidation or external funding and custody arrangements |
 
 An application pilot can begin with current transfers, explicit operator responsibilities and signed service
 records. Protocol extensions can move additional conditions into shared state once their rules and activation
 are complete.
+
+### From analysis to delegated execution
+
+1. **Read, calculate and prepare.** Existing public API and MCP tools provide read-only inputs. An assistant
+   can analyze a task, use the [R1 calculator](../reference/r1/README.md) to explain applicable fees and prepare
+   an action for the user to review and sign in an application or wallet.
+2. **Authorize a specific application task.** Scoped application credentials are the next development step:
+   define permitted actions, assets, budgets, recipients and expiry, then check them at execution.
+3. **Share authority through protocol rules.** Proposed [Agent Key](applications/04-delegated-agents.md) adds
+   native delegated transfers; proposed settlement conditions address the evidence required for delivery.
+
+This sequence lets a useful service find customers before adding continuous spending authority.
 
 ## Web3 references mapped to AIBRC uses
 
@@ -89,13 +101,18 @@ history, equipment and operating role also connects to [Living Assets](applicati
 
 ### Agent-to-Agent commerce
 
-A market Agent needs a fresh transfer-validity result before offering a quote. It purchases that check from
-a data service; the supplier returns a result identifying its source, time and scope. The buyer uses it to
-make a decision, while payment funds the supplier's continued operation.
+A wallet, merchant or research Agent can buy a data subscription, a reproducible state check or an analysis.
+The supplier returns a result identifying its source, time, rule context and scope. Free public APIs remain
+shared inputs; the paid service adds processing, verification, reliable delivery or support. A task or
+subscription price pays for that work.
 
-This example connects several businesses: quotes need inventory, inventory needs risk data, and data needs
-paid computation and maintenance. BTC or an agreed asset pays for the work. AIBRC's proposed grants,
-identity relationships and receipts can make the cooperation more explicit. The
+A research Agent can also take a customer's order, purchase data and verification from specialized services,
+then deliver the finished analysis. Customer revenue pays the suppliers and funds the next job. When the
+participants agree on one payment asset, a current AIBRC Transfer can allocate it to up to 25 recipients,
+subject to its payload limit. A first product can settle each task or periodic batch with user approval.
+
+BTC or an agreed asset pays for useful work. Proposed grants, identity relationships and receipts can make
+repeated cooperation easier to operate and inspect. The
 [task-market](applications/05-task-markets.md) and [Resident Agent](applications/06-resident-agent.md) guides
 show how that loop could grow.
 
@@ -106,8 +123,8 @@ show how that loop could grow.
 | [01 · Wallets and Asset Management](applications/01-wallets.md) | Live components | Explain an exact transfer before the user signs |
 | [02 · Indexers, Explorers and Data Services](applications/02-indexers.md) | Live components | Return a result with its canonical-chain and rule context |
 | [03 · Payments, Distribution and Stable-Value Assets](applications/03-payments.md) | Live payments; Proposed multi-asset; Research stable finance | Reconcile a single-asset distribution without double payment |
-| [04 · Bounded Agent Assistants](applications/04-delegated-agents.md) | Proposed | Define a total allowance with identity and height limits |
-| [05 · Task Markets and Verifiable Receipts](applications/05-task-markets.md) | Proposed / Research | Link a paid task to attributable acceptance evidence |
+| [04 · Bounded Agent Assistants](applications/04-delegated-agents.md) | Current read-only tools; Proposed authorization | Prepare a specific service payment for user approval |
+| [05 · Task Markets and Verifiable Receipts](applications/05-task-markets.md) | Application pilots; Proposed protocol receipts | Link a paid task to its delivery, acceptance and payment records |
 | [06 · Bitcoin Resident Agent](applications/06-resident-agent.md) | Research | Operate one paid service with an explainable budget and handover |
 | [07 · DAO and Community Treasuries](applications/07-treasuries.md) | Research | Compare approved budgets, transfers and delivery records |
 | [08 · Identity, Credentials and Community Access](applications/08-identity.md) | Proposed | Verify who issued an eligibility claim and whether it remains valid |
