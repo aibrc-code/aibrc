@@ -2,6 +2,10 @@
 
 Deploy an asset, transfer it to one or several recipients, read an instruction, and compare a state hash. The core calls below use the existing SDK.
 
+These are the same building blocks an Agent can use to prepare a community distribution, explain an asset
+operation or check its local ledger. The user reviews the transaction through a wallet; the shared SDK
+keeps the instruction fields explicit for both the person and the tool.
+
 These are **short SDK excerpts**. Imports and common values are defined once in the [shared setup](#shared-setup). Each section links to a complete, independently runnable file. Encoding creates instruction bytes; the wallet constructs, signs and broadcasts the Bitcoin transaction containing them.
 
 ## Deploy a fixed-supply asset

@@ -19,17 +19,26 @@ Different products need different restrictions. A time lock, a revocable budget 
 
 A team member receives an entitlement with clearly stated release heights. The interface shows total ownership, the currently available amount and the conditions affecting the remainder. An application reserving a task budget similarly explains whether the owner may cancel it and what happens at the deadline.
 
+A community research service could release operating funds in stages. Its assistant would check the
+currently available amount before preparing the next data purchase or contributor payment. This separates
+money committed to later work from the budget the current task may use. Acceptance of the work would use
+its own agreed evidence and any separately specified settlement conditions.
+
 When the chain advances, the same rule determines availability for every implementation. The user should not have to wait for an operator to remember to press a release button unless the product explicitly requires that additional action.
 
 ## Who pays, who earns
 
-Applications may offer allocation, accounting and schedule-management services. A lock does not itself generate income, interest or price protection. The benefit is a credible timing or availability constraint, not an implied financial return.
+Applications may earn from allocation, accounting and schedule-management services. A lock's value is the
+explicit timing or availability commitment it makes possible. Any interest, income or price protection
+would need its own economic source and terms.
 
 Terms must distinguish the asset's ownership from its permitted use. A reserved amount cannot simultaneously be counted as freely spendable by another product unless the rules explicitly establish that relationship.
 
 ## How AIBRC fits
 
-[AIP-0003](../../proposals/AIP-0003-lock.md) explores height-based locks and release. It must define the asset, locked amount, calculation order, rounding, transfer and delegation interactions, and rollback behavior. This is not a hidden switch already present in the current Transfer instruction.
+[AIP-0003](../../proposals/AIP-0003-lock.md) explores height-based locks and release as an extension to the
+current core. It must define the asset, locked amount, calculation order, rounding, transfer and delegation
+interactions, and rollback behavior.
 
 ```text
 Approve amount and height conditions

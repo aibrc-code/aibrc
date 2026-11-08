@@ -1,5 +1,24 @@
 # 03 · From an intention to Bitcoin bytes
 
+Start with a task: issue a fixed-supply asset, pay one recipient or distribute one asset to several
+recipients. A wallet or Agent can express the asset, amounts and recipient outputs through the same public
+SDK, then pass the prepared transaction to the wallet for review and signature.
+
+```text
+Task: issue or transfer an asset
+  ↓
+Public SDK: encode the instruction
+  ↓
+Wallet: construct, review and sign
+  ↓
+Bitcoin confirms the transaction
+  ↓
+Indexer applies the asset rules
+```
+
+This chapter follows that task into the exact bytes. Begin with the [runnable examples](quickstart.md)
+to try it, then use the fields and checks below to build an integration.
+
 ## A compact instruction inside a Bitcoin transaction
 
 AIBRC instructions are carried in an `OP_RETURN` data push in a Bitcoin transaction output. The marker bytes are `41 49 42 52`, ASCII `AIBR`. An interpreter does not search arbitrary witness data, annotations or non-OP_RETURN outputs for text that changes asset state.

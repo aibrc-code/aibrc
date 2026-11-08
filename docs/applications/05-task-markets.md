@@ -1,72 +1,98 @@
 # 05 · Task Markets and Verifiable Receipts
 
-**Application pilots · Proposed protocol receipts and settlement**
+A customer orders a research report. One Agent gathers the data, another checks the sources, and a third
+turns the findings into an analysis the customer can use. A task market could connect those specialists
+through clear deliverables, prices and acceptance terms.
 
-Agents can produce work, buy work and verify work. A task market connects those activities through an
-explicit request, a result, an acceptance method and a payment. Portable receipts let the record travel with
-the participants instead of staying inside one marketplace.
-
-AIBRC's asset model supplies the payment foundation. A service can begin with current transfers, user
-approval and signed delivery records. Proposed attestations, locks and conditional settlement develop
-shared rules for linking a task, its budget and its evidence.
+Each payment has a purpose: data supplied, a computation checked or an analysis delivered. Receipts link
+the work, its acceptance and its payment, giving participants a history they can take to another application.
 
 ## Why it matters
 
-Freelance markets and software marketplaces coordinate useful work, but their records are often trapped in one platform. Screenshots and ratings may show activity without proving that a particular result met a particular task. Moving the same rating onto a chain does not solve that problem by itself.
+Specialized services are easier to combine when the buyer knows what is being purchased and how delivery
+will be checked. A data provider, verifier and researcher can each focus on their work while using common
+asset and payment conventions.
 
-A portable receipt can instead preserve who made a statement, which task it concerns and what evidence the statement commits to. Evaluation can remain open to more than one application.
+A useful receipt preserves who made a statement, the task it concerns and the evidence it identifies.
+Other applications can use that context to inspect past work and decide which services to hire.
 
 ## A practical example
 
-A wallet or merchant buys a reproducible state check. Its request identifies the chain context, rule version,
-required result and acceptance method. A provider returns the result with enough information to repeat the
-check. The agreed reviewer accepts the delivery, and a receipt links the task, result and payment.
+A research service accepts a customer's order for an analysis of an asset market. It purchases a dataset
+from a data provider and pays a verification service to check the source and rule context. The service
+then delivers the finished report under the acceptance terms agreed with the customer.
 
-A research Agent can use the same structure to fill a customer's order. It buys a dataset from one service,
-pays another to check it and delivers the final analysis to the customer. For providers accepting one asset,
-a current AIBRC Transfer can distribute a task's payments across up to 25 allocations, within the payload
-limit. A first service can settle by task or periodic batch after the user reviews and signs.
+```text
+Customer orders an analysis
+  → research Agent purchases data
+  → verification Agent supplies a check
+  → research Agent delivers the finished work
+  → agreed acceptance links delivery with payment
+  → revenue pays suppliers and funds the next job
+```
+
+A wallet or merchant could use the same structure to commission a reproducible state check. Its request
+would identify the chain context, rule version, required result and acceptance method. The provider would
+return enough information for the buyer or an agreed reviewer to repeat the check.
+
+For providers accepting one AIBRC asset, a current Transfer can allocate task payments to up to 25
+recipients within the payload limit. A first service can prepare individual payments or periodic batches
+for the user to review and sign.
 
 ## Who pays, who earns
 
-Providers earn from delivery. A marketplace can charge for discovery, coordination and support. A verifier may receive an explicitly agreed verification fee. These are different roles and should not be hidden behind a single platform score.
+The customer pays for a useful finished result. Data and verification providers earn for their deliveries.
+A marketplace could charge an agreed fee for discovery, coordination or support. The research service
+uses its revenue to pay suppliers, computation and operating costs, retaining what remains after those
+expenses.
 
-Customer payments fund delivery, marketplace coordination and verification. The service earns from the
-finished work and uses that income to pay its suppliers and operating costs. Existing free public APIs
-remain available; a paid offering adds a defined analysis, check, delivery commitment or support service.
+Public APIs can supply shared inputs to this work. A paid offering adds a defined analysis, verification,
+delivery commitment or support service. The opportunity is to build products people value enough to use
+again, with costs and income that participants can understand.
 
 ## How AIBRC fits
 
-Current [Transfer](../03-instructions.md) supplies the single-asset payment path. An application's invoice
-and receipt can identify the payment transaction, quantities, recipients, accepted result and task.
+| Stage | Available foundation or development direction |
+| --- | --- |
+| Current tools and user approval | Read public inputs, calculate applicable R1 fees locally, and prepare payments for the user to sign; current [Transfer](../03-instructions.md) supplies single-asset settlement |
+| Application products to build | Task formats, invoices, delivery records, acceptance processes and paid services; future application authorization can support recurring work under an explicit mandate |
+| Proposed protocol extensions | Agent Key for bounded asset transfers, attestations for typed statements, locks for reserved budgets and conditional settlement for specified delivery evidence |
 
-[AIP-0005](../../proposals/AIP-0005-attest.md) provides a direction for typed statements and receipts. [AIP-0003](../../proposals/AIP-0003-lock.md) explores reserving a budget, while [AIP-0007](../../proposals/AIP-0007-conditional.md) explores release against specified evidence. Task text and large deliverables remain in a content system; shared rules can identify participants and commit to the relevant records.
+The application's invoice and receipt can identify the task, accepted result, payment transaction,
+quantities and recipients. Large deliverables stay in a content system, with records that participants can
+retrieve and inspect.
 
-```text
-Task and acceptance method
-  → checkable delivery
-  → explicit acceptance
-  → linked payment and receipt
-  → independent interpretation of work history
-```
+[AIP-0005](../../proposals/AIP-0005-attest.md) develops typed statements and receipts.
+[AIP-0003](../../proposals/AIP-0003-lock.md) explores reserving a budget, while
+[AIP-0007](../../proposals/AIP-0007-conditional.md) explores release against specified evidence.
+[Agent Key](04-delegated-agents.md) proposes transfers using the Agent's own working key under an
+owner-approved asset, total allowance, height interval and confirmed-revocation rules.
 
-A signed statement identifies its issuer and claim. The agreed acceptance method determines who evaluates
-delivery and which evidence they use.
+R1 is the first-generation Smart Covenant rule template for fees, fee destinations and buyback plans.
+Future generations such as R2 or R3 would need their own published rules and reference identities; existing
+assets retain the version and parameters selected at creation. The
+[Smart Covenant chapter](../04-smart-covenant.md) connects that path with the 15 future-topic directions.
 
 ## Building the first version
 
-A product needs a task format, attributable receipts, available deliverables, an acceptance method and
-recovery for payment results that are still unknown. Objective checks can repeat a computation; subjective
-work needs an agreed reviewer and dispute responsibility. A receipt hash commits to content, while an atomic
-payment-and-delivery claim requires specified settlement rules. A fixed deadline should not become permission
-to pay twice or ignore a late but already committed result.
+Begin with a task format, a price, an available deliverable and an acceptance method. A reproducible
+computation can use an objective check. Research and other judgement-based work need an agreed reviewer
+and dispute responsibility. R1 can calculate an applicable fee; acceptance of the actual service belongs
+to the defined check or reviewer and the evidence supplied.
 
-Colluding parties can create artificial receipts, and multiple identities can manufacture a history. Reputation therefore needs an explained methodology and anti-abuse assumptions. An on-chain receipt count is not an objective measure of competence.
+Keep task, delivery, acceptance and payment records linked. A signed statement attributes a claim to its
+issuer, and a receipt hash commits to specific content. A claim of atomic payment and delivery additionally
+needs settlement rules covering both sides. Preserve the original operation identity while a payment
+result is unknown, including when a delivery arrives near or after its deadline.
+
+Reputation needs a published evaluation method and anti-abuse assumptions: colluding parties and repeated
+identities can manufacture a history. Evaluate the work and its evidence alongside the record of activity.
 
 `task commitment → delivery receipt → acceptance → settlement`.
 
 ## Where it can lead
 
 A reproducible analysis, data transformation or source-verification service is a practical starting point.
-From there, task markets can connect specialized Agents into a supply chain: one buys data, another checks
-it, and a third delivers the final result. Payment and receipts give that cooperation an economic history.
+Useful specialists can then form a supply chain: one buys data, another checks it, and a third delivers
+the finished result. Revenue funds their next tasks, while payments and receipts make the cooperation
+easier for customers and future partners to inspect.

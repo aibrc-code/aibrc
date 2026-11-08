@@ -17,7 +17,14 @@ A DAO voting interface is only the start. The practical question is how an appro
 
 ## A practical example
 
-A community allocates a development budget, reserves part of it for future work and grants an operating Agent a smaller total allowance. The Agent pays for an agreed category of work and leaves receipts linked to the relevant invoices or deliverables. Members can compare the approved budget with canonical transfers and the operator's supporting records.
+A community plans a development budget and asks an assistant to prepare contributor payments and orders
+for data or verification. Members review the costs and deliverables before approving the payments. They
+can then compare the approved budget with canonical transfers and the supporting delivery records.
+
+A later treasury design could reserve future commitments and give an operating Agent a smaller total
+allowance. The Agent would use its own working key for the asset transfers permitted by that grant. Any
+additional requirement to pay a particular vendor or category of work belongs in separately defined policy
+and execution rules.
 
 ```text
 Community approves a budget
@@ -28,11 +35,15 @@ Community approves a budget
   → renew, expire or revoke authority
 ```
 
-For illustration, a 50,000-unit budget might reserve 30,000 units and propose a 5,000-unit operating grant. Those are distinct accounting decisions, not an assertion that a grant locks funds or that recipient restrictions already exist.
+For illustration, a 50,000-unit budget might reserve 30,000 units and propose a 5,000-unit operating grant.
+The reserve expresses a commitment; the grant sets the operator's spending authority. Keeping them distinct
+makes both the available funds and the permission easy to inspect.
 
 ## Who pays, who earns
 
-A treasury may receive donations, income from a useful application or other explicitly identified funding. It pays contributors, infrastructure operators and service providers. Asset market value is not realized cash flow, and an approved expense is not proof of useful delivery.
+A treasury may receive donations, income from a useful application or other explicitly identified funding.
+It pays contributors, infrastructure operators and service providers. Report actual income and spending
+alongside asset valuation, and connect each expense with the work delivered.
 
 A BTC capital service could earn fees from actual activities such as inventory management or operating liquidity infrastructure. Its BTC signing and custody arrangements remain external to an AIBRC asset grant. Yield claims must identify who pays the yield, the capital at risk and the obligation being undertaken.
 
@@ -42,7 +53,10 @@ Governance software, accounting tools and professional review can charge for ser
 
 Current balances provide an inspectable asset base. [AIP-0001](../../proposals/AIP-0001-delegation-v1.md) proposes a total spending allowance, [AIP-0003](../../proposals/AIP-0003-lock.md) explores unavailable or reserved amounts, and [AIP-0005](../../proposals/AIP-0005-attest.md) explores receipts. These building blocks have different jobs.
 
-A grant does not move the owner's balance into an operator's ownership. A lock must define how it reduces spendable balance. A receipt records an issuer's statement about work; it does not make that statement true. Recipient whitelists, governance thresholds and policy-limited spending would require separately specified authority rules.
+A grant defines an operator's permission while ownership remains with the treasury. A separately specified
+lock determines which amounts remain spendable. A receipt attributes a statement to its issuer, with
+delivery evaluated through the agreed evidence. Recipient whitelists, governance thresholds and
+policy-limited spending require separately specified authority rules.
 
 ## Building the first version
 

@@ -4,6 +4,20 @@ AIBRC begins with assets, script accounts and deterministic state. Its next chap
 foundation can express limited authority, timed availability, identity relationships and settlement conditions.
 The direction is composable: each new rule adds a building block that independent applications can use.
 
+## Why R1 is the starting point
+
+R1 is the first fixed Smart Covenant rule template. It turns selected fee and fee-routing policies
+into public calculations that developers and Agents can run locally. Its immutable reference text also
+names 15 extension directions, giving future rule design a shared vocabulary.
+
+Future R2, R3 and later templates can introduce new rules under their own reference identities. Each
+asset keeps the rule version selected at creation. The [15-direction map](04-smart-covenant.md#built-to-evolve-r1-r2-and-beyond)
+connects these topics to application guides and proposals: from Agent authority and service payments to
+community budgets, receipts and external relationships.
+
+Rule-template versions identify application rules. AIPs develop shared protocol building blocks such as
+delegation, locks and statements; adopted building blocks can support new application templates.
+
 ## Seven proposals, one shared foundation
 
 | Proposal | New building block | What builders could create |
@@ -43,7 +57,7 @@ Applications can also offer read-only MCP interfaces. Market-data tools such as 
 and `get_recent_trades` are application examples that expose public data with source time and status.
 They are not protocol requirements or dependencies of the [standalone indexer](run-indexer.md).
 Protocol-level Agent Key is the separate proposed step toward bounded asset operations; its
-[scope and ERC-7715 design reference](04-smart-covenant.md#agent-key-delegate-authority-without-handing-a-model-the-owner-key)
+[scope and ERC-7715 design reference](04-smart-covenant.md#agent-key-give-an-agent-a-clear-mandate)
 are explained in the Smart Covenant chapter.
 
 ## From a whole ledger to a local proof
@@ -64,9 +78,10 @@ Independent state calculation
   └─ Proposed Merkle root → verify local records
 ```
 
-The formats remain distinct. The reference's uncompressed 256 sibling hashes alone occupy 8,192 bytes.
-Compression and aggregation are further work. A proof verifies a path to a root; the client also needs a
-justified basis for accepting that root's chain and rule context.
+This direction puts a useful check close to the Agent or wallet: obtain the account record and its path,
+then verify it against an accepted state root. The current reference uses 256 uncompressed sibling hashes,
+occupying 8,192 bytes before other fields. Compression and aggregation can develop a smaller proof format;
+the [technical reference](../merkle/STATE_PROOF_REFERENCE.md) explains the root and chain context.
 
 ## Independent verification, close to the person using it
 

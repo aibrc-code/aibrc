@@ -1,78 +1,206 @@
 # 04 · Smart Covenant: programmable rules for Bitcoin assets
 
-AIBRC records native assets as balances on accounts derived from Bitcoin addresses. Wallets, applications
-and Agents share a way to identify an asset, name a recipient and specify an amount. Smart Covenant connects
-that foundation with public rules that applications can reuse and independent programs can calculate.
+Ask an Agent to find a useful dataset, compare its price, check the result and prepare the payment.
+Or ask it to watch a market, explain the fees and bring you an action ready for approval.
+Both tasks become easier when assets, rules and payments speak a common language.
 
-R1 is the first rule template on this route. An asset selects its version, fee rate and fee destination at
-creation; applications apply the fixed mathematics to their actual inputs. AiBTC is the first application
-infrastructure to connect these rules with trading and liquidity. Other applications can use the same rules
-in their own execution systems.
+**Let assets carry rules. Let Agents work together.**
 
-The path continues from assets and public rules to useful Agent cooperation: read the relevant state,
-understand a rule, prepare an action and work within an explicit mandate. EVM rule extensions can connect
-through identified external references, with each execution environment keeping its own responsibilities.
+AIBRC records native assets as balances on accounts derived from Bitcoin addresses. Software works with
+an asset, an amount and a recipient. Smart Covenant connects that foundation with public rules that
+applications can reuse and Agents can calculate locally.
 
-Three relationships make the framework easier to follow: **R1** identifies an application's rule template;
-**X1** identifies an external contract relationship; proposed **Agent Key** introduces bounded authority
-to transfer a native asset. They connect rules, applications and permissions in different ways.
+| On this page | What it means |
+| --- | --- |
+| **Current foundation** | Native Deploy and Transfer, reproducible asset state and R1's public fee, destination and buyback-plan calculations |
+| **Application example** | AiBTC, the first application infrastructure using these rules for trading and liquidity, with Instant and Block Swap paths |
+| **Extension path** | Scoped application authorization, proposed native Agent Key and further rule templates, supported by the proposals and research below |
 
 ## From an intention to an explicit rule
 
-Imagine an asset whose application allocates a selected fee to a creator, or an Agent allowed to spend only a
-specified asset within a limited budget. “This is our policy” is difficult for another program to evaluate.
-A versioned rule, defined parameters and an observable execution result give it something precise to inspect.
+An Agent should spend its effort on the task: which service to buy, which result to check or which action
+to recommend. Common asset rules reduce the work of translating between wallets and applications.
+
+- **Work from balances.** Name the asset, quantity and destination without locating a particular token-carrying UTXO.
+- **Calculate before acting.** Reuse public mathematics to explain applicable fees and compare results with the inputs used.
+- **Build on shared rules.** A wallet, service or independent application can implement the same calculation standard.
+- **Reuse mature tools.** Developers can use ABIs, RPC interfaces and established EVM tools to build adapters for identified contracts.
+- **Turn useful work into income.** Connect a customer's request to delivery, payment and the next service the Agent needs.
 
 ```text
-Asset or service intention
-  ↓
-Rule identity + fixed parameters
-  ↓
-Authorized operation + explicit executor
-  ↓
-State change + checkable result
+Task -> asset and amount -> public rule -> prepared action
+     -> user approval and signing -> result and receipt
 ```
 
-The current core already follows that pattern for Deploy and Transfer. R1 and X1 identify application-layer
-relationships. Agent Key and further AIPs develop new protocol authority and settlement capabilities.
+An assistant can begin with existing read-only API and MCP tools, local calculations and an application or
+wallet where the user reviews and signs. Each useful workflow can establish the mandate it needs next.
 
-| Building block | What it connects | Stage |
-| --- | --- | --- |
-| Deploy / Transfer | Asset instructions, account authority and deterministic state | Live core |
-| R1 | An identified asset rule template, selected parameters and application execution | Live application template |
-| X1 | An asset and an external network/contract reference | Live application reference |
-| Agent Key | Owner authorization and bounded delegated transfers | Proposed · AIP-0001 |
-| Conditional settlement | A transfer and the evidence required for delivery | Proposed · AIP-0007 |
+## Three ways to put an Agent to work
+
+### A market and liquidity assistant
+
+An Agent reads market data and information supplied by its user, compares an opportunity and calculates
+the applicable R1 fees. It can explain an LP position's exposure or prepare a trade for review. The user
+gets a clearer decision and less repetitive preparation; an operator can earn for analysis and useful tooling.
+
+```text
+Market information -> analysis and fee calculation -> user reviews an action
+```
+
+### A paid data or verification service
+
+A wallet, merchant or another Agent buys a reproducible state check, a research result or a data
+subscription. The supplier identifies the source, rule context and scope of its answer. Free public APIs
+can supply shared inputs; customers pay for the additional analysis, check, delivery service or support.
+
+```text
+Customer request -> defined check or analysis -> accepted result -> service income
+```
+
+### An Agent that hires other Agents
+
+A research Agent takes a customer's order, buys data from one service and pays another to check it.
+It delivers the finished analysis and uses the customer's payment to pay its suppliers. Participants
+accepting the same asset can group their payments into an AIBRC distribution for the user to review.
+
+```text
+Customer order -> data service + verification service -> finished work
+               -> customer pays -> suppliers earn -> next job
+```
+
+These loops give computation, data and coordination a paying customer. The
+[application guides](07-applications.md) develop the products; the
+[task-market guide](applications/05-task-markets.md) follows delivery and receipts.
 
 ## R1: an identifiable Covenant Inscription rule template
 
-R1 makes three calculations public: how much a trade pays in fees, where its rule fee goes and what buyback
-plan follows from an available balance. At creation, an asset selects the R1 version, reference address,
-fee rate `T` and destination `C`. Those parameters stay fixed for that asset.
+R1 makes three calculations public: how much a trade pays in fees, where its rule fee goes and what
+buyback plan follows from an available balance. At creation, an asset selects the R1 version, reference
+address, fee rate `T` and destination `C`. Those parameters stay fixed for that asset.
 
-The available configurations are no rule fee, a rule fee allocated to the creator, or a rule fee allocated
-to buyback and permanent locking. The platform base fee is separate. Developers can reuse the calculation
-locally, and users or Agents can compare its results with execution records without an EVM transaction for
-each trade.
+An asset can select zero rule fee, allocate its rule fee to the creator, or allocate it to buyback and
+permanent locking. The platform base fee is separate. Applications use the same mathematics locally,
+so a calculation can be reused by developers, wallets and Agents without an EVM transaction for each trade.
+
+AiBTC connects the rules to two trading paths. **Instant** supports continuous interaction through the
+application ledger. **Block Swap** uses a transaction signed by the user's wallet and confirmed on Bitcoin.
+Each path uses the calculation standard for the applicable fees and leaves execution records for inspection.
 
 ```text
-Bitcoin asset + fixed R1 version and parameters
-  |
-  v
-Public calculations
-  |
-  v
-Application execution
-  +-- Instant: execution and accounting
-  +-- Block Swap: wallet signs -> Bitcoin confirms
-  |
-  v
-Execution records + independently calculated rule results
+Asset + fixed R1 version and parameters
+  -> public calculation
+  -> application execution
+       |-- Instant -> execution and accounting
+       |-- Block Swap -> wallet signs -> Bitcoin confirms
+  -> execution records and rule results
 ```
 
-The two paths above are an application example. Instant trading supports continuous interaction through
-the application ledger; Block Swap uses a transaction signed by the user's wallet. The public rule
-calculation gives both paths an explicit reference for the applicable fees.
+The [R1 calculation reference](../reference/r1/README.md) gives builders a runnable starting point.
+Its [frozen rule text](../spec/covenants/R1.md) preserves the exact public wording and identity.
+
+<a id="x1-a-reference-not-remote-execution"></a>
+
+## X1: connect a Bitcoin asset with an EVM application
+
+An asset can select X1 when it needs an external application reference. A public chain ID and contract
+address give its Bitcoin record a precise coordinate in the EVM ecosystem. An Agent can choose the right
+network and contract to read an interface, inspect published rules or query available state. Developers can
+reuse an ABI, RPC provider and familiar public-chain tools to build an adapter around that relationship.
+
+For example, a community could associate its Bitcoin asset with a game's EVM membership contract. A wallet
+could show the associated game service; an Agent could read membership terms or expiry information and
+explain them to the user. An adapter could then prepare a membership action for review, with eligibility,
+execution and any payment conditions defined for that service.
+
+```text
+Bitcoin asset -> X1: chain ID + contract address -> Agent reads the EVM service
+              -> application adapter -> service view or action for user review
+```
+
+The [X1 specification](../spec/covenants/X1.md) defines the current reference format. The coordinate is the
+starting point; adapters connect it to a useful service and the conditions that service requires.
+
+## Different Bitcoin programmability routes
+
+The comparison starts with an Agent's task. The first two route groups describe native protocol mechanisms;
+the final column combines AIBRC and R1 with the AiBTC application example.
+
+| An Agent needs to... | [Runes](https://docs.ordinals.com/runes.html) / [ARC-20](https://github.com/atomicals-community/atomicals-guide/blob/main/arc20-tokens/README.md) native routes | [BRC2.0](https://github.com/bestinslot-xyz/brc20-proposals/blob/main/000-programmable-module/index.md) / [Alkanes](https://github.com/kungfuflex/alkanes-rs/blob/main/README.md) contract routes | AIBRC + R1 / AiBTC |
+| --- | --- | --- | --- |
+| Manage assets and payments | Track asset-carrying UTXOs and output-allocation rules | Work with the contract or module's asset state and interfaces | Use account balances, asset, amount and recipient; reduce tracking of specific token carriers |
+| Use economic rules | Applications define service and trading policies around the asset rules | Express policies through contract interfaces and VM execution | Reuse R1 locally for fees, fee destinations and buyback plans; calculate applicable amounts before acting |
+| Interact continuously | Native writes use Bitcoin transactions | Native contract writes use Bitcoin transactions and indexed execution | Native Transfer uses Bitcoin; AiBTC adds Instant interaction without a chain transaction per fill, alongside wallet-signed Block Swap |
+| Extend operating authority | Wallet and application policies organize delegated actions | The chosen contract design defines permissions | Start with user-reviewed actions, develop scoped application mandates, then proposed native Agent Key |
+
+Runes and ARC-20 provide defined asset rules; BRC2.0 and Alkanes offer broader contract execution.
+AIBRC focuses on common asset interfaces and reusable rules that applications can turn into useful Agent
+workflows.
+
+## Built to evolve: R1, R2 and beyond
+
+**R1 is the first fixed rule template.** Future templates such as R2 or R3 can develop new behaviors with
+their own version, reference address and explicit parameters. Each template keeps a clear identity that
+applications and Agents can recognize and reuse.
+
+The immutable R1 reference published on EVM chains includes a frozen text naming **15 extension directions**.
+`inscriptionText()` exposes that text, and its published hash identifies the exact bytes. This directory
+gives builders a visible starting point for the next generation of applications.
+
+**Expansion directions · proposals and application research**
+
+### Agents and services
+
+[AI Agents](../proposals/AIP-0001-delegation-v1.md) ·
+[Language-model integration](applications/06-resident-agent.md) ·
+[x402 payments](applications/05-task-markets.md) ·
+[External receipts](../proposals/AIP-0005-attest.md) ·
+[External wallet claims](../proposals/AIP-0004-bind.md)
+
+### Markets and communities
+
+[Governance](applications/07-treasuries.md) ·
+[Dividends](applications/03-payments.md) ·
+[Automatic liquidity](applications/12-cross-protocol-rfq.md) ·
+[Airdrops](applications/03-payments.md) ·
+[Mission vault](applications/07-treasuries.md)
+
+### Application connections
+
+[Stocks / RWA](applications/08-identity.md) ·
+[Certified external contracts](applications/08-identity.md) ·
+[Satellite tokens](applications/09-collections.md) ·
+[Bridges](05-cross-protocol.md) ·
+[Oracles](applications/03-payments.md)
+
+The [proposal index](../proposals/README.md) collects the seven AIPs. The
+[extensions chapter](08-extensions.md) connects those proposals with current components and research.
+
+## Agent Key: give an Agent a clear mandate
+
+**Give Agents the Task. Put Boundaries in the Rules.**
+
+The development path starts with useful analysis and user-approved actions, then adds scoped application
+authority. The native Agent Key proposal makes a mandate part of shared AIBRC rules: the owner selects an
+asset, a cumulative allowance and a valid block range; the Agent acts with its own working key.
+
+```text
+Read and prepare -> user reviews and signs
+  -> scoped application mandate
+  -> proposed native Agent Key and defined settlement conditions
+```
+
+A community could give an operator a limited service budget while retaining its main key. Independent
+software could check each delegated transfer against both the available balance and remaining allowance.
+The [bounded-assistant guide](applications/04-delegated-agents.md) follows this path from a practical task.
+
+### Conditions: connect payment with delivery
+
+A service purchase links spending with something the customer wants to receive. An agreed dataset,
+reproducible result or explicitly evaluated deliverable gives that relationship a concrete meaning.
+[AIP-0007](../proposals/AIP-0007-conditional.md) explores deterministic settlement conditions; the
+[task-market guide](applications/05-task-markets.md) explains acceptance and receipts.
+
+## Technical details and source
 
 ### A fee calculation anyone can repeat
 
@@ -88,8 +216,8 @@ the trade, `T100` (1%) and `C0` (buyback and locking):
 | Rule-fee destination | 0 sats to the creator; 1,000 sats to the application's buyback route |
 
 For a user sell with the same gross amount and starting conditions, the net amount is also 98,500 sats.
-The following three lines are taken from the reference contract's `_fees` function. `ceilBps` rounds up
-using integer arithmetic; the rule fee is the difference after calculating the total fee.
+These three lines come from the reference contract's `_fees` function. `ceilBps` rounds up using integer
+arithmetic; the rule fee is the difference after calculating the total fee.
 
 ```solidity
 platformFee = ceilBps(base, 50);
@@ -97,119 +225,61 @@ totalFee = ceilBps(base, 50 + (postAtTradeStart ? T : 0));
 ruleFee = totalFee - platformFee;
 ```
 
-The [R1 calculation reference](../reference/r1/README.md) provides the Solidity source, ABI, frozen text,
-vectors and a local JavaScript calculator, with commands to run the example and check the vectors.
-`planBuyback` takes the available buyback balance and event sequence to calculate the next plan.
+The [calculation package](../reference/r1/README.md) contains the
+[Solidity source](../reference/r1/artifacts/AIBTCInscription.sol),
+[ABI](../reference/r1/artifacts/abi.json), [vectors](../reference/r1/artifacts/vectors.json) and
+[local JavaScript implementation](../reference/r1/index.mjs). The
+[example](../reference/r1/example.mjs) and [vector runner](../reference/r1/check-vectors.mjs) run offline.
+`planBuyback` uses an executor-supplied available balance and event sequence to return a plan.
 
-The [published AIBTC Covenant Inscription R1 reference](../spec/covenants/R1.md) preserves the complete frozen text and its binding
-explanation. It is the source for exact wording and identifiers.
+### Reserved directions in the frozen text
 
-### Different Bitcoin programmability routes
+R1 section 08 assigns `RESERVED_DOCUMENTATION_ONLY` to these exact entries, in this order:
+`X402` (x402 payments); `AGENT` (AI Agent); `LLM` (language-model integration); `DAO` (governance);
+`STOCK` (stocks/RWA); `EXTERNAL_RECEIPT` (external receipts); `EXTERNAL_WALLET_CLAIM` (external wallet claims);
+`CERTIFIED_EXTERNAL_CONTRACT` (certified external contracts); `DIVIDEND` (dividends);
+`AUTO_LP` (automatic liquidity); `AIRDROP` (airdrops); `MISSION` (mission vault); `ORBIT` (satellite tokens);
+`BRIDGE` (bridges); `ORACLE` (oracles).
 
-| Route | Native protocol approach | What builders can work with |
-| --- | --- | --- |
-| [Runes](https://docs.ordinals.com/runes.html) | Runestones allocate rune balances across Bitcoin transaction outputs | Defined issuance and asset-allocation rules |
-| [ARC-20](https://github.com/atomicals-community/atomicals-guide/blob/main/arc20-tokens/README.md) | Asset units are associated with sats and follow the protocol's output-allocation rules | Satoshi-linked assets and their transfer rules |
-| [BRC2.0](https://github.com/bestinslot-xyz/brc20-proposals/blob/main/000-programmable-module/index.md) | Bitcoin inscriptions submit operations to an indexer-executed EVM module | General contract state and application logic |
-| [Alkanes](https://github.com/kungfuflex/alkanes-rs/blob/main/README.md) | Bitcoin carries program data and calls interpreted by a WASM indexer runtime | Programmable assets and contracts |
-| AIBRC + R1 | Native account balances and public asset rules; R1 supplies a reusable calculation reference | Common asset interfaces and application execution, illustrated by AiBTC's Instant and Block Swap paths |
+They name future topics rather than executable R1 functions or valid extra parameters. The linked AIPs
+propose shared protocol building blocks; application guides explore products that can use them. Each new
+capability needs its own defined rules and implementation.
 
-The first four entries describe native protocol approaches. The AiBTC paths illustrate an application
-built on AIBRC. Application trading speed and native Bitcoin confirmation time describe different layers.
+<a id="agent-key-delegate-authority-without-handing-a-model-the-owner-key"></a>
 
-## X1: a reference, not remote execution
+### Delegation: grant identity and confirmed authority
 
-Bitcoin-native assets can participate in wider application relationships. X1 identifies an external network
-and contract address, giving tools a precise reference for the EVM side of that relationship.
+[AIP-0001](../proposals/AIP-0001-delegation-v1.md) defines the proposed grant identity, owner
+permission-generation context, total remaining allowance and height bounds. Its scoped-delegation design
+draws on the wallet-execution permissions discussed in [ERC-7715](https://eips.ethereum.org/EIPS/eip-7715),
+expressed through AIBRC rules and Bitcoin heights. Canonical confirmation determines when a grant or
+revocation becomes effective.
 
-```text
-AIBRC asset
-  ↓ X1 reference
-External network + contract address
-  ↓
-External application's rules and execution
-```
+### Security constraints
 
-A wallet or Agent can follow that reference, identify the relevant environment and inspect the contract there.
-The [X1 reference](../spec/covenants/X1.md) defines its format and interpretation. Further execution or
-settlement integration can build on that identity with its own verified conditions.
+- **Execution responsibility:** R1 calculates fees, their destinations and buyback plans. Applications supply
+  the actual inputs and handle AMM pricing, trading, custody and locking. Necessary inputs and execution
+  records let others assess whether an application followed the selected rules; each executor maintains
+  its own state and responsibilities.
+- **Version identity:** R2 and R3 describe possible future rule templates. AIP numbers identify protocol
+  proposals, a separate sequence. Future templates and protocol instructions can work together through
+  explicit specification and activation. R1 and its selected asset parameters stay fixed; existing assets
+  retain their declared rules.
+- **External integration:** R1 and X1 are alternative reference modes. X1 records and displays a chain/address
+  relationship; an adapter supplies external lookups, code and interface checks, eligibility and execution.
+  Cross-chain asset movement and settlement require their own arrangements. Bitcoin Core validates Bitcoin
+  transactions while metaprotocol implementations interpret the asset rules.
+- **Authority scope:** current public API and MCP tools are read-only. Application authorization and native
+  Agent Key govern different state and asset scopes. The first grant proposal uses a total allowance and
+  leaves funds in the owner's balance; a valid remaining grant can cover later deposits. Periodic budgets,
+  recipient restrictions and control of LP positions or native BTC require separately defined authority.
+- **Signing and recovery:** the core authorization input rejects SINGLE; the application's block exchange
+  may use SINGLE on a separate BTC payment input and DEFAULT on the asset authorization input. Grant and
+  revocation effects must remain consistent across state, hashes, snapshots, undo and replay. Unknown
+  outcomes retain the original operation identity while they are resolved.
+- **Delivery and evidence:** a record commitment identifies the committed material. Full business checking
+  requires the relevant inputs and rules; service quality follows an agreed acceptance method. Conditional
+  delivery and cross-protocol settlement require their own specified conditions.
 
-## Agent Key: delegate authority without handing a model the owner key
-
-**Give Agents the Task. Put Boundaries in the Rules.**
-
-An assistant can begin with read-only API and MCP tools, calculate R1 fees locally and prepare a plan for
-the user to review and sign through an application or wallet. Scoped application authorization is the next
-step; native Agent Key develops a permission that independent protocol implementations can share. The
-[bounded-assistant guide](applications/04-delegated-agents.md) follows this sequence.
-
-Agent Key proposes a way for a community to give an operating Agent permission to spend up to 1,000 tokens
-of a specified asset within a defined block range. The Agent can organize payments and distributions, while
-the community keeps its private key and can inspect the grant and resulting transfers.
-
-A grant identifies one asset, a cumulative allowance and valid heights. The Agent uses its own working key
-to prepare authorized transfers through a controlled signing tool. Each delegated transfer must still
-satisfy the owner's available balance and the grant's remaining allowance.
-
-The scoped-delegation design draws on the wallet-execution permissions discussed in
-[ERC-7715](https://eips.ethereum.org/EIPS/eip-7715), expressed through AIBRC asset rules and Bitcoin block
-heights. The model handles planning; the permission boundary is defined by rules that independent software
-can check.
-
-```text
-Owner defines asset, allowance and valid heights
-  ↓ signs the grant
-Grant enters canonical state
-  ↓
-Agent proposes an action
-  ↓ controlled tool checks and signs
-Delegated transfer confirms
-  ↓
-Owner balance and grant allowance decrease
-```
-
-[AIP-0001](../proposals/AIP-0001-delegation-v1.md) defines the proposal. Each grant has a distinct `grantId` and
-an owner permission-generation context. Confirmed revocation prevents stale authority from being revived;
-remaining allowances and height limits make the mandate visible to independent software.
-
-This opens a path to service assistants, bounded community operators and Agents buying work from other
-Agents. [Application guides](07-applications.md) explore those uses and their economics.
-
-## Conditions: connect payment with delivery
-
-An allowance answers “how much may this Agent transfer?” A service contract also asks “what must it receive
-in return?” Conditional settlement develops that second relationship: define the required payment, output,
-height or other specified evidence before allowing a state transition.
-
-[AIP-0007](../proposals/AIP-0007-conditional.md) is the proposal entry point. It can support designs for exact
-exchanges and evidence-linked service payments when the relevant conditions are fully specified. The
-[cross-protocol chapter](05-cross-protocol.md) explains why each asset leg and its consideration must be covered.
-
-## Security constraints
-
-These definitions keep Smart Covenant's responsibilities precise:
-
-- **Core and application execution:** R1 is an immutable pure calculation reference for fees, their destination
-  and buyback plans. Applications supply the actual state and handle AMM pricing, trading, custody and locking.
-  Fixed parameters identify the rule to check; the necessary inputs and execution records let others assess
-  whether the application followed it. R1 is separate from the two core wire instructions. X1 records a
-  chain and address, not an external code hash, code-existence proof or instruction for Bitcoin to run the EVM.
-  Neither reference alone establishes redemption rights, contract safety or application reserve coverage.
-- **Grant scope:** the first Agent Key proposal uses a total allowance, not periodic budgets. An allowance
-  authorizes spending; it does not reserve funds. Later deposits can be spent under a still-valid remaining
-  grant. Price guarantees, restricted recipients, redelegation and return-of-proceeds conditions need their
-  own rules. Emptying a balance is not revocation.
-- **Confirmed authority:** a revocation takes effect through canonical-chain confirmation. Signing tools and
-  interfaces must preserve the distinction between a pending revocation and an effective one.
-- **Input roles:** the core authorization input rejects SINGLE. The application's block exchange may use
-  SINGLE on a separate BTC payment input and DEFAULT on the asset lane's authorization input. Collaborative
-  signing, 2-of-2 and threshold signing are different mechanisms; collaborative lanes are not Agent Key grants.
-- **State consumers:** an authority extension must cover canonical state, hashes, snapshots, undo, replay,
-  version selection and every execution consumer. The same chain and rule context must yield the same authority
-  after a restart or reorganization.
-- **Evidence:** exact execution records are needed to assess whether an application followed a rule. A text
-  hash or an AI explanation alone cannot establish that result. Unknown outcomes stay tied to the original
-  operation; they are not permission to pay again.
-
-The [trust model](../TRUST_MODEL.md) collects the shared verification assumptions. The protocol's strength
-comes from making rules explicit enough for others to implement and challenge.
+The [trust model](../TRUST_MODEL.md) collects these shared assumptions. The
+[frozen R1 reference](../spec/covenants/R1.md) remains the source for exact wording and identifiers.
