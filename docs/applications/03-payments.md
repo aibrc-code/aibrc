@@ -17,9 +17,14 @@ These designs are not interchangeable. A fiat-backed claim depends on an issuer 
 
 ## A practical example
 
-For a distribution, an organizer prepares one list of recipients and quantities, checks it once, and follows each batch to a definite result. An Agent purchasing services may instead want a dollar-denominated budget so that the meaning of its spending limit does not change with the BTC price.
+A community asks an assistant to prepare payments for contributors, a dataset and a source-verification
+service. It turns the approved budget into a list of recipients and quantities, explains the totals, and
+prepares batches for the organizer to review and sign. Each batch is then followed to its confirmed result.
 
-A sensible early product can show a USD reference value while settling an existing asset. That is a pricing feature, not a USD redemption promise. If an issuer later offers a stable asset, the interface should explain who owes what, how redemption works and which event can interrupt it.
+A service-buying Agent could also present its budget in a familiar reference currency while payments settle
+in the agreed asset. A USD reference makes costs easier to compare; a redeemable stable-value product adds
+an issuer's separate financial commitment. Its terms must identify the obligation, backing, redemption
+process and events that could interrupt it.
 
 ## Who pays, who earns
 

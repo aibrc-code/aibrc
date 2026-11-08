@@ -7,6 +7,10 @@ multiple AIBRC assets. A transfer states which asset to move, how much and who r
 not tied to individual satoshis, and an ordinary BTC payment does not automatically move the account's
 token balances.
 
+For an Agent, that is a practical starting point: query an account's holdings, calculate a payment or
+distribution and prepare the recipients. Its user can review the same asset, amount and destination in a
+wallet. The current account model supports Taproot (P2TR) and Native SegWit single-key (P2WPKH) scripts.
+
 ### From Account Balances to an Authorized Transfer
 
 Drawing on the account-balance model and common asset interfaces familiar from other blockchain ecosystems,
@@ -16,6 +20,10 @@ account through the designated authorization input, then applies the instruction
 
 There is no need to find a dedicated UTXO carrying the tokens. Developers can build reusable tools around
 shared account and asset interfaces, while Bitcoin funding and AIBRC authorization retain their own rules.
+
+Address balances also appear in BRC-20 and other asset systems. The useful foundation is the defined
+interface: AIBRC publishes how to derive an account, identify an asset, authorize an operation and calculate
+the resulting balances. Tools can reuse those definitions while preserving each protocol's transfer rules.
 
 ## Asset identity: names help people; identifiers distinguish assets
 

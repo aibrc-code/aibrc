@@ -2,7 +2,12 @@
 
 An independent indexer turns Bitcoin history into an AIBRC ledger. Every result has a traceable context:
 which chain, block, rule version and accepted instructions produced it. That shared calculation lets wallets
-and applications choose a data provider without giving that provider the power to invent asset ownership.
+and Agents operate their own asset view and compare it with another implementation.
+
+An Agent preparing a payment can query the relevant balance and chain context from its own indexer. A
+community can reconcile distributions. A data provider can supply structured results to several wallets
+and applications. The ledger is a reusable service foundation, with each answer tied to the blocks and
+rules behind it.
 
 **Don't trust, verify.** An independent indexer turns that conviction into a repeatable calculation.
 

@@ -49,16 +49,19 @@ the extra work of managing asset carriers, splits and tracking.
 
 ### Smart Covenant: Rules Applications Can Share
 
-**Give assets clear rules. Give Agents a foundation for action.**
+**Let Agents work with assets, budgets and clear rules.**
 
-Smart Covenant connects assets with identifiable application rules. R1 is its first rule template:
-an asset selects a fixed version, fee rate and fee destination at creation. The public reference contract
-defines fee calculations, rule-fee routing and buyback plans. Applications apply the same mathematics
-locally, and developers and Agents can calculate the results from the same inputs.
+An Agent preparing a service purchase needs to know which asset to use, what the operation costs and how
+to check the result. Smart Covenant connects those tasks with public rules that applications can share.
+Developers reuse the calculations; Agents use them to explain costs and prepare actions for approval.
 
-AiBTC is the first application infrastructure built on this foundation. Its two trading routes connect
-these rules to instant trades and wallet-signed Block Swaps on Bitcoin. Instant execution needs no
-Bitcoin transaction or EVM call for each fill; Block Swaps follow the wallet and Bitcoin confirmation path.
+**R1 is the first fixed rule template.** An asset selects its rule version, fee rate and fee destination
+at creation. R1 supplies the public calculations for those fees, their destination and buyback plans.
+The same inputs produce the same rule results on another developer's machine or an Agent's own tool.
+
+AiBTC is the first application infrastructure to put this foundation to work in trading and liquidity.
+Its Instant path supports continuous interaction without a Bitcoin transaction or EVM call for each fill;
+its Block Swap path uses the user's wallet signature and Bitcoin confirmation.
 
 ```text
 AIBRC asset + fixed R1 parameters
@@ -72,28 +75,36 @@ Application execution
 Execution records for queries and verification
 ```
 
-The [R1 reference](reference/r1/README.md) includes the frozen Solidity source, ABI, build identity,
-test vectors and dependency-free Node examples. Try the fee calculation and check the reference vectors:
+> **Built to evolve.** R1 is the starting template. Future R2, R3 and later templates can add new rules
+> under their own identities. R1's immutable on-chain reference text already names **15 extension
+> directions**, including Agents, x402 payments, automatic liquidity, dividends, airdrops, DAO governance
+> and oracles. Explore the [15 directions](docs/04-smart-covenant.md#built-to-evolve-r1-r2-and-beyond) and the
+> [seven protocol proposals](docs/08-extensions.md#seven-proposals-one-shared-foundation).
+
+The [R1 reference](reference/r1/README.md) includes the frozen Solidity source, ABI, test vectors and
+dependency-free Node examples. Calculate a rule result and check the reference vectors:
 
 ```sh
 node reference/r1/example.mjs
 node reference/r1/check-vectors.mjs
 ```
 
-For a post-graduation buy of **100,000 sats** with a **1% rule fee**, R1 calculates a 500-sat base fee,
-a 1,000-sat rule fee and 98,500 sats of buy principal. The selected destination assigns the rule fee to
-the creator or to the application's buyback-and-lock path. The
-[Smart Covenant chapter](docs/04-smart-covenant.md) follows the rule from asset creation to application use.
+Explore [Smart Covenant](docs/04-smart-covenant.md) through Agent tasks, trading and liquidity,
+external application connections and the code behind the rules.
+
+An asset can choose [X1](docs/04-smart-covenant.md#x1-connect-a-bitcoin-asset-with-an-evm-application)
+to identify an external application by chain ID and contract address. Builders can use familiar EVM
+interfaces and RPC tools to read that application's exposed rules and state, then build related service
+views or actions. Bitcoin asset discovery gains an entry point into existing application infrastructure.
 
 ### A Shared Account Foundation for Agents
 
-Clear asset IDs, account balances and operation rules give Agents a foundation for payments and
-collaboration. They can build workflows around which asset to use, how much to pay and who should receive
-it, with explicit inputs and verifiable outcomes.
+Start with work people value: explain a trade's cost, organize a community distribution or prepare a data
+purchase. Existing public interfaces, account transfers and local R1 calculations give builders the pieces
+to make those assistants. The user reviews the actual operation through an application or wallet.
 
-Through the evolution of Smart Covenant and Agent Key, AIBRC is exploring permissions expressed as protocol
-rules. An owner defines the permitted asset, cumulative allowance and valid block range. The Agent executes
-authorized tasks using its own key; the owner keeps their private key.
+**Next: Agent Key.** The proposal lets an owner authorize a specified asset, total allowance and valid
+block range. The Agent uses its own working key for authorized transfers while the owner keeps the owner key.
 
 **The Agent Key delegation proposal draws on the scoped wallet-execution permission model discussed in
 [ERC-7715](https://eips.ethereum.org/EIPS/eip-7715), adapted to Bitcoin block heights and AIBRC asset rules.**
@@ -108,13 +119,9 @@ Service payments · task settlement · asset distribution
 Results checked against protocol rules
 ```
 
-Accounts make assets easier for software to work with. Scoped authority sets boundaries on what an Agent
-can do. Shared interfaces provide a foundation for applications and Agents to cooperate economically.
-
-Start with useful work: an Agent reads market data, prepares an operation or purchases a research service
-for its user. A service Agent can buy data or verification from another provider and settle an agreed
-payment for the delivery. Existing account transfers provide a payment foundation; proposed Agent Key
-and settlement rules extend it toward budgeted execution and cross-application collaboration.
+A research Agent can earn for a finished analysis, buy data and verification from other providers, then
+use that income to fund the next job. Account transfers provide the payment foundation. Scoped authority
+and settlement proposals develop the rules for repeating that collaboration across applications.
 
 ### Run Your Own Indexer. Verify Your Own Ledger.
 

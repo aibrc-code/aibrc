@@ -1,79 +1,103 @@
 # 04 · Bounded Agent Assistants
 
-**Current read-only tools · Application authorization next · Proposed Agent Key**
-
 **Give Agents the Task. Put Boundaries in the Rules.**
 
-An assistant can read asset and market information, explain a budget and prepare purchases or distributions
-for approval. Public API and MCP tools provide read-only inputs; the [R1 calculator](../../reference/r1/README.md)
-gives it a reusable way to calculate applicable fees. The user reviews and signs the actual action through
-an application or wallet.
+A holder wants help comparing a trade with an LP adjustment. A community needs to pay contributors from
+an approved budget. A researcher wants an assistant to find data, arrange a source check and prepare the
+finished report. Each is a useful job for an Agent with a clear task and a visible cost.
 
-The next step is a limited mandate for a particular application task. Native Agent Key develops that idea
-into a protocol grant: one asset, a cumulative allowance and Bitcoin block-height bounds. Its design draws
-on the wallet-execution permission model discussed in
-[ERC-7715](https://eips.ethereum.org/EIPS/eip-7715), giving independent software explicit conditions to check.
+Start with an assistant that gathers information, calculates applicable fees and prepares an action for
+the user to review. A recurring service can then develop the explicit authority needed for routine work.
+The owner keeps the owner key; a future authorized Agent operates through its own working key or scoped
+application credential.
 
 ## Why it matters
 
-People delegate spending to employees, applications and service providers because approving every small action is inconvenient. Giving an automation tool a private key solves convenience by granting far more authority than many tasks require. A prompt saying “only use this for trading” does not constrain software that already holds an unrestricted signing key.
+Delegation makes sense when the work saved is worth more than the cost of supervising it. People already
+give employees and service providers budgets and responsibilities. Software needs those permissions
+expressed in a form its execution tools can check.
 
-A protocol grant aims to make the relevant boundary deterministic. It is not an instruction to trust an AI model's intentions.
+For an Agent, that means a task it can explain, spending authority its tools enforce, and records the
+owner can inspect. Planning, approval and actual spending each have a clear place in the workflow.
 
 ## A practical example
 
-A research assistant prepares a week's data purchases: the supplier, deliverable, price, payment asset and
-deadline for each task. The user reviews the plan and signs the payments. Suppliers return their results
-with records that link the work to the agreed task.
+A community approves a week's research budget. Its assistant compares data providers, prepares payments
+for contributors and schedules a verification service for the final report. The budget owner sees the
+supplier, deliverable, price and payment asset before approving the actions. Delivery records link each
+payment to the work it funded.
 
-A later application mandate can let the assistant repeat approved purchases within a budget and expiry.
-The service can then spend less time asking for routine approvals while the owner keeps the main key.
+The same pattern supports several first products:
+
+| Job | What the assistant prepares | What the user reviews |
+| --- | --- | --- |
+| Trading or LP support | An exposure comparison, applicable fees and a proposed adjustment | The market, amount, expected effect and actual transaction |
+| Community distribution | Contributor allocations tied to an approved budget | Recipients, amounts and the work being funded |
+| Service procurement | Data, verification or research orders with defined deliverables | Suppliers, total cost and acceptance terms |
+
+A later application mandate could let an Agent repeat defined purchases within an agreed budget and
+expiry. The customer would retain a clear view of spending while routine work takes fewer manual steps.
 
 ## Who pays, who earns
 
-An assistant can charge for a task that a user actually wants performed: distributing funds, preparing purchases or operating a limited workflow. Automation is valuable when the saved work exceeds its execution, network and support costs.
+An assistant can earn from preparing useful decisions, coordinating a distribution or delivering a
+finished analysis. Data and verification providers receive the agreed price for their part of the work.
+The assistant's revenue pays those suppliers, computation, execution and support costs.
 
-Paid data, verification and research give the assistant a reason to operate: customers receive a defined
-result, suppliers earn for delivery and revenue covers continued computation and support.
+For a customer, the value is the time saved and the quality of the result. For a service operator, a
+sustainable product is one whose income covers the real cost of delivering it again.
 
 ## How AIBRC fits
 
-[AIP-0001](../../proposals/AIP-0001-delegation-v1.md) proposes a unique grant identity, an owner permission-generation nonce, a remaining total allowance and block-height bounds. A delegated transfer must satisfy both the owner's available balance and the grant's remaining allowance. The grant identity prevents old material from being reinterpreted as a different authorization.
+The stages of authority are:
 
 | Stage | Authority | Useful outcome |
 | --- | --- | --- |
-| Current tools and user approval | Read and analyze; the user signs the action | Explain a purchase and prepare its payment |
-| Application authorization | A future credential checked by the application's executor | Repeat defined purchases within an explicit mandate |
-| Proposed Agent Key | A native grant checked under shared protocol rules | Transfer the specified AIBRC asset using the delegate's own key |
+| Current tools and user approval | Public API/MCP reads and [local R1 calculations](../../reference/r1/README.md); the user signs the action in an application or wallet | Explain a purchase, trade or LP adjustment and prepare it for review |
+| Future application authorization | An application-defined mandate checked at execution, using an Agent's working credential | Repeat specified actions within the application's budget and other agreed limits |
+| Proposed Agent Key | A native grant for one AIBRC asset, a cumulative allowance, valid heights and confirmed revocation; the Agent signs with its own key | Transfer the specified asset under conditions shared protocol implementations can check |
 
-The proposed native flow is:
+R1 is the first-generation Smart Covenant rule template. It gives the assistant a public fee calculation
+to reuse. R2 and R3 are possible later versions, each requiring its own published rules and reference
+identity for new assets that select it. Existing assets keep their selected rules. The
+[Smart Covenant chapter](../04-smart-covenant.md) explains the version path and its 15 future-topic directions.
+
+[AIP-0001](../../proposals/AIP-0001-delegation-v1.md) develops the native Agent Key proposal. Its scoped
+authority draws on the wallet-execution permission model discussed in
+[ERC-7715](https://eips.ethereum.org/EIPS/eip-7715), adapted to AIBRC asset rules and Bitcoin block heights.
 
 ```text
-Owner approves exact scope
-  → grant confirms
-  → Agent proposes an action
-  → deterministic checks and signing
-  → execution reduces balance and allowance
+Owner defines the asset, total allowance and valid heights
+  → owner signs the grant
+  → grant enters canonical state
+  → Agent's own working key authorizes a delegated transfer
+  → checks cover the exact grant, available balance and remaining allowance
+  → confirmed execution reduces the balance and allowance
 ```
-
-Revocation becomes effective through confirmed canonical-chain state. It is not a fixed-second emergency switch.
 
 ## Building the first version
 
-Application authorization belongs at the actual execution boundary, with balance and budget checks,
-revocation and durable operation identities. A retry should query the original result before attempting
-another payment.
+Keep permission checks at the actual execution boundary. An application mandate needs its defined action
+scope, balance and budget checks, expiry, revocation and durable operation identities. When a payment result
+is unknown, look up the original operation before deciding whether another payment is needed.
 
-Native grants require consistent interpretation across canonical state, hashes, snapshots, undo and replay,
-along with wallet displays and signing tools. The first proposal uses a total allowance. Periodic budgets,
-recipient or price restrictions and authority over a platform balance or BTC wallet need their own rules.
+Native Agent Key's first proposal covers one asset and a total lifetime allowance. Each grant has a unique
+identity and an owner permission-generation context; confirmed canonical state determines revocation.
+The allowance is a spending limit rather than reserved funds, so a valid remaining grant can also apply
+to later deposits. Periodic budgets, recipient or price restrictions, and a requirement to return sale
+proceeds need separately specified rules. Application LP positions and native BTC wallets have their own
+authority systems.
 
-An Agent that may “sell only, with proceeds returning to the owner” needs a settlement rule beyond an outgoing transfer allowance. A later incoming balance can also be spent by a still-valid remaining grant; users must understand that scope rather than assume the grant refers only to today's holdings.
+R1 calculates fees and plans. The application handles prices, trades and custody; the agreed reviewer or
+acceptance check evaluates service delivery. Native grants additionally need consistent interpretation
+across canonical state, hashes, snapshots, undo, replay, wallets and signing tools, including after a
+restart or reorganization. These are the implementation responsibilities behind the permission model.
 
 `grantId + ownerPermitNonce + remaining allowance + height bounds`.
 
 ## Where it can lead
 
-Start with one task: a data subscription, a paid analysis or a community distribution. Establish the
-customer, delivery and payment records, then add the authority needed to repeat that useful workflow.
-The model plans the work; signing tools and execution rules define what it may spend.
+Begin with one well-defined service: a trade or LP review, a community distribution, or a research order.
+Establish the customer, delivery and payment records, then develop the authority needed to repeat that
+workflow. An Agent that can pay useful specialists and earn from finished work becomes a participant in a
+service economy with an explainable operating budget.

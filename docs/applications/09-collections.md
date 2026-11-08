@@ -21,6 +21,11 @@ A creator publishes verifiable content and an identifiable asset. A collection s
 
 A buyer can inspect the content commitment and issuer relationship before transferring the asset. A creator community may then recognize the holder through its own clearly described access rules.
 
+An Agent could use a licensed research tool or a creator's dataset through an equally explicit service
+entitlement. The terms would state the permitted use, service period and operating responsibilities. A
+common asset identity gives wallets and Agents the same relationship to inspect, while the provider
+delivers the access promised by that relationship.
+
 ## Who pays, who earns
 
 Sales, exhibitions, memberships and content access can generate revenue. A creator's royalty paid voluntarily by a marketplace is an application agreement. A protocol-enforced transfer charge would require its own defined rule and cannot be assumed from an ordinary Transfer.

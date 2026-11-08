@@ -1,37 +1,153 @@
 # 07 · Applications and Economic Models
 
-An open asset foundation becomes an ecosystem when people build useful things with it. Wallets make ownership
-readable. Markets connect counterparties. Creators give assets meaning. Agents coordinate work, purchase
-services and leave records another application can understand.
+An Agent can help a holder compare a trade with an LP adjustment, prepare a community's contributor
+payments, or buy data and verification to finish a research task. Each starts with a useful job: save
+someone time, help them make a decision, or deliver work they are willing to pay for.
 
-AIBRC brings these activities a shared language for assets, accounts and rules. Current components support
-issuance, transfers and independently reproducible state. Proposed instructions add authority, conditions and
-relationships; research explores the richer economies they could support.
+AIBRC gives these services a shared language for assets, balances and rules. Wallets show what a person
+holds. Markets connect counterparties. Smart Covenant gives applications public rules to work with.
+Agents can bring those pieces together into a service with a customer, a budget and a checkable result.
+
+## Five businesses to build toward
+
+### Agent-to-Agent commerce
+
+A customer asks a research Agent for an analysis. The Agent obtains a dataset from one provider, asks a
+verification service to check the sources, then assembles the finished work. The customer pays for the
+analysis; the Agent pays its suppliers and uses the remaining income to cover computation and support.
+
+The same pattern can serve wallets and merchants: a reproducible state check, an explanation of a complex
+transaction, or a report that combines several data sources. A provider earns by adding processing,
+verification, reliable delivery or support to the available information. Public APIs remain shared inputs
+to these products.
+
+A first service can settle individual tasks or periodic batches after user approval. When providers accept
+one AIBRC asset, a current Transfer can allocate that asset to up to 25 recipients within the payload limit.
+The [task-market](applications/05-task-markets.md) and [Resident Agent](applications/06-resident-agent.md)
+guides explore how specialized services could grow into a working supply chain.
+
+### Liquidity and capital management
+
+A holder wants help deciding whether to trade, add liquidity or reduce an existing position. An assistant
+can compare exposure, applicable fees and exit conditions, then prepare an adjustment for the holder to
+review. A useful report explains both the expected benefit and the cost of acting.
+
+A service earns when people value that analysis, preparation or ongoing monitoring. A liquidity provider
+supplies real inventory and receives the fees or returns defined by the market they use, alongside the
+associated risks. The [bounded-assistant guide](applications/04-delegated-agents.md) connects these tasks
+with explicit authority and user approval.
+
+### Market-making Agents
+
+A holder wants an exact exchange; providers compete to supply it. In an illustrative RFQ for 100 units of
+one asset against 9,750 units of another, the provider's spread must cover network fees, execution and
+inventory risk. A quoting Agent can monitor prices and inventory and prepare an offer for the provider's
+signing system.
+
+The customer pays for access to usable liquidity. The provider earns when its quotes and execution cover
+their costs. [The RFQ guide](applications/12-cross-protocol-rfq.md) follows the offer, authorization and
+asset-specific delivery conditions needed to make that service work.
+
+### Lending and risk services
+
+A borrower uses capital; a lender supplies it; an operator monitors repayment or liquidation conditions.
+A risk Agent could help a user track collateral and prepare a response. That creates a service with an
+identifiable customer, operating costs and a cost of failure.
+
+A native lending market remains a research direction involving collateral control, debt state, pricing,
+liquidation and bad-debt rules. [Community capital](applications/07-treasuries.md) and
+[asset locks](applications/13-locks-and-vesting.md) explain the relationships that future designs can build on.
+
+### Game-asset operations
+
+A guild owns equipment; players need access; an operator coordinates its use. An Agent could help manage
+availability, eligibility and agreed payments for a real game. Players pay for play, access or service,
+giving the assets a purpose within that experience.
+
+The [game guide](applications/11-games-and-recipes.md) explores ownership, usage rights and timed
+availability. A character with its own history, equipment and operating role also connects to
+[Living Assets](applications/10-living-assets.md).
+
+## A sustainable economic loop
+
+```text
+A customer needs useful work
+  → an application or Agent arranges delivery
+  → the customer checks the result against the agreement
+  → payment becomes the provider's revenue
+  → revenue pays for data, verification, computation and support
+  → the service has resources for its next job
+```
+
+A community can use the same loop to fund shared work. Its members approve a budget, an assistant prepares
+contributor payments, and delivery records show what the spending achieved. An operating service can earn
+from customers and return part of that revenue to the budget that sustains it.
+
+Revenue may come from subscriptions, completed tasks, software tools, inventory spreads or agreed
+application fees. Bitcoin miner fees, service charges and any selected asset-rule fee are separate costs.
+Revenue allocation follows the published application rules and the actual rights attached to an asset.
+
+Show realized income, expenses, available reserves and market valuation separately. That makes it possible
+to see whether useful work covers the cost of running the service.
+
+## The Bitcoin–Agent double helix
+
+Bitcoin gives services money, settlement and a public history. Useful Agents create demand for data,
+verification, payments and further services. AIBRC's balance and rule model can connect those activities
+through interfaces that people and independent software can share.
+
+```text
+Bitcoin · open money and verifiable history
+  ↓ funds work
+Agents · useful computation and coordination
+  ↓ deliver services and earn income
+Operating budgets · pay people, data and infrastructure
+  ↓ sustain the next service
+Payments and records support the next round of cooperation
+```
+
+A research Agent purchasing data and paying a verification Agent is a small example of that relationship.
+Each provider supplies something the next participant needs. Delivery records and clear accounting explain
+how the customer payment becomes revenue, supplier income and a budget for continued operation.
 
 ## From common building blocks to useful products
 
+The first useful product can begin with today's asset tools and user-approved actions. More independent
+execution calls for explicit permissions and delivery conditions. This is the development map:
+
 | Layer | Applications | AIBRC's role | What remains to be built |
 | --- | --- | --- | --- |
-| Current foundations | Asset display, fixed-supply issuance, transfers, single-asset distributions, public data inspection | Current Deploy/Transfer rules, canonical state, decoder and the [reference RPC/SQLite indexer](run-indexer.md) | Wallet integration, configuration of the operator's Bitcoin node, product-specific interfaces and checks |
-| Application-layer pilots | RFQ preparation, market-making assistants, LP risk analysis, paid analysis and verification, attributable work receipts | Existing assets and explicit application execution; signed off-chain records where appropriate | Actual delivery, custody or signing boundaries, inventory policy and exception handling |
-| New protocol instructions | Agent Key, asset locks, multi-asset allocation, typed identity relationships and Living Asset state | Proposed grants, locks, bindings, statements and settlement conditions | Complete specifications, vectors, implementation, review and activation |
-| Full financial infrastructure | Stable-value assets, collateralized lending, liquidation markets, BTC strategy treasuries and real-world claims | Asset identity and a possible rules substrate | Reserves, legal rights, data sources, liquidation or external funding and custody arrangements |
+| Current foundations | Asset display, fixed-supply issuance, transfers, single-asset distributions, public data inspection | Deploy/Transfer rules, canonical state, decoder and the [reference RPC/SQLite indexer](run-indexer.md) | Wallet integration, the operator's Bitcoin-node configuration and product interfaces |
+| Application-layer pilots | Trading and LP assistants, community-budget preparation, paid analysis and verification | Existing assets, local R1 calculations, user approval and attributable application records | Delivery, signing boundaries, inventory policy and exception handling |
+| New protocol instructions | Agent Key, asset locks, multi-asset allocation, typed relationships and Living Asset state | Proposed grants, locks, bindings, statements and settlement conditions | Specifications, vectors, implementation, review and activation |
+| Full financial infrastructure | Stable-value assets, collateralized lending, liquidation markets and BTC strategy treasuries | Asset identity and a possible rules substrate | Reserves, legal rights, data sources, liquidation, funding and custody arrangements |
 
-An application pilot can begin with current transfers, explicit operator responsibilities and signed service
-records. Protocol extensions can move additional conditions into shared state once their rules and activation
-are complete.
+R1 is the **first-generation Smart Covenant rule template**. It publishes fee calculations, rule-fee
+destinations and buyback plans that an application or Agent can calculate locally with the
+[R1 reference](../reference/r1/README.md). An asset's selected version and parameters stay fixed.
+
+R2 and R3 are possible names for later generations, with their scope still to be designed. Each published
+version would need its own rules and reference identity, selected explicitly for new assets. Existing
+assets retain the rules they selected. The [Smart Covenant chapter](04-smart-covenant.md) connects this
+version path with the **15 future-topic directions** and their proposal entry points.
 
 ### From analysis to delegated execution
 
-1. **Read, calculate and prepare.** Existing public API and MCP tools provide read-only inputs. An assistant
-   can analyze a task, use the [R1 calculator](../reference/r1/README.md) to explain applicable fees and prepare
-   an action for the user to review and sign in an application or wallet.
-2. **Authorize a specific application task.** Scoped application credentials are the next development step:
-   define permitted actions, assets, budgets, recipients and expiry, then check them at execution.
-3. **Share authority through protocol rules.** Proposed [Agent Key](applications/04-delegated-agents.md) adds
-   native delegated transfers; proposed settlement conditions address the evidence required for delivery.
+| Stage | What an Agent can work with | Who authorizes the action |
+| --- | --- | --- |
+| Current tools | Read-only public API/MCP inputs and local R1 calculations; prepare a trade, LP adjustment, payment or distribution | The user reviews and signs through the relevant application or wallet |
+| Future application authorization | An application-defined mandate for actions, assets, budgets, recipients and expiry | The application's executor checks the mandate and the Agent's working credential |
+| Proposed protocol Agent Key | A native grant for one asset, a cumulative allowance, valid block heights and confirmed revocation | The Agent signs with its own working key; shared protocol rules check the exact grant |
 
-This sequence lets a useful service find customers before adding continuous spending authority.
+These stages have different scopes. Application LP positions and native BTC wallets need the authority
+defined by their own systems. Native Agent Key's first proposal concerns the specified AIBRC asset and a
+total allowance; additional recipient, price or periodic-budget restrictions require their own rules.
+
+R1 supplies calculations, while the application handles pricing, execution, custody and locking. Service
+delivery is accepted through the agreed check or reviewer and the relevant evidence. Future permission and
+conditional-settlement rules can make more of those relationships explicit. The
+[bounded-assistant](applications/04-delegated-agents.md) and [task-market](applications/05-task-markets.md)
+guides develop the two paths.
 
 ## Web3 references mapped to AIBRC uses
 
@@ -52,69 +168,9 @@ This sequence lets a useful service find customers before adding continuous spen
 | Identity and privacy proofs | [Credentials](applications/08-identity.md) and [selective disclosure](applications/14-private-proofs.md) | Binding, revocation, a justified state commitment and the appropriate proof system |
 | Creator and community economies | [Works and memberships](applications/09-collections.md), [distributions](applications/03-payments.md), [community budgets](applications/07-treasuries.md) | Clearly defined rights, allocation, service revenue and attributable expenditure |
 
-These references connect familiar Web3 ideas to AIBRC's building blocks. Their complete products require the
-dependencies listed: a stable claim needs redemption and backing, a lending market needs pricing and
-liquidation, and a real-world right needs an identifiable issuer and enforceable terms.
-
-## Five businesses to build toward
-
-### Market-making Agents
-
-A holder wants an exact exchange; providers compete to supply it. Imagine an illustrative RFQ for 100 units
-of one asset against 9,750 units of another. The provider's spread must cover network fees, execution and
-inventory risk. A quoting Agent monitors prices and inventory; a constrained signing tool authorizes the
-actual transaction. Asset-specific settlement conditions establish delivery.
-
-The product is access to real liquidity. Its revenue comes from customers valuing a usable quote, not from
-creating artificial volume. [The RFQ guide](applications/12-cross-protocol-rfq.md) develops the application path.
-
-### Lending and risk services
-
-A borrower uses capital; a lender supplies it; an operator monitors the conditions governing repayment or
-liquidation. A risk Agent could help a user monitor collateral and prepare an authorized response. That is a
-service with a customer and a cost of failure.
-
-A native lending market is a research direction requiring collateral control, debt state, pricing,
-liquidation and bad-debt rules. Proposed locks and conditional settlement are components of that design.
-[Community capital](applications/07-treasuries.md) and [asset locks](applications/13-locks-and-vesting.md)
-explain the relevant relationships.
-
-### Liquidity and capital management
-
-A liquidity provider supplies inventory to a market. An analysis Agent can explain exposure, fees and exit
-conditions, then prepare an adjustment for approval. A management service earns by saving time or improving
-execution; capital earns from the actual service it provides and bears its corresponding risks.
-
-An AIBRC asset grant governs its specified L1 asset. Operating an application's LP position or native BTC
-wallet needs the distinct authority for that system. A useful product can begin with analysis and clearly
-approved actions before adding any new execution authority.
-
-### Game-asset operations
-
-A guild owns equipment; players need access; an operator coordinates use. An Agent could manage
-availability, player credentials and agreed payments for a real game. The customer pays for play, access or
-service, while the game supplies the demand behind those assets.
-
-Identity relationships, usage rights and timed availability could connect these roles. The
-[game guide](applications/11-games-and-recipes.md) explores their rules. A character with its own associated
-history, equipment and operating role also connects to [Living Assets](applications/10-living-assets.md).
-
-### Agent-to-Agent commerce
-
-A wallet, merchant or research Agent can buy a data subscription, a reproducible state check or an analysis.
-The supplier returns a result identifying its source, time, rule context and scope. Free public APIs remain
-shared inputs; the paid service adds processing, verification, reliable delivery or support. A task or
-subscription price pays for that work.
-
-A research Agent can also take a customer's order, purchase data and verification from specialized services,
-then deliver the finished analysis. Customer revenue pays the suppliers and funds the next job. When the
-participants agree on one payment asset, a current AIBRC Transfer can allocate it to up to 25 recipients,
-subject to its payload limit. A first product can settle each task or periodic batch with user approval.
-
-BTC or an agreed asset pays for useful work. Proposed grants, identity relationships and receipts can make
-repeated cooperation easier to operate and inspect. The
-[task-market](applications/05-task-markets.md) and [Resident Agent](applications/06-resident-agent.md) guides
-show how that loop could grow.
+These references connect familiar products to AIBRC's building blocks. Their dependencies explain the
+work involved: a stable claim needs backing and redemption, a lending market needs pricing and liquidation,
+and a real-world right needs an identifiable issuer and enforceable terms.
 
 ## Fourteen application guides
 
@@ -123,8 +179,8 @@ show how that loop could grow.
 | [01 · Wallets and Asset Management](applications/01-wallets.md) | Live components | Explain an exact transfer before the user signs |
 | [02 · Indexers, Explorers and Data Services](applications/02-indexers.md) | Live components | Return a result with its canonical-chain and rule context |
 | [03 · Payments, Distribution and Stable-Value Assets](applications/03-payments.md) | Live payments; Proposed multi-asset; Research stable finance | Reconcile a single-asset distribution without double payment |
-| [04 · Bounded Agent Assistants](applications/04-delegated-agents.md) | Current read-only tools; Proposed authorization | Prepare a specific service payment for user approval |
-| [05 · Task Markets and Verifiable Receipts](applications/05-task-markets.md) | Application pilots; Proposed protocol receipts | Link a paid task to its delivery, acceptance and payment records |
+| [04 · Bounded Agent Assistants](applications/04-delegated-agents.md) | Current read/calculation tools; future application authorization; Proposed Agent Key | Prepare a specific service payment for user approval |
+| [05 · Task Markets and Verifiable Receipts](applications/05-task-markets.md) | Application products to build; Proposed protocol receipts | Link a paid task to its delivery, acceptance and payment records |
 | [06 · Bitcoin Resident Agent](applications/06-resident-agent.md) | Research | Operate one paid service with an explainable budget and handover |
 | [07 · DAO and Community Treasuries](applications/07-treasuries.md) | Research | Compare approved budgets, transfers and delivery records |
 | [08 · Identity, Credentials and Community Access](applications/08-identity.md) | Proposed | Verify who issued an eligibility claim and whether it remains valid |
@@ -135,46 +191,9 @@ show how that loop could grow.
 | [13 · Locks, Vesting and Scheduled Payments](applications/13-locks-and-vesting.md) | Proposed | Calculate available amounts under explicit height conditions |
 | [14 · Selective Disclosure and Lightweight Verification](applications/14-private-proofs.md) | Research | Verify one necessary property against a justified commitment |
 
-## A sustainable economic loop
-
-```text
-A user has a real need
-  → an application or Agent delivers a service
-  → the result and receipt can be checked
-  → the user pays and the provider earns
-  → income funds computation, data and maintenance
-  → the service can deliver again
-```
-
-Bitcoin supplies money and canonical transaction history. AIBRC supplies a common asset and rules vocabulary. Applications connect a specific demand with delivery and income. These roles complement each other; they do not require a new asset at every step.
-
-Revenue may come from subscriptions, data access, software tools, inventory spreads or explicitly agreed application fees. Network fees pay Bitcoin miners. An application rule may allocate a fee to a creator or another defined recipient, but a protocol capability is not a promise that any asset holder receives revenue. The protocol layer does not impose a native token or a second gas asset.
-
-An Agent's income must cover inference, data, execution, chain fees and support. Its asset's market price, a treasury's quoted value and realized operating income are different quantities. A busy market is not proof that the underlying service is profitable.
-
-## The Bitcoin–Agent double helix
-
-Bitcoin gives autonomous services money, settlement and a public history. Useful services bring demand for
-payments, data, verification and more useful services. AIBRC's account and rule model can connect those two
-sides into a reinforcing economy.
-
-```text
-Bitcoin · open money and verifiable history
-  ↓ funds work
-Agents · useful computation and coordination
-  ↓ deliver services and earn income
-Operating budgets · pay people, data and infrastructure
-  ↓ sustain the next service
-More activity settles and leaves evidence on Bitcoin
-```
-
-Consider a research Agent buying a dataset, paying a verification Agent to check it, then selling a useful
-analysis. Service receipts explain what each participant supplied. Bounded grants limit operating authority;
-clear accounting distinguishes revenue, expenses and available reserves. That is the economic loop worth
-building: real work funds continued operation.
-
 ## Start small, leave room for an ecosystem
 
-A first project can be a signing explainer, a paid data service, a community-budget viewer or a clearly scoped
-Agent assistant. A creator can explore a collection with an explicit entitlement. A market builder can begin
-with asset discovery and exact quotes.
+Choose one customer and one useful result: explain a trade, review an LP position, prepare a community
+distribution, or deliver a paid analysis. Make the price, cost and acceptance method understandable. A
+service that customers use and can check gives the next wallet, application or Agent something useful to
+build on.

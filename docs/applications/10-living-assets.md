@@ -11,19 +11,30 @@ ongoing creative services.
 
 ## Why it matters
 
-Dynamic works and AI services often rely on their original maintainers. An asset may change hands while the model, running account, content and keys remain with the old operator. The word “ownership” becomes ambiguous unless those dependencies are explained.
+Someone acquiring a useful service wants to know what can continue after the handover: the research tool,
+customer access, available content, operating budget and authority to run it. A Living Asset explores how
+those pieces could travel together through an explicit service relationship.
 
-A Living Asset explores continuity across that gap. It does not assume that a token transfer automatically moves every external right or credential.
+The familiar asset idea of transferable ownership becomes more useful when paired with a defined operating
+role and a versioned service package. A Bitcoin design can build on that separation, giving a successor
+clear responsibilities and a practical way to continue delivery.
 
 ## A practical example
 
-A user acquires an asset linked to a specialized service. The service package identifies the current operator, content version, budget and permitted actions. As it operates, it publishes attributable updates and receipts.
+Imagine a community research Agent that sells reports and purchases data and verification from specialist
+providers. Its service package identifies the current operator, content version, available budget,
+licensed dependencies and permitted actions. Delivery records show how customer revenue funds the work.
 
-When ownership changes, an explicit process determines what follows the asset, which authority must be replaced and which terms need a new approval. The successor should be able to demonstrate continued operation using the documented package.
+When the defined ownership or operating role changes hands, the successor obtains that package and the
+rights described in the handover terms. The old authority is replaced, the relevant accounts and suppliers
+are brought under the new arrangements, and the successor demonstrates that the next customer can still
+receive the service. That working continuation is what makes the relationship useful.
 
 ## Who pays, who earns
 
-Users may pay for interaction, professional tools, data or content. Those payments can fund maintenance and delivery. Trading the ownership asset changes ownership; it should not be the service's only source of operating funds.
+Users may pay for interaction, professional tools, data or content. Service revenue funds suppliers,
+maintenance and the next delivery. Keep the purchase price of an ownership interest separate from the
+budget available to operate the service, so a buyer can understand how continued work will be financed.
 
 A transferable entitlement must explain whether the buyer receives service access, governance authority, operating responsibility or something else. These rights may have different owners and cannot be collapsed into a single balance without defining their relationship.
 
@@ -45,7 +56,10 @@ The [Resident Agent](06-resident-agent.md) is a related research direction focus
 
 A first prototype can have one service and one operator role. It needs versioned content, authority replacement, budget policy and a defined stopping condition. A handover test lets an authorized third party resume the service under the replacement authority.
 
-A hash does not ensure download availability, and downloadable code does not establish model or data licenses. An old operator may retain copies, while a buyer may not automatically gain control of external accounts. The handover terms cover content availability, licenses, retained copies and control of external accounts.
+The handover terms must cover content availability, model and data licenses, retained copies and control
+of external accounts. A commitment identifies bytes; an available, appropriately licensed package and
+effective authority replacement make continuation possible. An old operator may retain copies, so the
+rights promised to the successor need to account for that fact.
 
 `asset owner + operator authority + versioned content + operating budget`.
 

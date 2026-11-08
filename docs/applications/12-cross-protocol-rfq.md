@@ -1,65 +1,117 @@
 # 12 · Cross-Protocol RFQ and Market-Making Agents
 
-**Proposed / Research**
+An Agent can help its user answer a practical question: “Where can I exchange this exact asset, at what
+total cost, and how will delivery be checked?” A common request-for-quote interface would let it compare
+providers across Bitcoin asset standards while presenting the user with one understandable choice.
 
-One community can hold assets under several standards. A shared request-for-quote experience could help its
-members discover a precise exchange without learning a different trading workflow for every protocol.
-Providers contribute inventory and executable quotes; Agents can help find and compare them.
+Providers contribute inventory, quotes and execution service. Agents do the repeated work of finding
+assets, comparing offers and checking native transfer requirements. Each participating protocol supplies
+the rules that determine whether its asset was delivered.
 
-AIBRC's role is a common interaction foundation with exact asset identity and explicit settlement
-conditions. Each participating protocol keeps the rules that determine whether its own asset was delivered.
-
-The aim is reusable market tooling across protocols. A quote interface can work with assets that were
-issued independently; a shared issuance root is optional. Exact asset identity, fresh inventory and each
-protocol's settlement rules remain part of the exchange.
+| Stage | Scope |
+| --- | --- |
+| Current foundation | Public AIBRC asset and account rules, R1 calculations, X1 external references and the specific AIBRC–BTC collaborative exchange example |
+| Application direction | Shared quote discovery, protocol-specific validation and controlled online RFQ workflows |
+| Proposed / Research | Native Agent Key, general cross-protocol conditional settlement and long-lived unattended offers |
 
 ## Why it matters
 
-In an RFQ market, competing providers quote a specific exchange rather than require every order to sit indefinitely in one public order book. A provider earns a spread for making inventory and execution available. The same model is relevant to assets whose transfer preparation and confirmation differ between protocols.
+In an RFQ market, providers quote a specific exchange and compete on price and execution. An Agent can
+request offers for an exact asset and amount, include network costs and quote expiry in the comparison,
+and present an actionable result. A user spends less time moving between markets and interpreting their
+different workflows.
 
-A market-making Agent is an operating tool within that business. It can read data, prepare quotes and manage a limited inventory policy, but software automation does not remove market risk or supply missing settlement guarantees.
+For providers, an operating Agent can keep a supported asset list, watch inventory, calculate quotes and
+prepare fills within an application-defined policy. Common interfaces let a provider reuse that work
+across more assets and let a new application connect to existing liquidity services.
 
 ## A practical example
 
-A user requests an exchange between a BRC-20 asset and an AIBRC asset. Providers identify the exact assets and quantities, check their inventories and return expiring quotes. The user selects an offer, and the participants prepare the precise Bitcoin transaction and the required protocol material.
+Consider an Agent preparing to buy an AIBRC asset with BTC. It resolves the asset's identity, checks the
+user's available BTC and requests expiring quotes. The user selects an offer; the participants prepare
+and inspect the exact payment and asset delivery before signing. The existing AIBRC–BTC collaborative
+block-exchange path provides a concrete application example for the transaction step.
 
 ```text
-Request a specific exchange
-  → providers check inventory and quote
-  → participants rebuild and inspect
-  → authorize the required inputs
-  → broadcast exact material
-  → verify each settlement leg
+User sets the task
+  → Agent identifies assets and requests quotes
+  → Agent compares total cost, expiry and transfer requirements
+  → user selects an offer
+  → participants inspect and authorize exact material
+  → native rules determine settlement
+  → Agent reports the result and transaction
 ```
 
-A separate LP risk assistant might simply inspect a user's pool exposure and recommend a change for approval. It can be useful before an Agent is permitted to place orders autonomously.
+A related-asset view can make the request easier to form: show a community's AIBRC, BRC-20 and Runes assets
+with their exact identities and any shared issuance origin. A common quote interface can also work with
+independently issued assets. Each additional trading pair needs the native builders and validators for
+its participating protocols.
 
 ## Who pays, who earns
 
-The user pays a disclosed spread and relevant network costs. Providers earn from inventory availability and execution service while carrying price, inventory and confirmation risk. An application may charge for quote aggregation, tooling or support. None of those revenues is guaranteed by issuing an Agent token.
+The user pays a disclosed spread and relevant network costs. Providers earn from inventory availability
+and execution service while carrying price, inventory and confirmation risk. Applications can charge for
+quote aggregation, operating tools or support. These services have a concrete job: find counterparties,
+price inventory and help complete a defined exchange.
 
-A bounded strategy treasury could fund a quote provider, but the owner must understand what the operator may spend, what happens to proceeds and when authority ends. An outgoing allowance alone cannot enforce a profitable strategy or ensure that exchange proceeds return to the intended account.
+An Agent operator can offer the same service to several communities. Its business depends on useful
+quotes, controlled costs and reliable execution. A strategy treasury could fund the inventory and an
+operating budget under a clear mandate for spending and proceeds.
 
 ## How AIBRC fits
 
-Current AIBRC transfers are checked under [the specification, §§5–7](../../spec/AIBRC_PROTOCOL_V0.25.md); each external protocol retains its own validity rules. A PSBT is a collaboration format for a Bitcoin transaction, not a universal protocol validator. A BRC-20 transfer inscription is consumed on its first send and cannot be treated as a reusable order credential.
+Exact asset IDs, script-account balances and public Transfer rules give tools a common AIBRC interface.
+The [R1 reference](../../reference/r1/README.md) lets an Agent calculate applicable rule fees locally.
+Quotes can carry the asset identity, network, quantities, destinations, expiry and relevant state context
+so discovery, transaction preparation and result reporting refer to the same exchange.
 
-Quotes should name the asset identity, network, quantities, destinations, expiry and relevant state context. A maker's signing component must check the exact transaction rather than accept an Agent's natural-language assurance. Bitcoin transaction atomicity does not make an invalid asset leg valid.
+X1 records a chain ID and contract address for a related external application. A discovery tool can
+use that reference with the relevant ABI and RPC tools to inspect the rules and state the contract exposes.
+This helps an Agent explain an application relationship and gives later adapters an entry point into
+existing contract tooling.
 
-[AIP-0001](../../proposals/AIP-0001-delegation-v1.md) explores bounded outgoing authority, while [AIP-0007](../../proposals/AIP-0007-conditional.md) explores explicit settlement conditions. Long-lived unattended orders require a proof of continued inventory and enforceable conditions; the current script-account balance model does not acquire that property merely because a PSBT is fully signed.
+The shared-interface direction draws on how public-chain asset standards let wallets, libraries and
+markets build on one another. Here, a common quote request is paired with native protocol interpretation
+and an explicit signing path. The [cross-protocol chapter](../05-cross-protocol.md) explains that foundation.
 
 ## Building the first version
 
-A first application can aggregate read-only asset information and prepare online, explicitly approved exchanges. It still needs asset-specific validators, fresh inventory, quote expiry, signer isolation and recovery of the original transaction. A production maker additionally needs an operating budget, monitoring, risk limits and a defined response to partial or uncertain results.
+A useful first tool can focus on four tasks:
 
-Checking independent index sources can help detect disagreement. Agreement between two sources is not a substitute for the protocol's rule set. If an indexer has not caught up, the product should show an unresolved result rather than send another payment.
+1. Resolve exact assets and show their source, balances and data freshness.
+2. Request and compare quotes with all costs, expiry and destinations visible.
+3. Prepare a supported online exchange for explicit review and authorization.
+4. Track the original transaction and report each native settlement result.
 
-An exchange must state which conditions make all legs safe together and what happens if those conditions cannot be established. “No bridge” describes the absence of one mechanism; it does not prove that the exchange is atomic, permissionless or safe for indefinite offline posting. See [the cross-protocol chapter](../05-cross-protocol.md).
-
-`asset-specific validity + bounded inventory + RFQ + exact transaction + settlement checks`.
+Expose these tasks through small, defined tool interfaces that both Agents and application screens can
+use. A provider can then add inventory policies, operating limits and isolated signing. The product gains
+useful discovery and preparation tools before it supports autonomous execution.
 
 ## Where it can lead
 
-Build from asset discovery to exact quotes and controlled online execution. Activated grants and separately
-defined settlement conditions could support more autonomous providers. The enduring advantage is a shared
-path between markets, with inventory, authority and delivery visible to the people using it.
+Shared quote discovery can grow into controlled online execution across supported protocols. Native
+[Agent Key](../../proposals/AIP-0001-delegation-v1.md) develops bounded outgoing authority, while
+[conditional settlement](../../proposals/AIP-0007-conditional.md) develops the conditions linking payment
+and delivery. Together with protocol-specific adapters, those directions can support more autonomous
+providers and Agents purchasing services from one another.
+
+## Settlement and operating conditions
+
+Current AIBRC transfers follow [the specification, §§5–7](../../spec/AIBRC_PROTOCOL_V0.25.md). A PSBT
+coordinates a Bitcoin transaction; each asset leg still needs its protocol's identity, authorization,
+balance and receiver checks. BRC-20 transfer inscriptions have first-transfer semantics and cannot serve
+as reusable order credentials. The AIBRC–BTC example does not establish general BRC-20/Runes delivery.
+
+A signing component must check the exact transaction, current inventory and signature coverage. Native
+Agent Key's outgoing allowance would bound spending; it would not establish profitability, reserve
+inventory or enforce the return of exchange proceeds. A provider must define those application controls
+and its response to expired quotes, partial results and price changes.
+
+A long-lived unattended offer needs enforceable settlement conditions and continued inventory validity.
+A signed PSBT alone does not reserve an AIBRC script-account balance. X1 supplies only the external chain ID
+and address; reading or acting on an external contract needs the appropriate tools and application adapter.
+It does not move assets between networks.
+
+If indexing is incomplete or sources disagree, keep the original operation pending verification. Recover
+its result before issuing another payment. See the chapter's
+[settlement conditions](../05-cross-protocol.md#settlement-conditions-four-separate-questions).

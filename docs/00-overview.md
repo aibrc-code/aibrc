@@ -5,6 +5,11 @@
 AIBRC records native asset balances on accounts associated with Bitcoin addresses. One account can hold
 several AIBRC assets, with public rules for issuance, authorization and transfer.
 
+For an Agent, that means a clear starting point: which asset, which account and how much. Smart Covenant
+connects that asset foundation with reusable rules, so a tool can explain costs and prepare work for its
+user. R1 is the first fixed rule template; AiBTC is the first application infrastructure to use it for
+trading and liquidity.
+
 Its wider goal is common standards for assets, accounts and Agent applications across the Bitcoin ecosystem.
 Shared interfaces let tools and applications build on one another while each protocol keeps its native
 rules. Smart Covenant and proposed Agent Key extend that direction toward programmable relationships and
@@ -74,8 +79,12 @@ Read [shared-root issuance and cross-protocol settlement](05-cross-protocol.md).
 
 **Give Agents the Task. Put Boundaries in the Rules.**
 
+Begin with a concrete task: prepare a data purchase, explain the cost of a trade or organize a community
+distribution. Public interfaces supply information, the [R1 calculator](../reference/r1/README.md) supplies
+repeatable fee calculations, and the user reviews the operation through an application or wallet.
+
 AIBRC's current authorization model identifies which Bitcoin input authorizes an asset operation. Proposed
-[Agent Key](04-smart-covenant.md#agent-key-delegate-authority-without-handing-a-model-the-owner-key) extends
+[Agent Key](04-smart-covenant.md#agent-key-give-an-agent-a-clear-mandate) extends
 that foundation to a grant: authorize an Agent or another script account for a specified asset, total
 allowance and block-height interval. The owner keeps the owner key; the delegate operates with its own key.
 
@@ -101,6 +110,11 @@ Receipts and records support review
 
 The same foundation could support market operators, treasury assistants and Agents purchasing services from
 one another. Identity, attestations and conditional settlement develop that path toward a wider economic loop.
+
+R1's published rule text names 15 extension directions. Its first-generation scope gives the framework a
+concrete starting point; future R2, R3 and other templates can define new rules under their own identities.
+The [version and direction map](04-smart-covenant.md#built-to-evolve-r1-r2-and-beyond) links those topics to
+the relevant proposals and application guides.
 
 **Rule sketch · proposal:** `grantId + owner permission generation + asset + allowance + height bounds`.
 

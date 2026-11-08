@@ -2,15 +2,20 @@
 
 ## The moment: open money meets programmable cooperation
 
+An Agent buying a dataset needs to identify the asset it can spend, find its account balance and prepare
+the payment. Its user needs to understand the cost and authorize the action. A shared application language
+lets both work from the same asset identities, amounts, permissions and results.
+
 Bitcoin connects energy, proof of work and an openly verifiable monetary history. Its strength is both
 technical and cultural: anyone can hold value, inspect the rules and verify the chain. Other blockchain
 ecosystems have shown what shared asset interfaces and execution environments make possible. ERC standards
 and the EVM helped wallets, developers and applications reuse a common foundation rather than start from
 scratch with every project.
 
-As AI moves from answering questions to taking action, that foundation matters in a new way. Agents need
-money to buy services, explicit authority to act and records that others can check. A shared language can
-connect an instruction such as “pay for this result” with the assets, permissions and evidence behind it.
+That reuse is an ecosystem advantage. A common asset interface lets one wallet serve many projects; shared
+execution conventions give libraries, contract tools and application frameworks a foundation to build on.
+AIBRC brings that direction to Bitcoin's native asset and account rules, so an Agent can carry out a task
+across tools and a user can follow what it is doing.
 
 Satoshi described Bitcoin as **“based on crypto proof instead of trust”** in his
 [2009 open-source announcement](https://satoshi.nakamotoinstitute.org/posts/p2pfoundation/1/).
@@ -36,13 +41,17 @@ AIBRC responds with a common protocol and account foundation, open interpretatio
 The goal is compatibility: connect asset standards and applications through a language they can share,
 while keeping each protocol's native validity rules intact.
 
+Useful work can begin with discovery. An Agent can identify a community's related assets, compare precise
+quotes and ask the appropriate tools to check each native transfer. A wallet can present the same assets
+and results in one view. [Cross-protocol interaction](05-cross-protocol.md) develops these application paths.
+
 ```text
 One community
   ├─ AIBRC assets
   ├─ BRC-20 assets
   └─ Runes assets
        ↓
-Shared origin · clear identities · common interaction
+Exact identities · optional shared origin · common interaction
        ↓
 Connected wallets, services, markets and Agents
 ```
@@ -57,7 +66,7 @@ change. The current core is deliberately compact. Applications can add their own
 protocol changes affecting ownership or permissions use explicit, versioned rules.
 
 ```text
-A person or Agent expresses an intent
+A person sets a goal; an Agent prepares an action
   ↓
 A wallet prepares and authorizes the transaction
   ↓
@@ -72,9 +81,11 @@ Bitcoin checks BTC spends, signatures, scripts and blocks. AIBRC interpreters ch
 asset identity and balances. Applications provide products: wallets, exchanges, data services or Agent tools.
 Each layer has a clear job, and third parties can build without adopting one mandatory application.
 
-ERC and EVM are useful parallels for the value of common standards and reusable rules. AIBRC does not import
-Ethereum's execution environment into Bitcoin: Smart Covenant defines explicit relationships between asset
-rules and their executors. The [Smart Covenant chapter](04-smart-covenant.md) develops that design.
+Smart Covenant connects asset rules with identifiable references and executors. R1 supplies public rule
+calculations; X1 records an external chain and contract address. An Agent can use that coordinate with the
+relevant ABI and RPC tools to inspect a related application's rules and state. Shared interfaces and
+familiar contract tooling give builders an engineering foundation for further adapters. The
+[Smart Covenant chapter](04-smart-covenant.md) develops these relationships and their execution boundaries.
 
 ## A ledger independent software can reproduce
 
@@ -105,5 +116,7 @@ The next building blocks are organized as [AIPs](../proposals/README.md): Agent 
 height locks, bindings, attestations, checkpoints and conditional settlement. New behavior becomes a rule
 through specification, examples, implementation and an explicit activation context.
 
-A wallet can begin with clear asset transfers. An indexer can reproduce state. An Agent can begin by reading,
-explaining and preparing operations. Each is a useful contribution to the same open foundation.
+An Agent can begin by reading balances, calculating a rule result and preparing an operation for its user.
+A wallet supplies the authorization experience; an independent indexer supplies reproducible state.
+Proposed Agent Key and settlement rules develop that foundation toward budgeted service payments and
+Agents purchasing work from other Agents.

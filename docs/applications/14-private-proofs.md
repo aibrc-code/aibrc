@@ -2,12 +2,12 @@
 
 **Research**
 
-A service often needs one fact, not a person's entire activity history. Selective disclosure explores how a
-client could prove that fact against an accepted state commitment while revealing less unrelated data.
-Lightweight verification asks a related question: how can a client check the record it needs efficiently?
+A wallet or Agent may need to check one asset balance or one community eligibility record. It should have
+a path from that specific record to the evidence supporting it. Lightweight verification explores that
+path; selective disclosure asks how a service could request less unrelated information along the way.
 
-These are research directions for AIBRC's public account foundation, from explicit membership proofs to
-more advanced private eligibility statements.
+For AIBRC, the first useful goal is to verify one explicit record against an accepted state commitment.
+Further research can develop private statements about eligibility or holdings on that foundation.
 
 ## Why it matters
 
@@ -17,13 +17,21 @@ Membership proofs and privacy proofs answer different questions. A Merkle path c
 
 ## A practical example
 
-A client first accepts a state commitment on a justified basis. It chooses the smallest property required by a service, generates the relevant proof and lets the service evaluate that property. The application also checks whether the underlying state is recent enough and whether a credential has been revoked.
+A wallet assistant checks a user's asset record before preparing a payment. In a proposed lightweight
+design, it obtains the explicit record and a membership proof, then verifies that proof against a root
+accepted for the relevant Bitcoin history and rule context. It can focus on the needed record instead of
+asking the user to disclose an entire activity history.
 
-The service should not invent a root and use only its own proof to certify that its root represents the correct ledger. Acceptance of the root is a separate part of the trust model.
+A later community service could request a proof of eligibility with fewer disclosed details. The exact
+statement, proof system, freshness and revocation policy would determine what that service can conclude.
+Root acceptance remains a separate trust decision from checking a path against it.
 
 ## Who pays, who earns
 
-Privacy-oriented wallets, eligibility services and lightweight clients may earn revenue by providing useful access with less disclosure. Their value comes from a product that remains usable while collecting less information, not from accumulating more user histories.
+Wallets, eligibility services and independent verification providers could earn by making specific checks
+easier to obtain and repeat. People gain clearer access to evidence; Agents gain a way to inspect the
+record needed for a task. A selective-disclosure product adds value by collecting only the information
+required for its stated purpose.
 
 Compliance or community policies remain application choices. A proof can demonstrate a defined statement; it does not automatically satisfy every legal or social requirement associated with that statement.
 

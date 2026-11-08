@@ -4,41 +4,41 @@
 
 **Different Protocols. Shared Application Foundations.**
 
-BRC-20, Runes and AIBRC can evolve under their own rules. AIBRC aims to help wallets, markets and Agents reuse
-ways to identify, read and interact with assets, reducing the need to rebuild tools for every protocol.
-Shared-root issuance and cross-protocol exchange are distinct application directions built on that common
-foundation.
+An Agent working for a Bitcoin community may need to find its related assets, compare quotes and prepare
+an exchange. Its user wants a clear view of the assets and the result. Common interfaces can make those
+tasks familiar across wallets and markets while BRC-20, Runes and AIBRC retain their native rules.
 
-Shared tools give users and developers a consistent way to work with different assets. Optional shared-root
-issuance establishes a common origin for assets issued under several standards. Exchange asks a different
-question: what conditions establish that each side received the agreed asset? A shared issuance root is not
-a prerequisite for a common interface.
+AIBRC's direction is a shared application language for asset identity, account information, rules and
+operations. This gives builders a way to reuse discovery and market tools across projects. Optional
+shared-root issuance adds verifiable common ancestry; an external contract reference can connect an asset
+with a related application on another network.
 
-The existing AIBRC–BTC block-exchange path provides an application example of coordinating payment and
-asset delivery in one Bitcoin transaction. General cross-protocol conditional settlement is a proposed next
-step; [AIP-0007](../proposals/AIP-0007-conditional.md) sets out its design questions.
+| Stage | Scope |
+| --- | --- |
+| Current reference | AIBRC asset identity and account rules; X1's external chain and contract coordinates |
+| Application examples | Shared-root issuance and the specific AIBRC–BTC collaborative block-exchange path |
+| Application direction | Common asset views, quote discovery and adapters that check each protocol's native operations |
+| Proposed / Research | General cross-protocol conditional settlement and long-lived unattended offers; [AIP-0007](../proposals/AIP-0007-conditional.md) explores settlement conditions |
 
 ## Identify the asset before discussing its price
 
 ### Independent asset identity · Live (AIBRC core)
 
-AIBRC asset IDs, deployment identities and locators resolved in canonical-chain context. Applications can distinguish a readable name from an exact asset identity.
-
-Matching names in two places do not make them the same asset.
+An Agent can resolve an AIBRC asset's ID, deployment identity and locator in canonical-chain context. A
+wallet can pair its readable name with that exact identity, helping users distinguish assets with similar
+names. An adapter for another protocol supplies that protocol's identifiers and validity rules.
 
 `network + asset identity + current canonical context`.
 
-The rules are in [§7 of the specification](../spec/AIBRC_PROTOCOL_V0.25.md). An integration with another protocol must also use that protocol's identifiers and validity rules. An AIBRC name cannot claim someone else's asset as an “official” version.
-
-For AIBRC account abstraction, **balances live on script-derived accounts; authority is a protocol rule**. Other protocols may use different ownership and transfer models. A unified interface must preserve those differences rather than relabel them.
+The rules are in [§7 of the specification](../spec/AIBRC_PROTOCOL_V0.25.md). For AIBRC account abstraction,
+**balances live on script-derived accounts; authority is a protocol rule**. Shared interfaces describe
+those properties precisely so tools can work with each asset's actual ownership and transfer model.
 
 ### Shared-root issuance
 
-**Live application implementation.**
-
-An application can derive issuance paths under different asset standards from a common Bitcoin root transaction. Projects can establish verifiable shared ancestry for otherwise distinct protocol artifacts.
-
-Different protocol assets can begin from the same root while keeping their own rules.
+An application can derive issuance paths under different asset standards from a common Bitcoin root
+transaction. A community can give wallets and Agents a way to trace related assets to the same origin,
+while keeping their individual identities visible.
 
 `common root transaction → parallel issuance paths → independent protocol validity`.
 
@@ -51,50 +51,99 @@ Bitcoin root transaction
 Each path → its own protocol rules and confirmation
 ```
 
-Each leg's actual construction, confirmation and protocol validity must be established separately. The shared process is not a mechanical link between balances. Common origin does not itself establish a common price, pooled liquidity, identical ownership rights, automatic exchange or unconditional redemption. Those require additional mechanisms and responsible parties.
+A community dashboard could present the family together, link each deployment and show the relevant
+balances through native data sources. The benefit is a clearer provenance view and less repeated discovery
+work across applications. Independently issued assets can also use a common interface.
+
+## Shared interfaces for useful tasks
+
+| Task | What an Agent can prepare | What the user gains |
+| --- | --- | --- |
+| Related-asset views | Resolve identities and shared ancestry, then collect each protocol's balances and source context | A recognizable asset family across wallets, community pages and markets |
+| Quote discovery | Request exact asset pairs and amounts, compare costs and quote expiry | An exchange choice expressed in familiar terms |
+| Transfer checks | Send each proposed operation to its protocol-specific validator and summarize the results | A clear account of what will be paid, delivered and checked |
+
+These are useful adapter tasks in their own right. Common asset interfaces and execution conventions helped
+public-chain wallets, libraries and application frameworks serve many projects. Bitcoin builders can reuse
+that engineering approach: define the shared questions and supply the native interpretation underneath.
+
+## External applications: follow a shared reference
+
+X1 gives an asset an external application coordinate: a chain ID and a contract address. A builder can use
+the pair to show the associated application and direct an Agent to the appropriate network tools. With the
+relevant ABI and RPC access, the Agent can inspect the rules and state that the contract exposes and explain
+how that application relates to the asset.
+
+```text
+AIBRC asset → X1 chain ID + contract address
+                         ↓
+                ABI and RPC tools
+                         ↓
+       Related application's exposed rules and state
+```
+
+This makes an external relationship discoverable and gives later application adapters a precise starting
+point. Existing contract interfaces, developer libraries and chain tools provide an engineering foundation
+for those adapters. The [X1 reference](../spec/covenants/X1.md) defines the recorded format.
 
 ## Online RFQ: define the exchange before signing
 
 ### Request-for-quote coordination · Proposed (general cross-protocol application)
 
-Participants agree on assets, amounts, consideration, receiver scripts and validity conditions before preparing an exact transaction. Applications and agents can coordinate protocols without first acquiring unrestricted control over a user's assets.
-
-Agree on what each side gives, receives and accepts as completion before signing.
+An Agent can turn a request into exact assets, amounts and destinations, ask providers for expiring quotes
+and compare the total cost. The participants then prepare the transaction and protocol material for the
+selected offer. The [RFQ application guide](applications/12-cross-protocol-rfq.md) follows this workflow.
 
 `request → quote → transaction reconstruction → signatures → validation`.
 
-RFQ is a coordination method, not an activated AIBRC opcode. If the quote expires, inventory changes or signature coverage is insufficient, a builder needs fresh explicit authorization. It must not silently change the promised exchange after the user has signed.
+RFQ gives applications a reusable coordination pattern. Asset-specific builders and validators supply the
+native transfer details; signers check the exact exchange they authorize.
 
-## PSBT: a coordination format, not a delivery guarantee
+<a id="psbt-a-coordination-format-not-a-delivery-guarantee"></a>
+
+## PSBT: coordinate a signed exchange
 
 ### Collaborative transactions · Live (application example)
 
-Participants prepare and sign the same Bitcoin transaction while checking the inputs and outputs they are responsible for. Payment and delivery can be expressed within a shared transaction structure.
-
-Everyone may be signing the same transaction, but every asset operation still needs to be valid.
+The AIBRC–BTC block-exchange application illustrates payment and asset delivery coordinated in one Bitcoin
+transaction. Participants prepare and sign the same transaction, checking their inputs, outputs and asset
+effects. PSBT provides a familiar format for that collaboration.
 
 `PSBT coordination + correct sighash coverage + protocol-leg validation`.
 
-In the block-exchange application example, the user's BTC payment input uses SINGLE and the asset lane's authorization input uses DEFAULT. The payment input does not thereby become Transfer's authorization input; the latter still satisfies the core authority rules. These roles should not be described as a generic 2-of-2 or threshold-signature scheme. See the [core rules, §6](../spec/AIBRC_PROTOCOL_V0.25.md), [BIP174's PSBT format and roles](https://github.com/bitcoin/bips/blob/master/bip-0174.mediawiki), and [BIP341's signature-message commitments](https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki#common-signature-message).
+The example has distinct input roles: the user's BTC payment input uses SINGLE, while the asset lane's
+authorization input uses DEFAULT. The core Transfer authority rules still apply to that authorization
+input. See the [core rules, §6](../spec/AIBRC_PROTOCOL_V0.25.md),
+[BIP174's PSBT format and roles](https://github.com/bitcoin/bips/blob/master/bip-0174.mediawiki), and
+[BIP341's signature-message commitments](https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki#common-signature-message).
 
 ### Offline offers and conditional delivery · Proposed / Research
 
-A direction in which one party signs constrained offer material and another party fills it later. Exchanges could depend less on continuously online counterparties.
-
-An offer that remains signed is not enough; payment and delivery need conditions that remain valid together.
+Constrained offer material could let a provider quote an exchange that another party fills later. This
+would reduce the need for continuously online counterparties. It requires conditions that keep inventory,
+payment and delivery valid together, including expiry and cancellation behavior.
 
 `conditional state transition + bounded signature template + exact settlement evidence`.
 
-A protocol balance in a script account is not the same object as a pre-signed BTC input. A seller may transfer the asset through a different valid transaction before the old offer is filled. The old transaction may still be Bitcoin-valid while lacking the protocol balance required for delivery. Current AIBRC authorization also commits to full outputs, so another asset's established pre-signing template cannot simply be copied into this model.
+[AIP-0007](../proposals/AIP-0007-conditional.md) develops the settlement questions behind this direction.
 
-[AIP-0007](../proposals/AIP-0007-conditional.md) explores conditional settlement. It does not claim that arbitrary cross-protocol atomic exchange already exists.
+## A practical starting point for builders
+
+Begin with an asset view and quote-discovery tool: identify the assets, show data sources and freshness,
+and compare exact requests. Add validation for each protocol and an online signing workflow for supported pairs.
+The specific AIBRC–BTC collaboration is one application path; additional protocol pairs need their own
+builders and validators.
+
+An Agent can help find an exchange and explain its conditions before it is entrusted with execution.
+Shared interfaces let those capabilities improve across applications, while users keep a readable view of
+the task and its outcome.
 
 ## Settlement conditions: four separate questions
 
 1. **Is the Bitcoin transaction valid?** Check spendability, script satisfaction and membership in the current canonical chain.
 2. **Is each asset leg valid?** Apply each protocol's asset identity, authority, balance and receiver rules.
 3. **Is the consideration bound?** Check that signatures and rules prevent a participant from retaining only the favorable half of the exchange.
-4. **What happens after reorganization or an unknown result?** Do not reuse stale chain context or treat uncertainty as permission for another payment.
+4. **What happens after reorganization or an unknown result?** Keep the operation tied to its original transaction, revalidate its chain context and resolve its result before another payment.
 
 ```text
 One Bitcoin transaction confirms
@@ -105,10 +154,18 @@ Interpret each protocol asset leg
   └─ Indexing or evidence incomplete → outcome unknown
 ```
 
-BRC-20 also retains its own first-transfer semantics: a transfer inscription is consumed on its first transfer rather than acting as a reusable authorization. The [original BRC-20 specification](https://domo-2.gitbook.io/brc-20-experiment) describes this behavior. Runes, inscriptions and other assets likewise require their own interpretations. AIBRC does not rewrite their rules.
+A shared issuance root establishes ancestry. Common price, pooled liquidity, ownership rights and redemption
+need their own application mechanisms. Each issuance and transfer leg must satisfy its native rules.
+BRC-20's transfer inscription is consumed on its first transfer; it is not reusable order authority. The
+[original BRC-20 specification](https://domo-2.gitbook.io/brc-20-experiment) describes those semantics.
+A changed or expired quote needs new review and authorization of the exact material.
 
-## A practical starting point for builders
+For a long-lived AIBRC offer, the seller's script-account balance can change before a later fill. A fully
+signed Bitcoin transaction alone cannot reserve that balance or guarantee delivery. Current AIBRC
+authorization commits to full outputs and rejects SINGLE on the asset authorization input; another asset's
+pre-signing template therefore needs its own analysis and adaptation.
 
-Start with read-only aggregation that presents exact asset identities, sources and data times. Next, support online RFQ while both parties can check current inventory and reconstruct the transaction they will sign. Consider long-lived offers without an online counterparty only after the consideration and every asset leg's validity have been established.
-
-The value is a common path for users, with enough precision underneath to preserve each asset's real settlement conditions. It does not require converting every protocol into the same asset model.
+X1 currently records only the chain ID and address. External lookups and ABI interpretation are work for
+application tools; the reference carries no bytecode hash and does not execute the external contract or
+move assets between chains. Linking an existing lending or market contract calls for an application
+adapter, explicit authority and settlement rules in the relevant environments.
