@@ -1,5 +1,22 @@
 # 02 · Covenant Inscription and account abstraction
 
+## One Address, Multiple Assets
+
+AIBRC records native asset balances on accounts associated with Bitcoin addresses. One address can hold
+multiple AIBRC assets. A transfer states which asset to move, how much and who receives it. The assets are
+not tied to individual satoshis, and an ordinary BTC payment does not automatically move the account's
+token balances.
+
+### From Account Balances to an Authorized Transfer
+
+Drawing on the account-balance model and common asset interfaces familiar from other blockchain ecosystems,
+including [ERC-20](https://eips.ethereum.org/EIPS/eip-20), AIBRC separates asset accounting from BTC coin
+selection. The wallet constructs and signs a Bitcoin transaction. The protocol identifies the sender's
+account through the designated authorization input, then applies the instruction to its balances.
+
+There is no need to find a dedicated UTXO carrying the tokens. Developers can build reusable tools around
+shared account and asset interfaces, while Bitcoin funding and AIBRC authorization retain their own rules.
+
 ## Asset identity: names help people; identifiers distinguish assets
 
 A Covenant Inscription is an AIBRC-native asset with a fixed supply, an exact identity and balances on script

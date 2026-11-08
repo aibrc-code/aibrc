@@ -39,9 +39,12 @@ Read and understand
   → inspect the result and receipt
 ```
 
-Existing application tooling already offers three read-only MCP tools: `list_markets`, `get_market` and
-`get_recent_trades`. They expose public market data with source time and status. This is a useful first step
-for Agent integration; protocol grants are the separate proposed step toward bounded asset operations.
+Applications can also offer read-only MCP interfaces. Market-data tools such as `list_markets`, `get_market`
+and `get_recent_trades` are application examples that expose public data with source time and status.
+They are not protocol requirements or dependencies of the [standalone indexer](run-indexer.md).
+Protocol-level Agent Key is the separate proposed step toward bounded asset operations; its
+[scope and ERC-7715 design reference](04-smart-covenant.md#agent-key-delegate-authority-without-handing-a-model-the-owner-key)
+are explained in the Smart Covenant chapter.
 
 ## From a whole ledger to a local proof
 
