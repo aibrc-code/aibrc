@@ -232,6 +232,7 @@ The [reference indexer](packages/indexer/README.md) reads your Bitcoin Core node
 replays AIBRC rules and keeps assets, balances and transfer history in your own
 SQLite database. No platform backend or private key is required.
 
+AI reading budget: spec/ + packages/protocol/src + packages/indexer/src = 358,632 bytes, about 90k tokens. An AI can read the whole protocol, its codec and its reference indexer in one context window.
 ```text
 Your Bitcoin node → public AIBRC rules → your local ledger
                                            ↓
