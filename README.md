@@ -99,6 +99,9 @@ views or actions. Bitcoin asset discovery gains an entry point into existing app
 
 ### A Shared Account Foundation for Agents
 
+Consistent account derivation, amount units, instruction encoding and authorization checks give wallets and Agents a shared interface for working with assets.
+Combined with public rule calculations and verifiable records, that interface gives builders a reusable workflow: read asset state, compute rule outcomes, prepare actions and verify results, connecting Bitcoin assets to an economy of tasks and services.
+
 Start with work people value: explain a trade's cost, organize a community distribution or prepare a data
 purchase. Existing public interfaces, account transfers and local R1 calculations give builders the pieces
 to make those assistants. The user reviews the actual operation through an application or wallet.
