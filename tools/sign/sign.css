@@ -16,3 +16,12 @@
 .aibrc-sign-tool [data-error=true] { color: #f2b4ab; }
 .aibrc-sign-tool .actions { display: flex; flex-wrap: wrap; gap: .5rem; }
 .aibrc-sign-tool [hidden] { display: none !important; }
+
+/* Batch controls are scoped to the existing documentation tool. */
+.aibrc-sign-tool #batch-mode textarea { display: block; width: 100%; min-width: 0; resize: vertical; background: #1c1e23; color: #f0f0f2; padding: .6rem; border: 1px solid #4b4e57; border-radius: 5px; font: .7rem/1.6 ui-monospace, monospace; }
+.aibrc-sign-tool #batch-mode textarea:disabled { opacity: .55; }
+.aibrc-sign-tool .mode-tabs { display: flex; gap: .4rem; margin: .8rem 0; }
+.aibrc-sign-tool .mode-tabs button[aria-selected=false], .aibrc-sign-tool #batch-mode button[aria-pressed=false] { background: #1c1e23; color: #e2e3e6; }
+.aibrc-sign-tool #batch-confirmation { border-top: 1px solid #35363b; margin-top: 1.2rem; padding-top: .6rem; }
+.aibrc-sign-tool #batch-previous { border-top: 1px solid #35363b; margin-top: 1.2rem; padding-top: .8rem; }
+.aibrc-sign-tool #batch-previous summary { cursor: pointer; }

@@ -1,0 +1,12 @@
+{
+  "name": "aibrc-sign-psbt-oracle-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:psbt": "node --test psbt.test.mjs"
+  },
+  "devDependencies": {
+    "bitcoinjs-lib": "7.0.5",
+    "playwright": "1.55.1"
+  }
+}
