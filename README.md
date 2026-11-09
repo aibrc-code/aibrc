@@ -203,6 +203,7 @@ settlement requires each asset leg to be valid. The [trust model](TRUST_MODEL.md
 responsibilities in one place.
 
 aibtc.bot is the first application built on AIBRC; it holds no privileged position in the protocol.
+Application verification: [AiBTC trade records and liquidity-pool reserves (from the proof log)](https://github.com/aibtcbot/aibtcbot/tree/main/docs/verification).
 
 ## Read the documentation
 
