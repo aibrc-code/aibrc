@@ -196,6 +196,7 @@ create on that foundation.
 | --- | --- |
 | **Live core** | Deploy, Transfer, supported script accounts and canonical-state calculation in the reference implementation |
 | **Application examples** | Shared-root issuance, the R1 rule template, X1 external references and the specific AIBRC–BTC collaborative exchange path |
+| **R1 (application layer, Live)** | fee, rule-fee routing and buyback calculation standard, executed by applications such as AiBTC CORE. Not an L1 indexer consensus rule. Agent Key (AIP-0001), spending limits, whitelists and timelocks remain Proposed. |
 | **Proposed AIPs** | Agent Key, multi-asset transfers, locks, bindings, attestations, checkpoints and conditional settlement |
 | **Research** | Resident Agents, Living Assets, richer financial applications and selective disclosure |
 
@@ -360,6 +361,8 @@ Every AIBRC state belongs to a Bitcoin network and a published rule context.
 The network, starting block height and rule identity are recorded in
 [config/release.json](config/release.json), so independent indexers can apply
 the same rules to the same blocks.
+
+`config/release.json` controls protocol-line activation only. R1 does not appear here; R1 identity is fixed by its frozen reference contract `0xed976e7b95d099c60318ef848c73d584ee5eb08a` and its spec text hash.
 
 <!-- AIBRC_RELEASE_CONTEXT -->
 
