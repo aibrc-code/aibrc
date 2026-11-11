@@ -8,6 +8,9 @@ This guide uses the runnable [reference package](../packages/indexer/README.md)
 in this repository. For the rules behind each step, read the
 [indexer implementation guide](06-indexer-guide.md).
 
+For scanning deposits, posting credits and handling reorganizations, use the
+[exchange integration guide](exchange-integration.md).
+
 For an Agent, this is a local source of asset IDs, balances and transfer history. It can build a payment
 plan from a known ledger view, check a completed distribution or compare its result with another provider.
 The returned block and rule context travel with the answer, giving the application the information it

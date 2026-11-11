@@ -222,6 +222,7 @@ Application verification: [AiBTC trade records and liquidity-pool reserves (from
 | How do I calculate R1 fees locally? | [R1 source, ABI and runnable examples](reference/r1/README.md) |
 | How do different asset standards connect? | [Shared-root issuance and settlement](docs/05-cross-protocol.md) |
 | How can I run my own indexer? | [Run your own indexer](docs/run-indexer.md) · [Implementation guide](docs/06-indexer-guide.md) · [Test vectors](vectors/README.md) |
+| How can an exchange process AIBRC deposits? | [Exchange integration](docs/exchange-integration.md) |
 | What can developers and Agents build? | [Applications and economic loops](docs/07-applications.md) |
 | How does the protocol evolve? | [Extensions](docs/08-extensions.md) · [Seven AIPs](proposals/README.md) · [Merkle reference](merkle/STATE_PROOF_REFERENCE.md) |
 | Where do I find exact terminology? | [Glossary](docs/glossary.md) |
