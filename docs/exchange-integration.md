@@ -162,15 +162,10 @@ have been reconciled. [Indexer recovery](run-indexer.md#6-recovery-without-inven
    the replay start and Name Policy V2 activation. The build copies it to
    `packages/indexer/dist/release.json`, and the documentation site renders
    the release table from the same source.
-2. Update the existing Mainnet CLI regression in
-   `packages/indexer/test/indexer.test.mjs` as part of that release. The
-   `unselected Mainnet genesis and test-context override` case currently
-   expects the built manifest's height to be `null`. Give the unselected case
-   its own isolated fixture, keep the `testContext` override rejection, and
-   verify that the selected build reads the published height. The installed
-   package check runs the same test file. [Current regression](https://github.com/aibrc-code/aibrc/blob/7a6c8e87244be357fb2b81f494e09def9b40d083/packages/indexer/test/indexer.test.mjs#L135-L143)
-3. Build and run the existing checks against the release candidate. Verify
-   that the packaged context comes from the selected release source.
+2. Build and run the existing checks against the release candidate. The
+   Mainnet CLI tests exercise unselected and selected heights in separate
+   fixtures. The installed package check runs those tests and compares the
+   packaged manifest with the published release source byte for byte.
 
 ```sh
 npm ci --ignore-scripts

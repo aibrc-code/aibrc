@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { mkdtempSync, readFileSync, writeFileSync, rmSync, existsSync } from 'node:fs';
+import { mkdtempSync, readFileSync, writeFileSync, rmSync, existsSync, mkdirSync, copyFileSync, symlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
 import { setTimeout as delay } from 'node:timers/promises';
@@ -10,14 +10,18 @@ import { createHash } from 'node:crypto';
 import { DatabaseSync } from 'node:sqlite';
 import { chainFixture, serveFixture, aliceKey, bobKey, carolKey } from './fixtures.mjs';
 const { openSession, openLocalQuery, OfflineProtocolEngine, SqliteIndexerStorage, IndexerCore, MemoryRollbackJournal, FixtureBlockSource } = await import(process.env.INDEXER_TEST_MODULE ?? '../dist/index.js');
-const sdk = await import(process.env.INDEXER_TEST_SDK ?? '@aibrc/protocol');
+const sdkEntry = import.meta.resolve(process.env.INDEXER_TEST_SDK ?? '@aibrc/protocol');
+const sdk = await import(sdkEntry);
 const cli = process.env.INDEXER_TEST_CLI ?? fileURLToPath(new URL('../dist/cli.js', import.meta.url));
 const configName = 'indexer.json';
-function spawnCli(configPath, command, ...args) {
-  return spawn(process.execPath, [cli, command, '--config', configPath, ...args], { cwd: tmpdir(), stdio: ['ignore', 'pipe', 'pipe'] });
+function spawnCli(configPath, command, args = [], entry = cli) {
+  return spawn(process.execPath, [entry, command, '--config', configPath, ...args], { cwd: tmpdir(), stdio: ['ignore', 'pipe', 'pipe'] });
 }
-async function run(configPath, command, ...args) {
-  const child = spawnCli(configPath, command, ...args); let stdout = '', stderr = '';
+function run(configPath, command, ...args) {
+  return readCliResult(spawnCli(configPath, command, args));
+}
+async function readCliResult(child) {
+  let stdout = '', stderr = '';
   child.stdout.on('data', b => stdout += b); child.stderr.on('data', b => stderr += b);
   const timer = setTimeout(() => child.kill('SIGKILL'), 15_000);
   try {
@@ -26,6 +30,21 @@ async function run(configPath, command, ...args) {
     return { code, stdout, stderr, raw, json: raw && Object.hasOwn(raw, 'result') ? raw.result : raw };
   }
   finally { clearTimeout(timer); }
+}
+
+function cliWithReleaseFixture(directory, genesisHeight) {
+  // Run the built or installed CLI bytes beside a fixture manifest. The
+  // relative release lookup resolves inside this test's temporary directory.
+  const fixture = join(directory, 'release-fixture');
+  const dependencyScope = join(fixture, 'node_modules', '@aibrc');
+  mkdirSync(dependencyScope, { recursive: true });
+  const protocolPackage = fileURLToPath(new URL('../', sdkEntry));
+  symlinkSync(protocolPackage, join(dependencyScope, 'protocol'), 'junction');
+  const entry = join(fixture, 'cli.mjs');
+  copyFileSync(cli, entry);
+  const release = JSON.parse(readFileSync(join(dirname(cli), 'release.json'), 'utf8'));
+  writeFileSync(join(fixture, 'release.json'), JSON.stringify({ ...release, genesisHeight }));
+  return entry;
 }
 async function setup(t, overrides = {}, fixture = chainFixture()) {
   const directory = mkdtempSync(join(tmpdir(), 'aibrc-indexer-test-'));
@@ -132,14 +151,35 @@ test('wrong RPC network is refused before a local database is created', async t 
   assert.equal(existsSync(s.dbPath), false);
 });
 
-test('unselected Mainnet genesis and test-context override cannot silently choose a height', async t => {
-  const s = await setup(t); s.config.network = 'mainnet'; delete s.config.testContext; s.save();
-  const result = await run(s.configPath, 'sync-once');
-  assert.equal(result.code, 1); assert.match(result.stderr, /MAINNET_GENESIS_NOT_SELECTED/);
-  s.config.testContext = { genesisHeight: 1, namePolicyVersion: 1 }; s.save();
-  const override = await run(s.configPath, 'sync-once'); assert.equal(override.code, 1);
-  assert.match(override.stderr, /MAINNET_CONTEXT_OVERRIDE_REJECTED/);
-  assert.equal(s.rpc.calls.length, 0); assert.equal(existsSync(s.dbPath), false);
+test('Mainnet rejects an unselected fixture before contacting RPC', async t => {
+  const s = await setup(t, { network: 'mainnet', testContext: undefined });
+  const entry = cliWithReleaseFixture(s.directory, null);
+  const result = await readCliResult(spawnCli(s.configPath, 'sync-once', [], entry));
+  assertQueryError(result, 'MAINNET_GENESIS_NOT_SELECTED');
+  assert.equal(s.rpc.calls.length, 0);
+  assert.equal(existsSync(s.dbPath), false);
+});
+
+test('Mainnet uses the selected fixture height and rejects a test-context override', async t => {
+  const s = await setup(t, { network: 'mainnet' });
+  s.rpc.state.network = 'main';
+  const startHeight = 2;
+  const entry = cliWithReleaseFixture(s.directory, startHeight);
+  const sync = () => readCliResult(spawnCli(s.configPath, 'sync-once', [], entry));
+  assertQueryError(await sync(), 'MAINNET_CONTEXT_OVERRIDE_REJECTED');
+  assert.equal(s.rpc.calls.length, 0);
+  assert.equal(existsSync(s.dbPath), false);
+
+  delete s.config.testContext;
+  s.save();
+  const result = await sync();
+  assert.equal(result.code, 0, result.stderr);
+  assert.equal(result.json.status, 'READY');
+  assert.equal(result.json.genesisHeight, startHeight);
+  assert.equal(result.json.runtimeIdentity.namePolicyVersion, 2);
+  assert.deepEqual(result.json.canonicalTip, { height: 3, hash: s.fixture.third.hash });
+  const fetchedBlocks = s.rpc.calls.filter(call => call.method === 'getblock').map(call => call.params[0]);
+  assert.deepEqual([...new Set(fetchedBlocks)], [s.fixture.second.hash, s.fixture.third.hash]);
 });
 
 test('a stored index cannot be reused with a different name-policy context', async t => {
