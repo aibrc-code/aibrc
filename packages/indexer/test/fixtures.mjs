@@ -48,7 +48,7 @@ function block(height, parent, transactions, nonce = 1) {
     vin: t.decoded.inputs.map(v => i === 0 ? { coinbase: v.scriptSigHex } : { txid: v.txidDisplayBytes, vout: v.vout, prevout: { scriptPubKey: { hex: alice } } }) })) };
   return { height, hash, parent, all, verbose, raw: Buffer.concat([header, size(all.length), ...all.map(t => Buffer.from(t.raw, 'hex'))]).toString('hex') };
 }
-export function chainFixture() {
+export function chainFixture(extraTransfers = 0) {
   const genesis = block(0, '00'.repeat(32), []);
   const deployPayload = encodeDeploy({ network: NetworkId.REGTEST, deployAuthInputIndex: 0, ownerOutputIndex: 1, name: 'DEMO', totalSupply: 1000n }, namePolicyContextForBlock(NAME_POLICY_V1_SCHEDULE, 1));
   const deploy = tx({ scripts: [encodeOpReturnScript(deployPayload).toString('hex'), alice] });
@@ -56,11 +56,13 @@ export function chainFixture() {
   const transfer = (a, b, nonce) => tx({ scripts: [bob, carol, encodeOpReturnScript(encodeTransfer({ network: NetworkId.REGTEST,
     authInputIndex: 0, assetLocator: { blockHeight: 1, txIndex: 1 }, allocations: [{ receiverOutputIndex: 0, amount: BigInt(a) }, { receiverOutputIndex: 1, amount: BigInt(b) }] })).toString('hex')], nonce });
   const sent = transfer(100, 200, 2), replacement = transfer(250, 50, 3);
-  const second = block(2, first.hash, [sent]), third = block(3, second.hash, []);
+  const extra = Array.from({ length: extraTransfers }, (_, index) => transfer(1, 1, index + 4));
+  const second = block(2, first.hash, [sent]), third = block(3, second.hash, extra);
   const altSecond = block(2, first.hash, [replacement], 2), altThird = block(3, altSecond.hash, [], 2);
   return { genesis, first, second, third, altSecond, altThird,
     original: [genesis, first, second, third], alternative: [genesis, first, altSecond, altThird],
-    transferTxid: sent.decoded.txidDisplayBytes, replacementTxid: replacement.decoded.txidDisplayBytes };
+    transferTxid: sent.decoded.txidDisplayBytes, replacementTxid: replacement.decoded.txidDisplayBytes,
+    extraTransferTxids: extra.map(item => item.decoded.txidDisplayBytes) };
 }
 
 export async function serveFixture(chain, options = {}) {
@@ -73,6 +75,7 @@ export async function serveFixture(chain, options = {}) {
     calls.push({ method, params });
     const tip = state.chain.at(-1);
     try {
+      await state.beforeResponse?.(method, params);
       if (state.failure) { response.writeHead(503); response.end('node unavailable'); return; }
       let result;
       if (method === 'getblockchaininfo') result = { chain: state.network, blocks: tip.height, headers: tip.height, bestblockhash: tip.hash, initialblockdownload: false };

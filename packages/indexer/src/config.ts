@@ -1,17 +1,20 @@
 import { createHash } from 'node:crypto';
 import { readFileSync, realpathSync } from 'node:fs';
+import { isIP } from 'node:net';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { INPUT_AUTHORIZATION_RULE_ID, NetworkId, type NamePolicySchedule } from '@aibrc/protocol';
 import type { IndexerBitcoinNetwork } from './rpc/types.js';
 
 const NETWORKS = { mainnet: NetworkId.MAINNET, signet: NetworkId.SIGNET, regtest: NetworkId.REGTEST };
+export const DEFAULT_HTTP_LISTEN = { host: '127.0.0.1', port: 8787 } as const;
 export interface ReferenceConfig {
   network: IndexerBitcoinNetwork;
   databasePath: string;
   rpc: { url: string; cookieFile?: string; timeoutMs: number };
   pollIntervalMs: number;
   rollbackRetentionDepth: number;
+  http?: { host: string; port: number };
 }
 export interface RuntimeContext {
   config: ReferenceConfig;
@@ -44,7 +47,7 @@ const digest = (bytes: string) => createHash('sha256').update(bytes).digest('hex
 export function loadContext(configFile: string): RuntimeContext {
   const configPath = realpathSync(configFile), base = dirname(configPath);
   const bytes = readFileSync(configPath, 'utf8'), input = record(JSON.parse(bytes));
-  fields(input, ['network', 'databasePath', 'rpc', 'pollIntervalMs', 'rollbackRetentionDepth', 'testContext']);
+  fields(input, ['network', 'databasePath', 'rpc', 'pollIntervalMs', 'rollbackRetentionDepth', 'testContext', 'http']);
   if (input.network !== 'mainnet' && input.network !== 'signet' && input.network !== 'regtest') throw new Error('INVALID_NETWORK');
   const network = input.network;
   const rpc = record(input.rpc);
@@ -62,6 +65,13 @@ export function loadContext(configFile: string): RuntimeContext {
     pollIntervalMs: integer(input.pollIntervalMs ?? 3000, 100, 3_600_000),
     rollbackRetentionDepth: integer(input.rollbackRetentionDepth ?? 144, 1, 100_000),
   };
+  if (input.http !== undefined) {
+    const http = record(input.http);
+    fields(http, ['host', 'port']);
+    const host = http.host ?? DEFAULT_HTTP_LISTEN.host;
+    if (typeof host !== 'string' || !isIP(host)) throw new Error('INVALID_HTTP_HOST');
+    config.http = { host, port: integer(http.port ?? DEFAULT_HTTP_LISTEN.port, 0, 65_535) };
+  }
   let releasePath: string | null = null, releaseBytes = '';
   let genesisHeight: number, namePolicyVersion: number;
   if (network === 'mainnet') {

@@ -45,7 +45,11 @@ node packages/indexer/dist/cli.js status --config ./indexer.json
 node packages/indexer/dist/cli.js get-name --config ./indexer.json DEMO
 node packages/indexer/dist/cli.js balances --config ./indexer.json ACCOUNT_KEY
 node packages/indexer/dist/cli.js get-transfer --config ./indexer.json TXID
+node packages/indexer/dist/cli.js incoming --config ./indexer.json ASSET_ID ACCOUNT_KEY FROM_HEIGHT TO_HEIGHT --limit 50
+node packages/indexer/dist/cli.js balance --config ./indexer.json ASSET_ID ACCOUNT_KEY
+node packages/indexer/dist/cli.js state-at --config ./indexer.json HEIGHT
 node packages/indexer/dist/cli.js verify-state --config ./indexer.json
+node packages/indexer/dist/cli.js serve --config ./indexer.json
 ```
 
 Replace `ACCOUNT_KEY` and `TXID` with real 64-character hexadecimal identifiers.
@@ -54,6 +58,14 @@ checkpoint**; it is not proof that a stopped process is following the latest
 block. A successful `sync-once` reports the tip observed in that run.
 Asset, balance, tip and transfer queries return `{ context, result }`, so the
 network, rule identity, local block and readiness accompany the answer.
+
+`incoming` exposes the recipient allocation contract with `coverage`,
+`nextCursor` and a canonical `--after` position. `balance` reads one asset's
+balance. `state-at` returns the stored block hash and state hash for one height,
+or `null` when that row is absent. `serve` binds to `127.0.0.1:8787` by default
+and serves the same query output over GET. See the
+[query commands and HTTP paths](../../docs/run-indexer.md#4-synchronize-and-query)
+for parameters, error codes and operator configuration.
 
 ## Release context
 

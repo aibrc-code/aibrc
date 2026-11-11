@@ -5,6 +5,7 @@ import { IndexerCore, MemoryRollbackJournal, type BlockSource, type IndexerStatu
 import { OfflineProtocolEngine } from './engine/index.js';
 import { SqliteIndexerStorage } from './storage/index.js';
 import { IndexerQueryService } from './query/index.js';
+import { PersistentQueryInputError } from './query/query-service.js';
 import { NetworkBoundBlockSource } from './ingestion/index.js';
 import { BitcoinCoreIndexerProvider } from './rpc/signet-rpc-provider.js';
 import { BitcoinCoreIndexerHttpTransport } from './rpc/http-transport.js';
@@ -37,6 +38,22 @@ export interface ReferenceSession {
   status(): unknown;
   query: IndexerQueryService;
   close(): void;
+}
+
+interface BlockStateHash {
+  height: number;
+  blockHash: string;
+  stateHash: string;
+}
+
+function readBlockStateHash(storage: SqliteIndexerStorage, height: number): BlockStateHash | null {
+  // The pinned storage has no historical hash accessor. Use its own connection
+  // so the row and the response context share the same committed read snapshot.
+  const db = storage['db'];
+  const table = db.prepare("SELECT 1 FROM sqlite_schema WHERE type = 'table' AND name = 'block_state_hashes'").get();
+  if (!table) return null;
+  const row = db.prepare('SELECT height, block_hash AS blockHash, state_hash AS stateHash FROM block_state_hashes WHERE height = ?').get(height);
+  return (row as BlockStateHash | undefined) ?? null;
 }
 
 /** Read-only Bitcoin RPC; the only writes are to this operator's local index. */
@@ -110,7 +127,7 @@ export async function openLocalQuery(configFile: string) {
     engine.useExternalTransferHistory();
     await engine.restoreState(snapshot.engineState);
     const query = queryFor(engine, storage, () => snapshot.status);
-    return { query, storage,
+    return { query, storage, stateAt: (height: number) => readBlockStateHash(storage, height),
       status: () => ({ ...query.getStatus(), network: context.config.network,
         genesisHeight: context.genesisHeight, runtimeIdentity: JSON.parse(context.identity),
         view: 'LOCAL_CHECKPOINT', liveChainChecked: false }),
@@ -118,11 +135,24 @@ export async function openLocalQuery(configFile: string) {
   } catch (error) { storage.close(); throw error; }
 }
 
+const persistentInputCodes = new Map([
+  ['Invalid recipient transfer scope.', 'INVALID_QUERY_ID'],
+  ['Query interval must contain 1-1000 verified heights.', 'INVALID_QUERY_RANGE'],
+  ['Query limit must be 1-100.', 'INVALID_QUERY_LIMIT'],
+  ['Unknown, stale, or mismatched query cursor.', 'INVALID_QUERY_CURSOR'],
+  ['Cursor precedes business position.', 'INVALID_QUERY_CURSOR'],
+  ['Invalid canonical business position.', 'INVALID_QUERY_POSITION'],
+  ['Canonical business position changed or is unverified.', 'STALE_QUERY_POSITION'],
+]);
+
 /** Preserve useful machine-readable codes without echoing a node's error text. */
 export function safeErrorCode(error: unknown): string {
   const explicit = error && typeof error === 'object' && 'code' in error ? error.code : undefined;
   if (typeof explicit === 'string' && /^[A-Z][A-Z0-9_]+$/.test(explicit)) return explicit;
   const message = error instanceof Error ? error.message : '';
   const code = /^[A-Z][A-Z0-9_]+(?=[:\s]|$)/.exec(message)?.[0];
-  return code ?? 'INDEXER_FAILED';
+  if (code) return code;
+  return error instanceof PersistentQueryInputError
+    ? persistentInputCodes.get(message) ?? 'INVALID_ARGUMENTS'
+    : 'INDEXER_FAILED';
 }

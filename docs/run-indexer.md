@@ -158,6 +158,76 @@ Amounts are decimal strings in raw units, with 8 protocol display decimals.
 `get-transfer` returns applied transfers only: `null` means this local view has
 no applied record, not that Bitcoin rejected, canceled or never saw the txid.
 
+### Scan a recipient and compare checkpoints
+
+```sh
+node packages/indexer/dist/cli.js incoming --config ./indexer.json ASSET_ID ACCOUNT_KEY FROM_HEIGHT TO_HEIGHT --limit 50
+node packages/indexer/dist/cli.js balance --config ./indexer.json ASSET_ID ACCOUNT_KEY
+node packages/indexer/dist/cli.js state-at --config ./indexer.json HEIGHT
+```
+
+`incoming` returns the existing `snapshot`, `scope`, `coverage`, `items` and
+`nextCursor` fields. The interval includes both endpoints, spans up to 1,000
+heights and ends at or below the verified tip. The default page size is 50 and
+the maximum is 100. Items are applied allocations in block, transaction and
+allocation order. Confirmation requirements belong to the caller.
+
+Continue a page with `--cursor NEXT_CURSOR` and the same query scope while its
+snapshot remains current. Save a durable position as
+`HEIGHT:BLOCK_HASH:TX_INDEX:ALLOCATION_INDEX` from an item. To resume with
+`--after POSITION`, include its height in the interval. The block at that
+position must still match the verified projection. A replaced or unverified
+position returns `STALE_QUERY_POSITION`. A cursor from a different snapshot or
+scope returns `INVALID_QUERY_CURSOR`. Review the chain change and rescan from
+the appropriate position before advancing a deposit checkpoint.
+
+Coverage is per height. A canonical replay from the configured start retains
+its query projection beyond the undo window. Pre-activation heights and gaps
+in older query projections can report `UNKNOWN`. Keep the returned coverage
+and allocation evidence fields when deciding what the index has established.
+
+`balance` returns the indexed amount for one asset and account in raw units.
+`state-at` returns `{ height, blockHash, stateHash }` from the stored canonical
+checkpoint history. It returns `null` for a height without a stored row.
+Compare the block hash at the same height before comparing state hashes.
+
+### Read the same queries over local HTTP
+
+```sh
+node packages/indexer/dist/cli.js serve --config ./indexer.json
+curl http://127.0.0.1:8787/status
+curl "http://127.0.0.1:8787/incoming/ASSET_ID/ACCOUNT_KEY/FROM_HEIGHT/TO_HEIGHT?limit=50"
+curl http://127.0.0.1:8787/state-at/HEIGHT
+```
+
+The optional `http` member in `indexer.json` accepts a literal IP address
+`host` and a `port`. Defaults are `127.0.0.1` and `8787`. Port `0` selects an
+available port. `serve` prints its bound `address` and `port` on startup.
+This interface is intended for trusted local use. Operators who bind outside
+loopback are responsible for access control.
+
+| GET path | CLI query |
+| --- | --- |
+| `/status`, `/get-tip`, `/verify-state` | `status`, `get-tip`, `verify-state` |
+| `/get-name/NAME`, `/get-asset/ASSET_ID` | `get-name`, `get-asset` |
+| `/balances/ACCOUNT_KEY`, `/get-transfer/TXID` | `balances`, `get-transfer` |
+| `/balance/ASSET_ID/ACCOUNT_KEY` | `balance` |
+| `/incoming/ASSET_ID/ACCOUNT_KEY/FROM_HEIGHT/TO_HEIGHT` | `incoming` with optional `limit`, `cursor` and `after` query parameters |
+| `/state-at/HEIGHT` | `state-at` |
+
+Encode path arguments and query parameter values for URLs. For the same
+checkpoint and arguments, the response body matches CLI stdout byte for byte,
+including its trailing newline. Data queries use `{ context, result }`.
+`status` and `verify-state` carry their context at the top level as in the CLI.
+Each query reads a committed SQLite snapshot and releases it after the read.
+Run `follow` in a separate process to advance the checkpoint.
+
+Errors return `{ "error": "CODE" }`. A non-GET method returns 405 and
+`METHOD_NOT_ALLOWED`. An unknown path returns 404 and `UNKNOWN_QUERY_PATH`.
+Invalid parameters, cursors and positions return 400 with the corresponding
+query code. With a non-ready checkpoint, `incoming` returns 503 and
+`QUERY_READY_SNAPSHOT_REQUIRED`.
+
 ### Turn a supported output script into an account key
 
 ```js
@@ -201,6 +271,8 @@ an asset balance.
 | RPC is unavailable | `follow` retries classified transport errors; the local checkpoint becomes `SYNCING` after an established session fails. Startup errors exit nonzero; correct the connection and restart. |
 | Process restarts | Reopen the same database and context. Committed blocks and transfers are not applied twice. |
 | One or more blocks are replaced | Within retained undo history, reverse old effects and replay the canonical branch. A lower stable chain tip follows the same recovery path. |
+| A saved cursor or receipt position is rejected | Reopen the current local view. Reuse `after` only for a position whose block remains canonical. Rescan the affected range when its block changed. |
+| `coverage` contains `UNKNOWN` or `state-at` returns `null` | Keep the history gap visible. Replay from the configured start into a fresh database when complete historical data is required. |
 | Common ancestor is outside retained history | Stop. Preserve the old files and reconstruct a new local index from the official starting height using a different `databasePath`. |
 | `HALTED`, `NEEDS_UPGRADE` or block identity mismatch | Stop current-state claims; inspect the error code and compatible release. Do not edit balances or reset the checkpoint to force `READY`. |
 | Cookie rotates or configuration changes | Restart with the same valid rule context and updated local connection settings. Never paste the cookie into a support ticket. |
@@ -209,7 +281,7 @@ The default 144-block undo retention is a local storage/recovery setting, not a
 claim of Bitcoin finality. History, state size and snapshot costs grow with
 use; this reference package has no claimed production capacity or RAM bound.
 It loads canonical state into memory and is not a Bitcoin SPV/light client.
-It serves no public HTTP endpoint.
+`serve` provides local read-only HTTP queries alongside the CLI.
 
 ## 7. A checklist for people and AI operators
 
@@ -225,6 +297,10 @@ It serves no public HTTP endpoint.
    is not evidence of zero funds or of a transaction's failure.
 7. Stop at indexing and read-only queries. Signing, sending funds and changing
    protocol rules are separate actions controlled by the wallet owner.
+
+For deposit scanning, carry `coverage` and the canonical receipt position with
+each result. `state-at` lets operators compare their stored fingerprints at a
+shared height. `serve` exposes the same reads for local integrations.
 
 The same checklist applies whether commands are typed by a person or executed
 by an Agent. **Don't trust, verify** starts with reproducible inputs and an

@@ -232,7 +232,7 @@ The [reference indexer](packages/indexer/README.md) reads your Bitcoin Core node
 replays AIBRC rules and keeps assets, balances and transfer history in your own
 SQLite database. No platform backend or private key is required.
 
-AI reading budget: spec/ + packages/protocol/src + packages/indexer/src = 358,632 bytes, about 90k tokens. An AI can read the whole protocol, its codec and its reference indexer in one context window.
+AI reading budget: spec/ + packages/protocol/src + packages/indexer/src = 367,814 bytes, about 92k tokens. An AI can read the whole protocol, its codec and its reference indexer in one context window.
 ```text
 Your Bitcoin node → public AIBRC rules → your local ledger
                                            ↓
@@ -252,6 +252,11 @@ The walkthrough uses synthetic local blocks and real SQLite, with no signing or
 broadcasting. For your own Bitcoin node, follow the
 [human and AI runbook](docs/run-indexer.md). Mainnet uses the published release
 context and refuses to start while its genesis height is unselected.
+
+With a configured local index, use `incoming` for recipient allocations,
+`balance` for one asset and account, and `state-at` for a stored block fingerprint.
+`serve` offers the same queries over loopback HTTP by default. The
+[query guide](docs/run-indexer.md#4-synchronize-and-query) lists the commands and routes.
 
 ## Protocol statement
 

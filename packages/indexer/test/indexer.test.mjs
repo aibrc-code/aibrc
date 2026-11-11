@@ -27,9 +27,9 @@ async function run(configPath, command, ...args) {
   }
   finally { clearTimeout(timer); }
 }
-async function setup(t, overrides = {}) {
+async function setup(t, overrides = {}, fixture = chainFixture()) {
   const directory = mkdtempSync(join(tmpdir(), 'aibrc-indexer-test-'));
-  const fixture = chainFixture(), rpc = await serveFixture(fixture.original);
+  const rpc = await serveFixture(fixture.original);
   const config = { network: 'regtest', databasePath: './state.sqlite', rpc: { url: rpc.url, timeoutMs: 200 },
     pollIntervalMs: 100, rollbackRetentionDepth: 6, testContext: { genesisHeight: 1, namePolicyVersion: 1 }, ...overrides };
   const configPath = join(directory, configName), dbPath = join(directory, 'state.sqlite');
@@ -41,15 +41,27 @@ function count(path, table) {
   const db = new DatabaseSync(path, { readOnly: true });
   try { return db.prepare(`SELECT COUNT(*) AS n FROM ${table}`).get().n; } finally { db.close(); }
 }
-async function waitForLine(child) {
+async function waitForLine(child, matches = () => true) {
   let output = '';
   return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => { child.kill('SIGKILL'); reject(new Error('FOLLOW_DID_NOT_COMMIT')); }, 5000);
-    child.stdout.on('data', b => { output += b; if (output.includes('\n')) { clearTimeout(timer); resolve(JSON.parse(output.split('\n')[0])); } });
-    child.on('exit', code => { if (!output.includes('\n')) { clearTimeout(timer); reject(new Error(`FOLLOW_EARLY_EXIT:${code}`)); } });
+    const cleanup = () => { clearTimeout(timer); child.stdout.off('data', onData); child.off('exit', onExit); };
+    const onExit = code => { cleanup(); reject(new Error(`CHILD_EARLY_EXIT:${code}`)); };
+    const onData = chunk => {
+      output += chunk;
+      const lines = output.split('\n');
+      output = lines.pop();
+      for (const line of lines) {
+        const value = JSON.parse(line);
+        if (matches(value)) { cleanup(); resolve(value); return; }
+      }
+    };
+    const timer = setTimeout(() => { cleanup(); child.kill('SIGKILL'); reject(new Error('CHILD_OUTPUT_TIMEOUT')); }, 5000);
+    child.stdout.on('data', onData);
+    child.on('exit', onExit);
   });
 }
 async function terminate(child, signal) {
+  if (child.exitCode !== null || child.signalCode !== null) return;
   const done = new Promise(resolve => child.once('exit', resolve)); child.kill(signal); await done;
 }
 
@@ -224,6 +236,214 @@ test('malformed CLI requests are rejected, with no file or RPC activity', async 
     assert.match(result.stderr, new RegExp(code));
   }
   assert.equal(existsSync(s.dbPath), false); assert.equal(s.rpc.calls.length, 0);
+});
+
+function positionOf(item) {
+  return [item.blockHeight, item.blockHash, item.txIndex, item.allocationIndex].join(':');
+}
+
+function assertQueryError(output, code) {
+  assert.equal(output.code, 1, output.stderr);
+  assert.equal(output.stdout, '');
+  assert.ok(output.stderr.split('\n').includes(JSON.stringify({ error: code })), output.stderr);
+}
+
+async function demoAssetId(configPath) {
+  const asset = await run(configPath, 'get-name', 'DEMO');
+  assert.equal(asset.code, 0, asset.stderr);
+  return asset.json.assetId;
+}
+
+test('incoming keeps the recipient contract, exact allocations, page cap and UNKNOWN coverage', async t => {
+  const s = await setup(t, {}, chainFixture(100));
+  const synced = await run(s.configPath, 'sync-once');
+  assert.equal(synced.code, 0, synced.stderr);
+  const assetId = await demoAssetId(s.configPath);
+  const scope = [assetId, bobKey, '0', '3'];
+  const first = await run(s.configPath, 'incoming', ...scope, '--limit', '100');
+  assert.equal(first.code, 0, first.stderr);
+  assert.deepEqual(Object.keys(first.json), ['snapshot', 'scope', 'coverage', 'items', 'nextCursor']);
+  assert.deepEqual(first.json.scope, { assetId, recipientAccount: bobKey, fromHeight: 0, toHeight: 3 });
+  assert.deepEqual(first.json.snapshot.canonicalTip, first.raw.context.canonicalTip);
+  assert.equal(first.json.snapshot.stateHash, first.raw.context.stateHash);
+  assert.deepEqual(first.json.coverage[0], {
+    blockHeight: 0, blockHash: null, coverage: 'UNKNOWN', transactionCount: null, markedTransactionCount: null,
+  });
+  assert.deepEqual(first.json.coverage.slice(1).map(row => row.coverage), ['COMPLETE', 'COMPLETE', 'COMPLETE']);
+  assert.equal(first.json.items.length, 100);
+  assert.deepEqual(first.json.items.map(row => row.txidDisplayBytes), [s.fixture.transferTxid, ...s.fixture.extraTransferTxids.slice(0, 99)]);
+  assert.equal(first.json.items[0].amount, '100');
+  assert.ok(first.json.items.every(row => row.recipientAccount === bobKey && row.identityEvidence === 'COMPLETE' && row.inputEvidence === 'COMPLETE'));
+  assert.equal(typeof first.json.nextCursor, 'string');
+  const second = await run(s.configPath, 'incoming', ...scope, '--cursor', first.json.nextCursor);
+  assert.equal(second.code, 0, second.stderr);
+  assert.deepEqual(second.json.items.map(row => row.txidDisplayBytes), [s.fixture.extraTransferTxids.at(-1)]);
+  assert.equal(second.json.nextCursor, null);
+  const after = await run(s.configPath, 'incoming', ...scope, '--after', positionOf(first.json.items.at(-1)));
+  assert.equal(after.code, 0, after.stderr);
+  assert.deepEqual(after.json.items, second.json.items);
+  const carol = await run(s.configPath, 'incoming', assetId, carolKey, '2', '2');
+  assert.equal(carol.code, 0, carol.stderr);
+  assert.deepEqual(carol.json.items.map(row => [row.recipientAccount, row.amount, row.allocationIndex]), [[carolKey, '200', 1]]);
+  const balance = await run(s.configPath, 'balance', assetId, bobKey);
+  assert.equal(balance.code, 0, balance.stderr);
+  assert.deepEqual(balance.json, { assetId, accountKey: bobKey, balance: '200' });
+  for (const [args, code] of [
+    [[...scope, '--limit', '101'], 'INVALID_QUERY_LIMIT'],
+    [[...scope, '--limit', '0'], 'INVALID_QUERY_LIMIT'],
+    [[assetId, bobKey, '3', '2'], 'INVALID_QUERY_RANGE'],
+    [[assetId, bobKey, '1', '4'], 'INVALID_QUERY_RANGE'],
+    [[assetId, bobKey, '0', '1000'], 'INVALID_QUERY_RANGE'],
+    [[assetId, bobKey, '0.5', '3'], 'INVALID_QUERY_RANGE'],
+    [[assetId, carolKey, '0', '3', '--cursor', first.json.nextCursor], 'INVALID_QUERY_CURSOR'],
+    [[...scope, '--after', '2:bad'], 'INVALID_QUERY_POSITION'],
+    [[...scope, '--limit', '2', '--limit', '3'], 'INVALID_ARGUMENTS'],
+  ]) assertQueryError(await run(s.configPath, 'incoming', ...args), code);
+});
+
+test('incoming rejects replaced positions and state-at follows durable history through restart and reorg', async t => {
+  const s = await setup(t, { rollbackRetentionDepth: 2 }, chainFixture(1));
+  s.rpc.state.chain = s.fixture.original.slice(0, 2);
+  const firstBlock = await run(s.configPath, 'sync-once');
+  assert.equal(firstBlock.code, 0, firstBlock.stderr);
+  s.rpc.state.chain = s.fixture.original;
+  const original = await run(s.configPath, 'sync-once');
+  assert.equal(original.code, 0, original.stderr);
+  assert.equal(count(s.dbPath, 'canonical_blocks'), 2);
+  assert.equal(count(s.dbPath, 'block_state_hashes'), 3);
+  const assetId = await demoAssetId(s.configPath);
+  const args = [assetId, bobKey, '1', '3'];
+  const oldPage = await run(s.configPath, 'incoming', ...args, '--limit', '1');
+  assert.equal(oldPage.code, 0, oldPage.stderr);
+  assert.equal(oldPage.json.items[0].txidDisplayBytes, s.fixture.transferTxid);
+  const oldHead = await run(s.configPath, 'state-at', '3');
+  assert.deepEqual(oldHead.json, { height: 3, blockHash: s.fixture.third.hash, stateHash: original.json.stateHash });
+  const heightOne = await run(s.configPath, 'state-at', '1');
+  assert.deepEqual(heightOne.json, { height: 1, blockHash: s.fixture.first.hash, stateHash: firstBlock.json.stateHash });
+  assert.equal((await run(s.configPath, 'state-at', '4')).json, null);
+  assert.equal((await run(s.configPath, 'state-at', '0')).json, null);
+  assertQueryError(await run(s.configPath, 'state-at', '-1'), 'INVALID_QUERY_HEIGHT');
+  const pinned = await openLocalQuery(s.configPath);
+  try {
+    s.rpc.state.chain = s.fixture.alternative;
+    const replaced = await run(s.configPath, 'sync-once');
+    assert.equal(replaced.code, 0, replaced.stderr);
+    assert.equal(pinned.stateAt(2).blockHash, s.fixture.second.hash);
+    assert.deepEqual(JSON.parse(JSON.stringify(pinned.stateAt(3))), oldHead.json);
+    const newHeightTwo = await run(s.configPath, 'state-at', '2');
+    assert.equal(newHeightTwo.json.blockHash, s.fixture.altSecond.hash);
+    const newHead = await run(s.configPath, 'state-at', '3');
+    assert.deepEqual(newHead.json, { height: 3, blockHash: s.fixture.altThird.hash, stateHash: replaced.json.stateHash });
+    assert.notEqual(newHead.json.stateHash, oldHead.json.stateHash);
+    const newPage = await run(s.configPath, 'incoming', ...args);
+    assert.equal(newPage.code, 0, newPage.stderr);
+    assert.deepEqual(newPage.json.items.map(row => [row.txidDisplayBytes, row.amount]), [[s.fixture.replacementTxid, '250']]);
+    assertQueryError(await run(s.configPath, 'incoming', ...args, '--after', positionOf(oldPage.json.items[0])), 'STALE_QUERY_POSITION');
+    assertQueryError(await run(s.configPath, 'incoming', ...args, '--cursor', oldPage.json.nextCursor), 'INVALID_QUERY_CURSOR');
+  } finally { pinned.close(); }
+  const resumed = await run(s.configPath, 'sync-once');
+  assert.equal(resumed.code, 0, resumed.stderr);
+  assert.deepEqual((await run(s.configPath, 'state-at', '1')).json, heightOne.json);
+  s.rpc.state.chain = s.fixture.original.slice(0, 2);
+  const shortened = await run(s.configPath, 'sync-once');
+  assert.equal(shortened.code, 0, shortened.stderr);
+  assert.equal((await run(s.configPath, 'state-at', '2')).json, null);
+  assert.equal((await run(s.configPath, 'state-at', '3')).json, null);
+});
+
+test('serve binds loopback, rejects invalid requests and returns byte-identical CLI results', async t => {
+  const s = await setup(t, { http: { port: 0 } }, chainFixture(1));
+  const synced = await run(s.configPath, 'sync-once');
+  assert.equal(synced.code, 0, synced.stderr);
+  const assetId = await demoAssetId(s.configPath);
+  const scope = [assetId, bobKey, '1', '3'];
+  const first = await run(s.configPath, 'incoming', ...scope, '--limit', '1');
+  assert.equal(first.code, 0, first.stderr);
+  const after = positionOf(first.json.items[0]);
+  // Queries have a usable checkpoint even when the configured RPC cookie is absent.
+  s.config.rpc.cookieFile = './missing-cookie';
+  s.save();
+  const calls = s.rpc.calls.length;
+  const child = spawnCli(s.configPath, 'serve');
+  try {
+    const address = await waitForLine(child);
+    assert.equal(address.address, '127.0.0.1');
+    const url = `http://127.0.0.1:${address.port}`;
+    for (const [command, args, suffix = ''] of [
+      ['status', []], ['get-tip', []], ['get-name', ['DEMO']], ['get-asset', [assetId]],
+      ['balances', [bobKey]], ['get-transfer', [s.fixture.transferTxid]], ['verify-state', []],
+      ['balance', [assetId, bobKey]], ['state-at', ['3']], ['state-at', ['4']],
+      ['incoming', [...scope, '--limit', '1'], '?limit=1'],
+      ['incoming', [...scope, '--cursor', first.json.nextCursor], `?cursor=${first.json.nextCursor}`],
+      ['incoming', [...scope, '--after', after], `?after=${encodeURIComponent(after)}`],
+    ]) {
+      const positional = suffix ? scope : args;
+      const path = [command, ...positional.map(encodeURIComponent)].join('/');
+      const cliResult = await run(s.configPath, command, ...args);
+      assert.equal(cliResult.code, 0, cliResult.stderr);
+      const response = await fetch(`${url}/${path}${suffix}`);
+      assert.equal(response.status, 200);
+      assert.equal(response.headers.get('cache-control'), 'no-store');
+      assert.deepEqual(Buffer.from(await response.arrayBuffer()), Buffer.from(cliResult.stdout));
+    }
+    for (const [path, method, status, code] of [
+      ['/status', 'POST', 405, 'METHOD_NOT_ALLOWED'],
+      ['/follow', 'GET', 404, 'UNKNOWN_QUERY_PATH'],
+      ['/missing', 'GET', 404, 'UNKNOWN_QUERY_PATH'],
+      ['/get-asset/bad', 'GET', 400, 'INVALID_QUERY_ID'],
+      ['/get-name/%XX', 'GET', 400, 'INVALID_ARGUMENTS'],
+      ['/state-at/9007199254740992', 'GET', 400, 'INVALID_QUERY_HEIGHT'],
+      [`/incoming/${scope.join('/')}?limit=1&limit=2`, 'GET', 400, 'INVALID_ARGUMENTS'],
+    ]) {
+      const response = await fetch(url + path, { method });
+      assert.equal(response.status, status);
+      assert.deepEqual(await response.json(), { error: code });
+    }
+    assert.equal(s.rpc.calls.length, calls);
+  } finally { await terminate(child, 'SIGTERM'); }
+});
+
+test('concurrent HTTP reads retain one checkpoint while follow writes a replacement branch', async t => {
+  const s = await setup(t, { http: { port: 0 } });
+  s.config.rpc.timeoutMs = 5_000;
+  s.save();
+  const writer = spawnCli(s.configPath, 'follow');
+  const reader = spawnCli(s.configPath, 'serve');
+  const entered = Promise.withResolvers();
+  const resume = Promise.withResolvers();
+  try {
+    const [head, address] = await Promise.all([waitForLine(writer), waitForLine(reader)]);
+    assert.equal(head.status, 'READY');
+    const url = `http://127.0.0.1:${address.port}/state-at/3`;
+    const read = async () => {
+      const response = await fetch(url);
+      assert.equal(response.status, 200);
+      const body = await response.json();
+      if (body.context.canonicalTip.height < 3) assert.equal(body.result, null);
+      else assert.deepEqual(body.result, { height: 3, blockHash: body.context.canonicalTip.hash, stateHash: body.context.stateHash });
+      return body;
+    };
+    s.rpc.state.beforeResponse = async (method, params) => {
+      if (method === 'getblock' && params[0] === s.fixture.altSecond.hash) {
+        entered.resolve();
+        await resume.promise;
+      }
+    };
+    const committed = waitForLine(writer, value => value.status === 'READY' && value.canonicalTip.hash === s.fixture.altThird.hash);
+    // Attach the failure handler immediately while waiting on the RPC barrier.
+    void committed.catch(() => {});
+    s.rpc.state.chain = s.fixture.alternative;
+    await Promise.race([entered.promise, delay(4_000, undefined, { ref: false }).then(() => { throw new Error('REORG_FIXTURE_NOT_REACHED'); })]);
+    await Promise.all(Array.from({ length: 8 }, read));
+    const concurrent = Promise.all(Array.from({ length: 8 }, read));
+    resume.resolve();
+    await Promise.all([committed, concurrent]);
+    assert.equal((await read()).result.blockHash, s.fixture.altThird.hash);
+  } finally {
+    resume.resolve();
+    await terminate(reader, 'SIGTERM');
+    await terminate(writer, 'SIGTERM');
+  }
 });
 
 test('exported engine and SQLite replay all eight frozen chain vectors to their published hashes and states', async t => {
