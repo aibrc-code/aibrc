@@ -5,6 +5,16 @@ service reads applied AIBRC transfer allocations from the local index and
 posts credits to your own ledger. The index also provides balances and state
 fingerprints for reconciliation.
 
+### What an exchange reads
+
+| Operation | AIBRC | ERC-20 | Runes |
+| --- | --- | --- | --- |
+| **Find the deposit** | Read the transfer allocation to the Bitcoin address's script account | Read the token contract's Transfer event for the deposit address | Read the rune allocation to the deposit output |
+| **Reconcile balances** | Read the indexed account balance at a known block and state hash | Query the token contract's `balanceOf` at a known block | Track rune balances across the relevant Bitcoin outputs |
+| **Send assets out** | Authorize a Transfer instruction | Call the token contract's transfer function | Spend rune-bearing outputs and allocate the runes to recipients |
+
+[ERC-20 token standard](https://eips.ethereum.org/EIPS/eip-20) · [Runes specification](https://docs.ordinals.com/runes/specification.html)
+
 ## Start your own indexer
 
 Use Node.js 22.16 or newer. Set `RELEASE_COMMIT` to the source commit you want

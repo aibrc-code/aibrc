@@ -47,6 +47,8 @@ transfers require a valid instruction. Bitcoin inputs, recipient outputs, change
 to follow Bitcoin's transaction rules. AIBRC separates asset accounting from BTC coin selection, reducing
 the extra work of managing asset carriers, splits and tracking.
 
+See how [AIBRC, ERC-20, Runes and BRC-20 handle balances and transfers](docs/02-protocol-model.md#where-the-balance-lives).
+
 ### Smart Covenant: Rules Applications Can Share
 
 **Let Agents work with assets, budgets and clear rules.**

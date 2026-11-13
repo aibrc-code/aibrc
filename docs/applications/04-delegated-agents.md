@@ -75,6 +75,16 @@ Owner defines the asset, total allowance and valid heights
   → confirmed execution reduces the balance and allowance
 ```
 
+### Agent Key example · AIP-0001 proposal
+
+| Permission | Example |
+| --- | --- |
+| **Who can act** | Address A grants authority to address B. B signs with its own key. |
+| **Which asset** | Asset X |
+| **Total allowance** | Up to 1,000 units of X across the grant |
+| **Block window** | Heights 950,000–954,320 in this example |
+| **Revocation** | A revokes the grant. The revocation takes effect when confirmed. |
+
 ## Building the first version
 
 Keep permission checks at the actual execution boundary. An application mandate needs its defined action

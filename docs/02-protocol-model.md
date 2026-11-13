@@ -25,6 +25,19 @@ Address balances also appear in BRC-20 and other asset systems. The useful found
 interface: AIBRC publishes how to derive an account, identify an asset, authorize an operation and calculate
 the resulting balances. Tools can reuse those definitions while preserving each protocol's transfer rules.
 
+### Where the balance lives
+
+| Standard | Where you hold the asset | How you transfer it | When you spend BTC or ETH |
+| --- | --- | --- | --- |
+| **AIBRC** | Fixed-supply tokens recorded against a Bitcoin address | Authorize a Transfer instruction in one Bitcoin transaction | A regular BTC payment leaves your AIBRC balance in place |
+| **ERC-20** | A token contract tracks the balance for each holder address | Call the token contract's transfer function | Spending ETH leaves the token balance in place |
+| **Runes** | Rune balances assigned to Bitcoin transaction outputs | Spend the outputs and allocate the runes to new outputs | Check which outputs carry runes before spending them |
+| **BRC-20** | Balances tracked by Bitcoin address under the inscription rules | Inscribe the transfer, then send the transfer inscription | Keep track of active transfer inscriptions when spending their outputs |
+
+AIBRC uses BTC inputs to fund the transaction and a designated input to authorize the transfer. The example network fee is about $0.38 at 1 sat/vB. The total depends on the transaction size and BTC price.
+
+[ERC-20 token standard](https://eips.ethereum.org/EIPS/eip-20) · [Runes specification](https://docs.ordinals.com/runes/specification.html) · [BRC-20 transfer rules](https://domo-2.gitbook.io/brc-20-experiment/)
+
 ## Asset identity: names help people; identifiers distinguish assets
 
 A Covenant Inscription is an AIBRC-native asset with a fixed supply, an exact identity and balances on script

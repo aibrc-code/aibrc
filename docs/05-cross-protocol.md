@@ -55,6 +55,17 @@ A community dashboard could present the family together, link each deployment an
 balances through native data sources. The benefit is a clearer provenance view and less repeated discovery
 work across applications. Independently issued assets can also use a common interface.
 
+### What a shared asset interface gives builders
+
+| Approach | What it connects | What wallets and Agents can reuse |
+| --- | --- | --- |
+| **AIBRC shared-root launch** | AIBRC, BRC-20 and Runes issuance paths that share a Bitcoin root | A common starting point for finding related assets, plus each protocol's asset and balance data |
+| **AIBRC–BTC Block Swap** | Wallet payment and asset delivery in a single Bitcoin transaction | A PSBT workflow for reviewing and signing the transaction |
+| **ERC-20 tooling** | Token contracts that expose a common interface | Balance reads, transfers and wallet integrations across supported EVM networks |
+| **Separate protocol launches** | Issuance and markets set up for each protocol | The existing tools and asset rules of each protocol |
+
+[ERC-20 interface](https://eips.ethereum.org/EIPS/eip-20) · [PSBT format](https://github.com/bitcoin/bips/blob/master/bip-0174.mediawiki)
+
 ## Shared interfaces for useful tasks
 
 | Task | What an Agent can prepare | What the user gains |
