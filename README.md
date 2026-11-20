@@ -2,7 +2,7 @@
 
 ## From Assets in Your Address to an Agent Economy on Bitcoin
 
-Mainnet activation height: Bitcoin block 976720.
+Mainnet activation height: Bitcoin block 976720 · CC0 specification · MIT reference code.
 
 ### Independent Protocols. Shared Foundations.
 
@@ -142,7 +142,7 @@ and settlement proposals develop the rules for repeating that collaboration acro
 
 ### Run Your Own Indexer. Verify Your Own Ledger.
 
-Shared standards also allow different participants to compute the ledger independently.
+Shared standards also allow different participants, and different AI models, to compute and cross-check the ledger independently. Decentralization once relied on validator node networks checking one another; in the Agent era, independent indexers and diverse AI models replay the same Bitcoin blocks and deterministic rules on personal devices and cross-check stateHash(H).
 
 AIBRC provides public rules, reference code, test vectors and a [standalone indexer package](packages/indexer/README.md).
 People, developers and Agents can read blocks from their own Bitcoin nodes, reconstruct assets and balances
@@ -152,11 +152,10 @@ under the same rules, and compare results for the same canonical chain state.
 The same Bitcoin blocks
   + the same protocol rules
   ↓
-Independently reproducible asset state and ledger hash
+Independently reproducible asset state and stateHash(H), cross-checked by indexers and AI models
 ```
 
-Wallets can choose their data provider. Applications can run their own indexers. Communities can check the
-results. Using and verifying the protocol does not require permission from any one platform.
+Wallets can choose their data provider. Applications can run their own indexers. Communities and Agents can check the results. Using and verifying the protocol does not require permission from any one platform.
 
 **Don't trust, verify.**
 
@@ -210,7 +209,7 @@ create on that foundation.
 | --- | --- |
 | **Live core** | Deploy, Transfer, supported script accounts and canonical-state calculation in the reference implementation |
 | **Application examples** | Shared-root issuance, the R1 rule template, X1 external references and the specific AIBRC–BTC collaborative exchange path |
-| **R1 (application layer, Live)** | fee, rule-fee routing and buyback calculation standard, executed by applications (executors). Not an L1 indexer consensus rule. Agent Key (AIP-0001), spending limits, whitelists and timelocks remain Proposed. |
+| **R1 (application layer, Live)** | Fee, rule-fee routing and buyback calculation standard, executed by applications (executors). Not an L1 indexer consensus rule. Agent Key (AIP-0001), spending limits, whitelists and timelocks remain Proposed. |
 | **Proposed AIPs** | Agent Key, multi-asset transfers, locks, bindings, attestations, checkpoints and conditional settlement |
 | **Research** | Resident Agents, Living Assets, richer financial applications and selective disclosure |
 
@@ -263,7 +262,7 @@ npm run test:indexer
 
 The walkthrough uses synthetic local blocks and real SQLite, with no signing or
 broadcasting. For your own Bitcoin node, follow the
-[human and AI runbook](docs/run-indexer.md). Mainnet uses the published release context (genesis height 976720).
+[human and AI runbook](docs/run-indexer.md). Mainnet uses the published release context (genesis height 976720); independent indexers verify canonical state from that height.
 
 With a configured local index, use `incoming` for recipient allocations,
 `balance` for one asset and account, and `state-at` for a stored block fingerprint.
@@ -285,7 +284,7 @@ The specification and documentation are CC0; reference code is MIT. The [full pr
 sets out that shared purpose, participation and experimental context.
 
 Satoshi's whitepaper put **“cryptographic proof instead of trust”** at the center of electronic cash.
-AIBRC carries that inspiration into open asset rules and independent recomputation.
+From smart contracts to Smart Covenants, and from validator node networks to cross-verifying AI models, AIBRC carries that inspiration into open asset rules and independent recomputation.
 [Read the Bitcoin whitepaper, §1](https://bitcoin.org/bitcoin.pdf).
 
 ## Quick start
