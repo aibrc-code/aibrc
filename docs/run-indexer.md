@@ -64,6 +64,9 @@ SQLite writer-lease file next to it.
 
 ### Mainnet
 
+The official Mainnet release is available. Read its starting height and Name Policy V2 activation from
+[config/release.json](../config/release.json), then pin the release commit you run.
+
 Copy [indexer.example.json](../packages/indexer/indexer.example.json) to
 `indexer.json` at the repository root. Set `rpc.cookieFile` to your node's
 existing cookie location; all relative paths are resolved from the config
@@ -85,8 +88,8 @@ file's directory. Keep local configuration and database files out of Git.
 The official Mainnet context comes from
 [config/release.json](../config/release.json), copied into the package by the
 build. **When its height is null, Mainnet indexing stops with
-`MAINNET_GENESIS_NOT_SELECTED`.** Do not replace it with a demo height. Once the
-official value is published, update your checkout and rebuild. The name policy
+`MAINNET_GENESIS_NOT_SELECTED`.** Do not replace it with a demo height. Use the published
+release commit and rebuild. The name policy
 and authorization rule are pinned alongside the network and starting height.
 An already running process must restart to adopt a changed configuration.
 

@@ -30,8 +30,8 @@ npm run indexer:demo
 ```
 
 The demo runs against synthetic local blocks. It covers a transfer, a restart
-and a two-block reorganization. You can use it to exercise the indexer before
-the Mainnet starting height is selected.
+and a two-block reorganization. Use it to exercise the indexer before
+connecting your Mainnet deposit service.
 
 For Mainnet, connect a fully validating Bitcoin Core node with the required
 blocks and previous transaction outputs available. The reader uses raw blocks

@@ -370,7 +370,7 @@ the same rules to the same blocks.
 
 Name Policy V2 applies from the same starting height. Independent indexers pin
 the network, rule identity and activation height before interpreting blocks.
-Once activated, that release context is fixed. Synthetic vector heights remain
+This Mainnet release context is fixed. Synthetic vector heights remain
 test data.
 
 ## Open source and trust
