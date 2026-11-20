@@ -10,7 +10,7 @@ from mkdocs.structure.files import File, Files
 ROOT = Path(__file__).resolve().parent.parent
 ROOT_PAGES = (
     "README.md", "TRUST_MODEL.md", "CONTRIBUTING.md",
-    "THIRD_PARTY_NOTICES.md", "LICENSE-CODE", "LICENSE-DOCS",
+    "THIRD_PARTY_NOTICES.md", "LICENSE-CODE", "LICENSE-DOCS", "llms.txt",
 )
 SOURCE_DIRS = ("docs", "spec", "proposals", "merkle", "vectors", "config", "reference")
 SDK_FILES = ("packages/protocol/README.md", "packages/protocol/package.json",
@@ -19,6 +19,7 @@ SDK_FILES = ("packages/protocol/README.md", "packages/protocol/package.json",
 SITE_ASSETS = (
     "site/assets/stylesheets/aibrc-dark.css",
     "site/assets/images/aibrc-black.svg",
+    "site/assets/images/aibrc-social.png",
 )
 EXAMPLE_FILES = tuple("examples/" + name for name in (
     "README.md", "deploy.mjs", "transfer-single.mjs", "transfer-batch.mjs",

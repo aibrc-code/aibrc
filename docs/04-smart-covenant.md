@@ -13,7 +13,7 @@ applications can reuse and Agents can calculate locally.
 | On this page | What it means |
 | --- | --- |
 | **Current foundation** | Native Deploy and Transfer, reproducible asset state and R1's public fee, destination and buyback-plan calculations |
-| **Application example** | AiBTC, the first application infrastructure using these rules for trading and liquidity, with Instant and Block Swap paths |
+| **How it executes** | An executor applies R1's public calculation to each trade, in its own ledger (Instant Swap) or in a wallet-signed Bitcoin transaction (Block Swap), and leaves records anyone can recompute |
 | **Extension path** | Scoped application authorization, proposed native Agent Key and further rule templates, supported by the proposals and research below |
 
 ## From an intention to an explicit rule
@@ -79,12 +79,10 @@ buyback plan follows from an available balance. At creation, an asset selects th
 address, fee rate `T` and destination `C`. Those parameters stay fixed for that asset.
 
 An asset can select zero rule fee, allocate its rule fee to the creator, or allocate it to buyback and
-permanent locking. The platform base fee is separate. Applications use the same mathematics locally,
+permanent locking. An application's own service fee is separate from the rule fee. Applications use the same mathematics locally,
 so a calculation can be reused by developers, wallets and Agents without an EVM transaction for each trade.
 
-AiBTC connects the rules to two trading paths. **Instant** supports continuous interaction through the
-application ledger. **Block Swap** uses a transaction signed by the user's wallet and confirmed on Bitcoin.
-Each path uses the calculation standard for the applicable fees and leaves execution records for inspection.
+An executor connects the rules to two trading paths. **Instant Swap** runs continuously in the executor's account ledger. **Block Swap** uses a transaction signed by the user's wallet and confirmed on Bitcoin. Both are event inputs to the same deterministic state machine; each applies the calculation standard to the applicable fees and leaves execution records anyone can recompute.
 
 ```text
 Asset + fixed R1 version and parameters
@@ -123,13 +121,13 @@ starting point; adapters connect it to a useful service and the conditions that 
 ## Different Bitcoin programmability routes
 
 The comparison starts with an Agent's task. The first two route groups describe native protocol mechanisms;
-the final column combines AIBRC and R1 with the AiBTC application example.
+the final column combines AIBRC and R1 with an executor.
 
-| An Agent needs to... | [Runes](https://docs.ordinals.com/runes.html) / [ARC-20](https://github.com/atomicals-community/atomicals-guide/blob/main/arc20-tokens/README.md) native routes | [BRC2.0](https://github.com/bestinslot-xyz/brc20-proposals/blob/main/000-programmable-module/index.md) / [Alkanes](https://github.com/kungfuflex/alkanes-rs/blob/main/README.md) contract routes | AIBRC + R1 / AiBTC |
+| An Agent needs to... | [Runes](https://docs.ordinals.com/runes.html) / [ARC-20](https://github.com/atomicals-community/atomicals-guide/blob/main/arc20-tokens/README.md) native routes | [BRC2.0](https://github.com/bestinslot-xyz/brc20-proposals/blob/main/000-programmable-module/index.md) / [Alkanes](https://github.com/kungfuflex/alkanes-rs/blob/main/README.md) contract routes | AIBRC + R1 / executor |
 | --- | --- | --- | --- |
 | Manage assets and payments | Track asset-carrying UTXOs and output-allocation rules | Work with the contract or module's asset state and interfaces | Use account balances, asset, amount and recipient; reduce tracking of specific token carriers |
 | Use economic rules | Applications define service and trading policies around the asset rules | Express policies through contract interfaces and VM execution | Reuse R1 locally for fees, fee destinations and buyback plans; calculate applicable amounts before acting |
-| Interact continuously | Native writes use Bitcoin transactions | Native contract writes use Bitcoin transactions and indexed execution | Native Transfer uses Bitcoin; AiBTC adds Instant interaction without a chain transaction per fill, alongside wallet-signed Block Swap |
+| Interact continuously | Native writes use Bitcoin transactions | Native contract writes use Bitcoin transactions and indexed execution | Native Transfer uses Bitcoin; an executor adds Instant Swap without a chain transaction per fill, alongside wallet-signed Block Swap |
 | Extend operating authority | Wallet and application policies organize delegated actions | The chosen contract design defines permissions | Start with user-reviewed actions, develop scoped application mandates, then proposed native Agent Key |
 
 Runes and ARC-20 provide defined asset rules; BRC2.0 and Alkanes offer broader contract execution.

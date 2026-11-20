@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+  {{ super() }}
+  {% set social_title = config.site_name %}
+  {% set social_description = config.site_description %}
+  {% if page %}
+    {% if page.title and not page.is_homepage %}
+      {% set social_title = (page.title | striptags) ~ " - " ~ config.site_name %}
+    {% endif %}
+    {% if page.meta and page.meta.description %}
+      {% set social_description = page.meta.description %}
+    {% endif %}
+  {% endif %}
+  {% set social_image = config.site_url ~ "site/assets/images/aibrc-social.png" %}
+  <link rel="describedby" href="{{ config.site_url | e }}llms.txt">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ social_title | e }}">
+  <meta property="og:description" content="{{ social_description | e }}">
+  {% if page and page.canonical_url %}
+    <meta property="og:url" content="{{ page.canonical_url | e }}">
+  {% endif %}
+  <meta property="og:image" content="{{ social_image | e }}">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="AIBRC logo">
+  <meta name="twitter:card" content="summary_large_image">
+{% endblock %}

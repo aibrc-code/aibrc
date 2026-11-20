@@ -1,4 +1,5 @@
 site_name: AIBRC
+site_url: https://aibrc.io/
 site_description: Covenant Inscription, account abstraction and Smart Covenant for Bitcoin assets and the Agent economy.
 docs_dir: ../docs
 site_dir: ../site-build

@@ -7,8 +7,7 @@ several AIBRC assets, with public rules for issuance, authorization and transfer
 
 For an Agent, that means a clear starting point: which asset, which account and how much. Smart Covenant
 connects that asset foundation with reusable rules, so a tool can explain costs and prepare work for its
-user. R1 is the first fixed rule template; AiBTC is the first application infrastructure to use it for
-trading and liquidity.
+user. R1 is the first fixed rule template; executors apply its public calculations to trades, fee routing and buybacks.
 
 Its wider goal is common standards for assets, accounts and Agent applications across the Bitcoin ecosystem.
 Shared interfaces let tools and applications build on one another while each protocol keeps its native
@@ -223,6 +222,14 @@ calculation, rather than the model's confidence, supplies the verification.
 **Current line:** `same canonical blocks + same rules → same stateHash`.
 
 **Proof sketch · proposed:** `accepted root + account record + proof → verify`.
+
+Today: run the reference indexer yourself and compare the state hash at the same height.
+
+Next (proposed): each runner signs and publishes a checkpoint for a confirmed height ([AIP-0006](../proposals/AIP-0006-checkpoint.md)), optionally committed to Bitcoin. [Merkle proofs](../merkle/STATE_PROOF_REFERENCE.md) let a wallet or Agent check one balance without the whole state.
+
+Vision: signed results from many independent runners gather in one public place, where wallets, exchanges and Agents compare them directly. Light nodes can take part without a full Bitcoin node.
+
+Witnessing, not consensus.
 
 ## The language that connects the five
 

@@ -1,0 +1,36 @@
+# AIBRC
+
+> AIBRC (Covenant Inscription) aims to establish common standards for assets, accounts and Agent applications.
+
+## Specification and software
+
+- [Wire specification](https://aibrc.io/spec/AIBRC_PROTOCOL_V0.25/)
+- [Published release configuration](https://aibrc.io/config/release.json)
+- [Protocol SDK](https://aibrc.io/packages/protocol/)
+- [Reference indexer](https://aibrc.io/packages/indexer/)
+- [Indexer runbook](https://aibrc.io/docs/run-indexer/)
+- [Quickstart](https://aibrc.io/docs/quickstart/)
+- [Exchange integration](https://aibrc.io/docs/exchange-integration/)
+- [Test vectors](https://aibrc.io/vectors/)
+
+## Protocol chapters
+
+- [00 Overview](https://aibrc.io/docs/00-overview/)
+- [01 Introduction](https://aibrc.io/docs/01-introduction/)
+- [02 Covenant Inscription and accounts](https://aibrc.io/docs/02-protocol-model/)
+- [03 Instructions](https://aibrc.io/docs/03-instructions/)
+- [04 Smart Covenant](https://aibrc.io/docs/04-smart-covenant/)
+- [05 Cross-protocol](https://aibrc.io/docs/05-cross-protocol/)
+- [06 Indexer guide](https://aibrc.io/docs/06-indexer-guide/)
+- [07 Applications](https://aibrc.io/docs/07-applications/)
+- [08 Extensions](https://aibrc.io/docs/08-extensions/)
+- [Protocol statement](https://aibrc.io/docs/99-closing/)
+
+## Reference
+
+- [Protocol proposals](https://aibrc.io/proposals/)
+- [Merkle proof reference](https://aibrc.io/merkle/STATE_PROOF_REFERENCE/)
+- [Glossary](https://aibrc.io/docs/glossary/)
+- [Trust model](https://aibrc.io/TRUST_MODEL/)
+- [R1 specification](https://aibrc.io/spec/covenants/R1/)
+- [R1 source and examples](https://aibrc.io/reference/r1/)

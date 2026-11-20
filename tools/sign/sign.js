@@ -64,7 +64,7 @@ export function decodeAddress(value) {
 }
 
 export function parseLocator(value) {
-  if (!/^\d{1,10}:\d{1,5}$/.test(value)) throw new Error('Use height:txIndex, for example 961555:3.');
+  if (!/^\d{1,10}:\d{1,5}$/.test(value)) throw new Error('Use height:txIndex, for example 976720:1.');
   const [blockHeight, txIndex] = value.split(':').map(Number);
   if (blockHeight > 0xffffffff || txIndex > 0xffff) throw new Error('Asset locator is outside the protocol range.');
   return { blockHeight, txIndex };

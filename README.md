@@ -2,6 +2,8 @@
 
 ## From Assets in Your Address to an Agent Economy on Bitcoin
 
+Mainnet activation height: Bitcoin block 976720.
+
 ### Independent Protocols. Shared Foundations.
 
 Bitcoin keeps inspiring new protocols, each bringing its own asset rules, wallet tools and application
@@ -61,20 +63,30 @@ Developers reuse the calculations; Agents use them to explain costs and prepare 
 at creation. R1 supplies the public calculations for those fees, their destination and buyback plans.
 The same inputs produce the same rule results on another developer's machine or an Agent's own tool.
 
-AiBTC is the first application infrastructure to put this foundation to work in trading and liquidity.
-Its Instant path supports continuous interaction without a Bitcoin transaction or EVM call for each fill;
-its Block Swap path uses the user's wallet signature and Bitcoin confirmation.
+**Bitcoin anchors the assets, EVM defines the rules, Agent models execute on a deterministic FSM, and every person and every model can verify independently.**
+
+At asset creation, the rule version, fee rate and fee destination are permanently recorded on Bitcoin. How these fees are calculated is defined by the immutable R1 reference contract on EVM, a deterministic mathematical specification that needs no public-chain validator nodes to execute every trade on-chain.
+
+Executors, whether application engines or AI Agents, drive the same deterministic finite state machine (FSM) and apply the same public rules to every state transition, with fees, fee destinations and buybacks calculated by R1. Execution happens either within seconds in the executor's account ledger (Instant Swap), or through a transaction signed by the user's wallet and confirmed on Bitcoin (Block Swap).
+
+Under a deterministic FSM, identical initial states and ordered inputs always produce one exact resulting state. Every execution leaves a public sequential record that any person or AI model can replay and independently recompute with the public rule code, including the R1 reference code. This shifts execution and verification away from traditional public-chain nodes toward personal devices and diverse AI models.
+
+**One state machine, two tracks.** A common question: how can in-ledger trades that settle in seconds and on-chain block trades share one pool without forking state? The deterministic state machine is the answer: both are valid event inputs (event triggers) to the same state machine. Once their order is fixed, the output state is unique.
+
+**A mathematical footing for AI verification.** Large models are strong at logical reasoning but struggle with ambiguity. A deterministic FSM guarantees that initial state + public rules (including R1) + ordered events = one state hash, so any AI model can replay the whole ledger the way it runs a unit test, without having to trust a centralized server or a committee of PoS nodes.
 
 ```text
-AIBRC asset + fixed R1 parameters
+Asset & R1 parameters (anchored on Bitcoin)
   ↓
-Public calculation standard
+R1 reference contract (public deterministic math on EVM · no per-tx node consensus)
   ↓
-Application execution
-  ├─ Instant trade → execution and account record
-  └─ Block Swap → wallet signature → confirmation
+Agent models (FSM) execute under the same public rules
+  ├─ Instant Swap: state transition in seconds on the executor's ledger
+  └─ Block Swap: user wallet signature → Bitcoin confirmation
   ↓
-Execution records for queries and verification
+Public sequential execution records
+  ↓
+Anyone and any AI model replays the FSM with the public rule code, including R1 (verification shifts from chain nodes to AI models)
 ```
 
 > **Built to evolve.** R1 is the starting template. Future R2, R3 and later templates can add new rules
@@ -190,7 +202,7 @@ create on that foundation.
 | **Agents** | A proposed mandate defined by asset, allowance and block heights, with service and treasury uses | [Agent authority](docs/00-overview.md#agents-a-mandate-instead-of-the-owner-key) |
 | **People** | Balance-oriented asset transfers, multi-recipient distributions and clearer wallet interactions | [The account experience](docs/00-overview.md#people-one-account-several-native-assets) |
 | **Economics** | Market making, capital services, games and Agent commerce built around real demand | [Economic loops](docs/00-overview.md#economics-bring-real-work-and-capital-into-the-loop) |
-| **Indexing** | Reproducible state today, with local proofs and user-side verification as the next direction | [Open verification](docs/00-overview.md#indexing-let-every-terminal-become-a-verifier) |
+| **Indexing** | Reproducible state today: anyone can run the reference indexer and verify. Light-client proofs for wallets and personal Agents come next (proposed). | [Open verification](docs/00-overview.md#indexing-let-every-terminal-become-a-verifier) |
 
 ## Current core and protocol evolution
 
@@ -198,7 +210,7 @@ create on that foundation.
 | --- | --- |
 | **Live core** | Deploy, Transfer, supported script accounts and canonical-state calculation in the reference implementation |
 | **Application examples** | Shared-root issuance, the R1 rule template, X1 external references and the specific AIBRC–BTC collaborative exchange path |
-| **R1 (application layer, Live)** | fee, rule-fee routing and buyback calculation standard, executed by applications such as AiBTC CORE. Not an L1 indexer consensus rule. Agent Key (AIP-0001), spending limits, whitelists and timelocks remain Proposed. |
+| **R1 (application layer, Live)** | fee, rule-fee routing and buyback calculation standard, executed by applications (executors). Not an L1 indexer consensus rule. Agent Key (AIP-0001), spending limits, whitelists and timelocks remain Proposed. |
 | **Proposed AIPs** | Agent Key, multi-asset transfers, locks, bindings, attestations, checkpoints and conditional settlement |
 | **Research** | Resident Agents, Living Assets, richer financial applications and selective disclosure |
 
@@ -207,9 +219,6 @@ proposal activated. X1 identifies an external contract; it does not run the EVM 
 settlement requires each asset leg to be valid. The [trust model](TRUST_MODEL.md) and
 [settlement conditions](docs/05-cross-protocol.md#settlement-conditions-four-separate-questions) explain these
 responsibilities in one place.
-
-aibtc.bot is the first application built on AIBRC; it holds no privileged position in the protocol.
-Application verification: [AiBTC trade records and liquidity-pool reserves (from the proof log)](https://github.com/aibtcbot/aibtcbot/tree/main/docs/verification).
 
 ## Read the documentation
 
@@ -254,8 +263,7 @@ npm run test:indexer
 
 The walkthrough uses synthetic local blocks and real SQLite, with no signing or
 broadcasting. For your own Bitcoin node, follow the
-[human and AI runbook](docs/run-indexer.md). Mainnet uses the published release
-context and refuses to start while its genesis height is unselected.
+[human and AI runbook](docs/run-indexer.md). Mainnet uses the published release context (genesis height 976720).
 
 With a configured local index, use `incoming` for recipient allocations,
 `balance` for one asset and account, and `state-at` for a stored block fingerprint.
@@ -267,8 +275,8 @@ With a configured local index, use `incoming` for recipient allocations,
 **Don't trust, verify.**
 
 AIBRC is an open, nonprofit Web3 protocol experiment on Bitcoin L1, born from a love of Bitcoin and the
-possibilities of the Agent era. It has no publicly designated team or central founder. Its tribute to Satoshi
-Nakamoto is a principle: **rules above personalities, mathematics above promises**. Its evolution is open to
+possibilities of the Agent era. It has no founder and no team. Its tribute to Satoshi
+Nakamoto is a principle: **math over promises, rules over individuals**. Its evolution is open to
 the people and Agents who build, implement and improve it.
 
 AIBTC Labs provides early support for the documentation and foundational GitHub repository. The long-term

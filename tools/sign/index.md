@@ -102,7 +102,7 @@ Batch funding comes only from the wallet’s safe BTC UTXO interface and must ma
 
 For complete SDK scripts, see [deployment, single and batch transfers, decoding and state hashing](https://aibrc.io/docs/quickstart/). The Single form sends to one recipient; Batch builds the matching outputs for a list. The protocol supports 1–25 allocations when the Bitcoin transaction contains the corresponding receiver outputs.
 
-The browser module encodes the instruction; UniSat builds and sends the Bitcoin transaction. This example sends **10 tokens** of an asset at the illustrative locator `961555:3`. Replace the locator and recipient with your own, and check your balance before sending.
+The browser module encodes the instruction; UniSat builds and sends the Bitcoin transaction. This example sends **10 tokens** of an asset at the illustrative locator `976720:1`. Replace the locator and recipient with your own, and check your balance before sending.
 
 ```js
 import { NetworkId, encodeTransfer } from
@@ -111,7 +111,7 @@ import { NetworkId, encodeTransfer } from
 const payload = encodeTransfer({
   network: NetworkId.MAINNET,
   authInputIndex: 0,
-  assetLocator: { blockHeight: 961555, txIndex: 3 },
+  assetLocator: { blockHeight: 976720, txIndex: 1 },
   allocations: [{
     receiverOutputIndex: 0,
     amount: 10n * 100000000n,
