@@ -63,7 +63,7 @@ Developers reuse the calculations; Agents use them to explain costs and prepare 
 at creation. R1 supplies the public calculations for those fees, their destination and buyback plans.
 The same inputs produce the same rule results on another developer's machine or an Agent's own tool.
 
-**Bitcoin anchors the assets, EVM defines the rules, Agent models execute on a deterministic FSM, and every person and every model can verify independently.**
+**Bitcoin anchors the assets, EVM defines the rules, BOT (Agent model) + FSM executes, and every person and every model can verify independently.**
 
 At asset creation, the rule version, fee rate and fee destination are permanently recorded on Bitcoin. How these fees are calculated is defined by the immutable R1 reference contract on EVM, a deterministic mathematical specification that needs no public-chain validator nodes to execute every trade on-chain.
 
@@ -73,14 +73,14 @@ Under a deterministic FSM, identical initial states and ordered inputs always pr
 
 **One state machine, two tracks.** A common question: how can in-ledger trades that settle in seconds and on-chain block trades share one pool without forking state? The deterministic state machine is the answer: both are valid event inputs (event triggers) to the same state machine. Once their order is fixed, the output state is unique.
 
-**A mathematical footing for AI verification.** Large models are strong at logical reasoning but struggle with ambiguity. A deterministic FSM guarantees that initial state + public rules (including R1) + ordered events = one state hash, so any AI model can replay the whole ledger the way it runs a unit test, without having to trust a centralized server or a committee of PoS nodes.
+**A mathematical footing for AI verification.** Large models are strong at logical reasoning; what they fear is ambiguity, where an answer is not unique: a rule that reads two ways, events in no fixed order, an error that half-applies. A deterministic FSM locks all three: public rules fixed at creation, events recorded in order, and a bad instruction that changes nothing. Initial state + public rules (including R1) + ordered events = one state hash: a BOT has one correct result at every step, and any AI model can replay the whole ledger the way it runs a unit test, without having to trust a centralized server or a committee of PoS nodes.
 
 ```text
 Asset & R1 parameters (anchored on Bitcoin)
   ↓
 R1 reference contract (public deterministic math on EVM · no per-tx node consensus)
   ↓
-Agent models (FSM) execute under the same public rules
+BOT (Agent model) + FSM executes under the same public rules
   ├─ Instant Swap: state transition in seconds on the executor's ledger
   └─ Block Swap: user wallet signature → Bitcoin confirmation
   ↓
@@ -245,6 +245,8 @@ replays AIBRC rules and keeps assets, balances and transfer history in your own
 SQLite database. No platform backend or private key is required.
 
 AI reading budget: spec/ + packages/protocol/src + packages/indexer/src = 367,814 bytes, about 92k tokens. An AI can read the whole protocol, its codec and its reference indexer in one context window.
+
+To check it step by step, follow the [AI verification path](docs/run-indexer.md#8-ai-verification-path).
 ```text
 Your Bitcoin node → public AIBRC rules → your local ledger
                                            ↓
@@ -274,11 +276,11 @@ With a configured local index, use `incoming` for recipient allocations,
 **Don't trust, verify.**
 
 AIBRC is an open, nonprofit Web3 protocol experiment on Bitcoin L1, born from a love of Bitcoin and the
-possibilities of the Agent era. It has no founder and no team. Its tribute to Satoshi
+possibilities of the Agent era. It has no founder, no team and no official token, and it is fully independent. Its tribute to Satoshi
 Nakamoto is a principle: **math over promises, rules over individuals**. Its evolution is open to
 the people and Agents who build, implement and improve it.
 
-AIBTC Labs provides early support for the documentation and foundational GitHub repository. The long-term
+In the early stage, the AIBTC community maintains the documentation and foundational GitHub repository. The long-term
 direction is community stewardship through voluntary contributions and openly organized ecosystem treasuries.
 The specification and documentation are CC0; reference code is MIT. The [full protocol statement](docs/99-closing.md)
 sets out that shared purpose, participation and experimental context.
@@ -371,7 +373,7 @@ The network, starting block height and rule identity are recorded in
 [config/release.json](config/release.json), so independent indexers can apply
 the same rules to the same blocks.
 
-`config/release.json` controls protocol-line activation only. R1 does not appear here; R1 identity is fixed by its frozen reference contract `0xed976e7b95d099c60318ef848c73d584ee5eb08a` and its spec text hash.
+`config/release.json` controls protocol-line activation only. R1 does not appear here; R1 identity is fixed by its frozen reference contract `0xed976e7b95d099c60318ef848c73d584ee5eb08a` and its spec text hash. See [R1 verification](reference/r1/README.md#frozen-release-and-verification) for deployment and bytecode details.
 
 <!-- AIBRC_RELEASE_CONTEXT -->
 

@@ -82,16 +82,11 @@ An asset can select zero rule fee, allocate its rule fee to the creator, or allo
 permanent locking. An application's own service fee is separate from the rule fee. Applications use the same mathematics locally,
 so a calculation can be reused by developers, wallets and Agents without an EVM transaction for each trade.
 
-An executor connects the rules to two trading paths. **Instant Swap** runs continuously in the executor's account ledger. **Block Swap** uses a transaction signed by the user's wallet and confirmed on Bitcoin. Both are event inputs to the same deterministic state machine; each applies the calculation standard to the applicable fees and leaves execution records anyone can recompute.
-
-```text
-Asset + fixed R1 version and parameters
-  -> public calculation
-  -> application execution
-       |-- Instant -> execution and accounting
-       |-- Block Swap -> wallet signs -> Bitcoin confirms
-  -> execution records and rule results
-```
+The executor supplies the actual trade or buyback inputs and applies R1 within a
+deterministic state machine (FSM). Ordered events drive state transitions. The
+executor applies the calculated amounts to the ledger and records the results.
+Given the same initial state, rules and ordered events, any person or Agent
+can recompute the result independently.
 
 The [R1 calculation reference](../reference/r1/README.md) gives builders a runnable starting point.
 Its [frozen rule text](../spec/covenants/R1.md) preserves the exact public wording and identity.
@@ -138,7 +133,7 @@ workflows.
 
 **R1 is the first fixed rule template.** Future templates such as R2 or R3 can develop new behaviors with
 their own version, reference address and explicit parameters. Each template keeps a clear identity that
-applications and Agents can recognize and reuse.
+applications and Agents can recognize and reuse. AIBRC indexers do not run R1. A new application-layer rule template can use its own identity without a coordinated indexer upgrade, while existing assets keep their rules.
 
 The immutable R1 reference published on EVM chains includes a frozen text naming **15 extension directions**.
 `inscriptionText()` exposes that text, and its published hash identifies the exact bytes. This directory
@@ -200,28 +195,11 @@ reproducible result or explicitly evaluated deliverable gives that relationship 
 
 ## Technical details and source
 
-### A fee calculation anyone can repeat
+### Fee calculation
 
-Consider a fully executed user buy of **100,000 sats**, with the asset already graduated at the start of
-the trade, `T100` (1%) and `C0` (buyback and locking):
-
-| Calculation | Result |
-| --- | --- |
-| Platform base fee | 500 sats |
-| Rule fee | 1,000 sats |
-| Total fee | 1,500 sats |
-| Buy principal after fees | 98,500 sats |
-| Rule-fee destination | 0 sats to the creator; 1,000 sats to the application's buyback route |
-
-For a user sell with the same gross amount and starting conditions, the net amount is also 98,500 sats.
-These three lines come from the reference contract's `_fees` function. `ceilBps` rounds up using integer
-arithmetic; the rule fee is the difference after calculating the total fee.
-
-```solidity
-platformFee = ceilBps(base, 50);
-totalFee = ceilBps(base, 50 + (postAtTradeStart ? T : 0));
-ruleFee = totalFee - platformFee;
-```
+The reference rounds the base fee and the total fee up to whole satoshis, then
+computes the rule fee as the difference. The total fee includes the selected
+rule rate only when the asset is already graduated at the start of the trade.
 
 The [calculation package](../reference/r1/README.md) contains the
 [Solidity source](../reference/r1/artifacts/AIBTCInscription.sol),

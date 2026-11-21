@@ -311,3 +311,15 @@ shared height. `serve` exposes the same reads for local integrations.
 The same checklist applies whether commands are typed by a person or executed
 by an Agent. **Don't trust, verify** starts with reproducible inputs and an
 honest statement of which chain and rules produced the answer.
+
+## 8. AI verification path
+
+An AI can check AIBRC in five steps, from reading the rules to proving them. Each step states its status.
+
+| Step | What the AI does | Status |
+| --- | --- | --- |
+| 1. Read | Read spec/, packages/protocol/src and packages/indexer/src in one context window (about 92k tokens; see the reading budget in the README). The AI works from the source, not from someone's summary. | Live |
+| 2. Rebuild (clean-room) | Give an AI only the specification. It writes its own indexer and runs the 187 public vectors offline. A pass adds one more independent ledger; each mismatch is reported through a public Issue and, once confirmed, becomes a specification erratum. | Open challenge |
+| 3. Recompute | Replay blocks from its own Bitcoin node and compare network, rule identity and stateHash(H) with other indexers. | Live |
+| 4. Verify one balance | Check one balance against a block-bound state root (Merkle proof), without a full indexer. | Proposed |
+| 5. Prove | Machine-checked proofs, for example with Lean or Z3, of properties such as fee monotonicity, transfer conservation, no inflation and rollback inverse. | Research |

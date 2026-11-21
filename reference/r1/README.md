@@ -43,34 +43,13 @@ in this folder.
 | Local JavaScript | [Pure calculation interface](index.mjs) · [runnable example](example.mjs) |
 | Local verification | [Artifact and vector checker](check-vectors.mjs) · [tests](r1.test.mjs) |
 
-## A 100,000-sat example
+## Fee calculation and routing
 
-```js
-import { quoteUserBuy, routeRuleFee } from './index.mjs';
-
-// Graduation occurred before this trade started. T100 = 1%; C0 = buyback route.
-const quote = quoteUserBuy(100_000n, 100_000n, 100n, true);
-const route = routeRuleFee(quote.ruleFee, 0n);
-```
-
-| Result | Satoshis |
-| --- | ---: |
-| Total debit | 100,000 |
-| Platform fee, 0.5% | 500 |
-| Rule fee, 1% | 1,000 |
-| Total fee | 1,500 |
-| BUY principal | 98,500 |
-| Rule fee assigned to the buyback route | 1,000 |
-
-Fees are included in the supplied total. Before graduation, only the 0.5%
-platform fee applies. The trade that triggers graduation still uses that earlier
-stage; the next ordinary trade activates the rule fee.
-
-Rounding is part of the standard: with `base=1201`, `T10` and graduation already
-complete, the platform fee is 7 sats and the total fee is 8 sats. The rule fee is
-their difference, **1 sat**. Round the total once, determine the platform fee,
-then allocate the difference. Rounding each charge separately would give a
-different result. `example.mjs` prints both examples.
+The reference calculates fees on the supplied trade amount. The base fee is
+0.5%. The selected rule fee applies when the asset was already graduated at the
+start of the trade. The reference rounds up the total fee and base fee
+separately, then takes their difference as the rule fee. The selected
+destination directs the rule fee to the creator or to buyback and locking.
 
 ## Interface
 
@@ -110,6 +89,9 @@ labels; `ArithmeticOverflow` corresponds to the contract's checked `N + 1`.
 ## Frozen release and verification
 
 The reference address is `0xed976e7b95d099c60318ef848c73d584ee5eb08a`.
+
+The same address is deployed on Ethereum, BNB Chain and Base. The Ethereum and Base explorers show the source as verified (Exact Match): [Etherscan](https://etherscan.io/address/0xed976e7b95d099c60318ef848c73d584ee5eb08a#code) · [Basescan](https://basescan.org/address/0xed976e7b95d099c60318ef848c73d584ee5eb08a#code); BNB Chain: [BscScan](https://bscscan.com/address/0xed976e7b95d099c60318ef848c73d584ee5eb08a#code).
+
 The English rule text has SHA-256
 `3c0b91af6cbfce5ea8eb8c6d1174c117ff34233695f480f5e6c9b3db7ddaa73b`.
 

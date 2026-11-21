@@ -3,7 +3,7 @@
 ## Born from Bitcoin's spirit and the promise of the Agent era
 
 AIBRC grew from a love of Bitcoin, its ecosystem and the possibility of a new economy of people and Agents.
-The protocol has no founder and no team. It pays tribute to Satoshi Nakamoto's
+The protocol has no founder, no team and no official token, and it is fully independent. It pays tribute to Satoshi Nakamoto's
 peer-to-peer electronic cash and the builder's instinct behind it: **math over promises, rules over individuals**.
 
 AIBRC is an open, nonprofit Web3 protocol experiment built around Bitcoin L1. Its specifications, evolution
@@ -30,7 +30,7 @@ shared infrastructure when their interpretation is open to everyone.
 
 ## Acknowledgments and community stewardship
 
-AIBTC Labs provides early sponsorship for the documentation website and foundational GitHub repository.
+In the early stage, the AIBTC community maintains the documentation website and foundational GitHub repository.
 We thank the wallet builders, protocol contributors, creators and communities whose work keeps the Bitcoin
 ecosystem moving. Ordinals inscriptions, BRC-20, Runes and the wider field of Bitcoin experiments are part of that
 shared history.
